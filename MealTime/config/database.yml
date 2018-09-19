@@ -23,10 +23,10 @@ default: &default
 
 development:
   <<: *default
-  host: ec2-54-83-4-76.compute-1.amazonaws.com
-  database: d2dl6hjvobe5rv
-  username: ilrnwlyitmrjpf
-  password: 33436342e92eec5f7236eaa18fdd43fbc4cbed9c0edf73087f03e285d9b837ea
+  host: ec2-54-225-97-112.compute-1.amazonaws.com
+  database: dcouv5b3qm9bv3
+  username: dfrrzlvuynxefe
+  password: 42021a4c63d2c4d7989690ddbabf300fe5fd2c229849b3f12f54bbd62081b941
 
 
   # The specified database role being used to connect to postgres.
@@ -60,10 +60,11 @@ development:
 test:
   <<: *default
 
-  host: ec2-54-83-4-76.compute-1.amazonaws.com
-  database: d2dl6hjvobe5rv
-  username: ilrnwlyitmrjpf
-  password: 33436342e92eec5f7236eaa18fdd43fbc4cbed9c0edf73087f03e285d9b837ea
+  host: ec2-54-225-97-112.compute-1.amazonaws.com
+  database: dcouv5b3qm9bv3
+  username: dfrrzlvuynxefe
+  password: 42021a4c63d2c4d7989690ddbabf300fe5fd2c229849b3f12f54bbd62081b941
+
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
