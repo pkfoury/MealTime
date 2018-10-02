@@ -8,6 +8,7 @@ import {
     Route
   } from 'react-router-dom';
 import FirstTimeUserPage from './components/FirstTimeUserPage';
+import RestaurantsPage from './components/RestaurantsPage';
 
 
 ReactDOM.render(
@@ -15,6 +16,7 @@ ReactDOM.render(
         <div>
             <Route path='/' component={App} />
             <Route path='/first-time-user' component={FirstTimeUserPage} />
+            <Route path='/restaurants' component={RestaurantsPage} />
         </div>
     </Router>,
     document.getElementById('root')
