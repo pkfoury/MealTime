@@ -1,0 +1,2 @@
+class RestaurantHistory < ApplicationRecord
+end

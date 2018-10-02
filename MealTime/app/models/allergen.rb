@@ -1,0 +1,2 @@
+class Allergen < ApplicationRecord
+end
