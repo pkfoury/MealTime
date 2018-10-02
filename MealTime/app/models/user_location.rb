@@ -1,0 +1,2 @@
+class UserLocation < ApplicationRecord
+end

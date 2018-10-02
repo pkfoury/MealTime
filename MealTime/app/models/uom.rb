@@ -1,0 +1,2 @@
+class Uom < ApplicationRecord
+end
