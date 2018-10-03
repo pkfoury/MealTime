@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_03_042934) do
+ActiveRecord::Schema.define(version: 2018_10_03_182449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,10 @@ ActiveRecord::Schema.define(version: 2018_10_03_042934) do
     t.date "dateVisited", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "restaurant_id"
+    t.index ["restaurant_id"], name: "index_restaurant_histories_on_restaurant_id"
+    t.index ["user_id"], name: "index_restaurant_histories_on_user_id"
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -97,6 +101,8 @@ ActiveRecord::Schema.define(version: 2018_10_03_042934) do
     t.decimal "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_user_locations_on_user_id"
   end
 
   create_table "user_votes", force: :cascade do |t|
@@ -118,5 +124,8 @@ ActiveRecord::Schema.define(version: 2018_10_03_042934) do
 
   add_foreign_key "budgets", "users"
   add_foreign_key "recipes", "users"
+  add_foreign_key "restaurant_histories", "restaurants"
+  add_foreign_key "restaurant_histories", "users"
+  add_foreign_key "user_locations", "users"
   add_foreign_key "user_votes", "recipes"
 end
