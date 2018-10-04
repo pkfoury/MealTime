@@ -7,7 +7,6 @@ class UserTest < ActiveSupport::TestCase
     def setup
         @user = User.new(userName: "Example", email: "example@mail.com",
         password: "ur_mum", password_confirmation: "ur_mum")
-
     end
 
     test "should be valid" do
@@ -57,5 +56,4 @@ class UserTest < ActiveSupport::TestCase
         @user.password = @user.password_confirmation = "a" * 5
         assert_not @user.valid?
     end
-
 end
