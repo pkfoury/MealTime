@@ -20,18 +20,18 @@ class LoginPage extends Component {
         return (
             <div>
                 <form>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="Username">
                             Username:
-                            <input type="text" class="form-control" id="exampleUsername" placeholder="Enter Username" userName="Username"/>
+                            <input type="text" className="form-control" id="exampleUsername" placeholder="Enter Username" userName="Username"/>
                         </label>
                         <div/>
                         <label for="Password">
                             Password:
-                            <input type="text" class="form-control" id="password" placeholder="Enter Password" password="Password"/>
+                            <input type="text" className="form-control" id="password" placeholder="Enter Password" password="Password"/>
                         </label>
                         <div/>
-                        <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                        <input className="btn btn-primary btn-lg" type="submit" value="Submit" />
                     </div>
                 </form>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 

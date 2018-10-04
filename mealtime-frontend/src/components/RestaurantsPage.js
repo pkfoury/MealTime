@@ -39,10 +39,10 @@ class RestaurantsPage extends Component {
           </div>
           <div className="results">
           {this.state.restaurants.map((restaurant, index) => (
-            <div class="restaurant">
-              <img className="restaurant-image" src={ restaurant.image_url }></img>
-              <div class="restaurant-text">
-                <h3><a href={ restaurant.url }>{ restaurant.name }</a> <span class="restaurant-address">{ restaurant.location.address1 }</span></h3>
+            <div className="restaurant">
+              <img className="restaurant-image" src={ restaurant.image_url } alt="..."></img>
+              <div className="restaurant-text">
+                <h3><a href={ restaurant.url }>{ restaurant.name }</a> <span className="restaurant-address">{ restaurant.location.address1 }</span></h3>
                 <h5>Rating: { restaurant.rating } / 5.0</h5>
                 <h5>Phone #: { restaurant.phone }</h5>
                 <h5>Price: <b>{ restaurant.price }</b></h5>

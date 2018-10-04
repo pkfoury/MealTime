@@ -5,7 +5,7 @@ class FirstTimeUserPage extends Component {
   render() {
     return (
       <div>
-        <div class="title col-lg-12 text-center">
+        <div className="title col-lg-12 text-center">
           <h2>Welcome to MealTime! We're glad you're here.</h2>
           <h4>Let's get some information from you.</h4>
         </div>
