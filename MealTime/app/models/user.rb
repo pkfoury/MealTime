@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
     before_save {self.email = email.downcase}
 
     # This regex is used widely to verify email formatting
