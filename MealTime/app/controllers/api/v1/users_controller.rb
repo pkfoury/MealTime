@@ -32,7 +32,7 @@ module Api
             private
 
             def user_params
-                params.permit(:userName, :email, :password, :password_confirmation)
+                params.permit(:user_name, :email, :password, :password_confirmation)
             end
         end
     end

@@ -53,9 +53,9 @@ class DailyEntryPage extends Component {
                 <div className="row">
                     <div className="col-lg-4 col-centered">
                         <input type="text"
-                            onChange={event => this.doSearch(event.target.value)} 
-                            className="form-control" 
-                            placeholder="Search for foods" 
+                            onChange={event => this.doSearch(event.target.value)}
+                            className="form-control"
+                            placeholder="Search for foods"
                             id="foodSearch"
                             list="items"
                             ref="foodSearch"
@@ -67,6 +67,8 @@ class DailyEntryPage extends Component {
                         </datalist>
                         <div>
                             <button className="btn-success btn" onClick={() => this.addItemToDailyList()}>Add Item</button>
+                            <h8> </h8>
+                            <button className="btn-success btn">Cheat Day</button>
                         </div>
                     </div>
                 </div>
@@ -101,12 +103,12 @@ class DailyEntryPage extends Component {
                 <div className="row">
                     <button className="btn btn-success col-lg-8 col-centered">Save Results for Day</button>
                 </div>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
-              integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+              integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
               crossOrigin="anonymous"></link>
             </div>
         );
     }
   }
-  
+
   export default DailyEntryPage;

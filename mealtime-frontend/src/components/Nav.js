@@ -47,9 +47,6 @@ export default class Example extends Component {
               <NavItem>
                 <NavLink href="/restaurants">Restaurants</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
-              </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Options
