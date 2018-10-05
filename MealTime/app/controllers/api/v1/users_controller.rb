@@ -15,7 +15,6 @@ module Api
 
             def create
                 user = User.new(user_params)
-
                 if user.save
                     render json: {status: 'SUCCESS', message: 'User Created', data:user}, status: :ok
 
