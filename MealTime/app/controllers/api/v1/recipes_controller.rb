@@ -28,9 +28,6 @@ module Api
 
             end
 
-            def update
-            end
-
             private 
             def recipe_params
                 params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments)
