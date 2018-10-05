@@ -14,8 +14,8 @@ class User < ApplicationRecord
     has_secure_password
     validates :password, presence: true, length: {minimum: 6}
 
-    has_one :budget, dependent: :delete_all
-    has_one :user_location, dependent: :delete_all
+    has_one :budget
+    has_one :user_location
     has_many :user_votes, dependent: :delete_all
 
 end
