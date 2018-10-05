@@ -8,7 +8,6 @@ Rails.application.routes.draw do
       delete '/login', to: 'sessions#destroy'
       resources :recipes
       resources :meals
-      get '/meals', to: 'sessions#index'
     end
   end
 end

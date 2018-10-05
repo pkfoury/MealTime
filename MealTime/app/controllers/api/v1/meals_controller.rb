@@ -14,10 +14,25 @@ module Api
             end
 
             def create
+                meal = Meal.new(meal_params) 
+                if meal.save 
+                    render json: {status: 'SUCCESS', message: 'Meal created', data:meal}, status: :ok
+                else
+                    render json: {status: 'ERROR', message: 'Meal not created', data:meal.errors}, status: :unprocessable_entity
+            
+                end
+            end
+            def destroy
+                meal = Meal.find(params[:id])
+                meal.destroy
+                render json: {status: 'SUCCESS', message: 'Meal deleted', data:meal}, status: :ok
             end
 
-            def destroy
+            private
+            def meal_params
+                params.permit(:user_id, :date_of_meal, :recipe_id, :meal_type_id)
             end
+
         end
     end
 end
