@@ -36,6 +36,9 @@ export default class Example extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
+                <NavLink href="/enter-daily-data">Today's Items</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink href="/calendar">Calendar</NavLink>
               </NavItem>
               <NavItem>

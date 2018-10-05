@@ -30,15 +30,20 @@ class RestaurantsPage extends Component {
   render() {
     return(
       <div>
-          <h1 className="title left-hover">Restaurants</h1>
-          <div className="searchbar input-group col-lg-4 left-hover">
-            <input type="text" onChange={event => this.doSearch(event.target.value)} className="form-control" placeholder="Search for restaurants near you" id="restaurantSearch"/>
-            <div className="input-group-btn">
-              <button className="btn btn-primary" onClick={() => this.doSearch('McDonalds')}>Search</button>
+          <h1 className="title">Restaurants</h1>
+          <div class="row">
+            <div className="col-lg-4"> </div>
+            <div className="searchbar input-group col-lg-4">
+              <input type="text" onChange={event => this.doSearch(event.target.value)} className="form-control" placeholder="Search for restaurants near you" id="restaurantSearch"/>
+              <div className="input-group-btn">
+                <button className="btn btn-primary">Search</button>
+              </div>
             </div>
+            <div className="col-lg-4"></div>
           </div>
           <div className="results">
           {this.state.restaurants.map((restaurant, index) => (
+
             <div className="restaurant">
               <img className="restaurant-image" src={ restaurant.image_url } alt="..."></img>
               <div className="restaurant-text">
