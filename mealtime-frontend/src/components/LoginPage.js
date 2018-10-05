@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 class LoginPage extends Component {
     constructor(props) { 
         super(props);
         this.state = {
-            username: '',
+            username: '',   
             password: ''
         };
         this.updateUsername = this.updateUsername.bind(this);
@@ -21,9 +22,30 @@ class LoginPage extends Component {
         this.setState({ password: e.target.value });
     }
 
-    handleSubmit (event) {
-        event.preventDefault()
+    handleSubmit(event) {
+        event.preventDefault();
         console.log(this.state);
+        const userInfo = {
+            'user_name': this.state.username,
+            'password': this.state.password,
+
+        };
+
+        axios.post('http://127.0.0.1:3000/api/v1/users', userInfo)
+            .then(({data}) => {
+                console.log(data);
+                this.setState({
+                    user: data
+                });
+            })
+
+            .then((res) => {
+                console.log('second request is okay');
+            })
+
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     render () {

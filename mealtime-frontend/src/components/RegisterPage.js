@@ -9,11 +9,14 @@ class RegisterPage extends Component {
         this.state = {
             username: '',
             email: '',
-            password: ''
+            password: '',
+            password_confirmation: '',
+            user: ''
         };
         this.updateUsername = this.updateUsername.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.updatePasswordConfirm = this.updatePasswordConfirm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -29,31 +32,36 @@ class RegisterPage extends Component {
         this.setState({ password: e.target.value });
     }
 
+    updatePasswordConfirm (e) {
+        this.setState({ password_confirmation: e.target.value });
+    }
 
     handleSubmit(event) {
         event.preventDefault();
         console.log(this.state);
-        // const userInfo = {};
-        // for (const entry in this.refs) {
-        //     userInfo[entry] = this.refs[entry].value;
-        // }
+        const userInfo = {
+            'user_name': this.state.username,
+            'email': this.state.email,
+            'password': this.state.password,
+            'password_confirmation': this.state.password_confirmation
 
-        // axios.post('http://0.0.0.0:3000/api/v1/users', userInfo)
-        //     .then(({data}) => {
-        //         console.log(data);
-        //         // this.state.data.push(userInfo);
-        //         // this.setState({
-        //         //     data: this.state.data
-        //         // });
-        //     })
+        };
 
-        //     .then((res) => {
-        //         console.log('second request is okay');
-        //     })
+        axios.post('http://127.0.0.1:3000/api/v1/users', userInfo)
+            .then(({data}) => {
+                console.log(data);
+                this.setState({
+                    user: data
+                });
+            })
 
-        //     .catch((err) => {
-        //         console.log(err);
-        //     })
+            .then((res) => {
+                console.log('second request is okay');
+            })
+
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     render() {
@@ -73,11 +81,11 @@ class RegisterPage extends Component {
                         <div />
                         <label for="Password">
                             Password:
-                            <input type="text" className="form-control" id="password" placeholder="Password" onChange={this.updatePassword} />
+                            <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.updatePassword} />
                         </label>
                         <label>
                             Retype Password:
-                            <input type="text" className="form-control" id="password_confirmation" placeholder="Retype Password" />
+                            <input type="password" className="form-control" id="password_confirmation" placeholder="Retype Password" onChange={this.updatePasswordConfirm} />
                         </label>
                         <div>
                             <input className="btn btn-primary btn-lg" type="submit" value="Submit"/>
