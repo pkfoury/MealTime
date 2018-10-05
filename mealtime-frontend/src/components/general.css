@@ -15,7 +15,7 @@
     background: #eeeeee;
     border-radius: 10px;
     margin-top: 50px;
-    height: 150px;
+    height: 190px;
     text-align: left;
     font-family: 'Roboto Slab', serif;
 }
@@ -36,6 +36,10 @@
     margin-top: 10px;
     margin-right: 10px;
 }
+.restaurant-buttons {
+    margin-left: 10px;
+    margin-top: 5px;
+}
 
 .centered-input {
     display: flex;
@@ -55,4 +59,9 @@
 .col-centered{
     float: none;
     margin: 0 auto;
+}
+
+p {
+    color: grey;
+    font-style: italic;
 }
