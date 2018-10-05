@@ -1,27 +1,30 @@
 import React, { Component } from 'react';
 import dateFns from 'date-fns';
+import './Calendar.css';
 
 class Calendar extends Component {
   state = {
-    currentMonth: new Date(),
+    currentWeek: new Date(),
     selectedDate: new Date()
   };
 
   renderHeader() {
-    const dateFormat = "MMMM YYYY";
+    const dateFormat = " MMMM DD";
 
     return (
       <div className="header row flex-middle">
         <div className="col col-start">
-          <div className="icon" onClick={this.prevMonth}>
-            chevron_left
+          <div className="icon" onClick={this.prevWeek}>
+            Previous Week
           </div>
         </div>
         <div className="col col-center">
-          <span>{dateFns.format(this.state.currentMonth, dateFormat)}</span>
+          <label>Week of
+          <span>{dateFns.format(dateFns.startOfWeek(this.state.currentWeek), dateFormat)}</span>
+          </label>
         </div>
-        <div className="col col-end" onClick={this.nextMonth}>
-          <div className="icon">chevron_right</div>
+        <div className="col col-end" onClick={this.nextWeek}>
+          <div className="icon">Next Week</div>
         </div>
       </div>
     );
@@ -31,7 +34,7 @@ class Calendar extends Component {
     const dateFormat = "dddd";
     const days = [];
 
-    let startDate = dateFns.startOfWeek(this.state.currentMonth);
+    let startDate = dateFns.startOfWeek(this.state.currentWeek);
 
     for (let i = 0; i < 7; i++) {
       days.push(
@@ -45,27 +48,25 @@ class Calendar extends Component {
   }
 
   renderCells() {
-    const { currentMonth, selectedDate } = this.state;
-    const monthStart = dateFns.startOfMonth(currentMonth);
-    const monthEnd = dateFns.endOfMonth(monthStart);
-    const startDate = dateFns.startOfWeek(monthStart);
-    const endDate = dateFns.endOfWeek(monthEnd);
+    const { currentWeek, selectedDate } = this.state;
+    const weekStart = dateFns.startOfWeek(currentWeek);
+    const weekEnd = dateFns.endOfWeek(weekStart);
 
     const dateFormat = "D";
     const rows = [];
 
     let days = [];
-    let day = startDate;
+    let day = weekStart;
     let formattedDate = "";
 
-    while (day <= endDate) {
+    while (day <= weekEnd) {
       for (let i = 0; i < 7; i++) {
         formattedDate = dateFns.format(day, dateFormat);
         const cloneDay = day;
         days.push(
           <div
             className={`col cell ${
-              !dateFns.isSameMonth(day, monthStart)
+              !dateFns.isSameWeek(day, weekStart)
                 ? "disabled"
                 : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
             }`}
@@ -94,15 +95,15 @@ class Calendar extends Component {
     });
   };
 
-  nextMonth = () => {
+  nextWeek = () => {
     this.setState({
-      currentMonth: dateFns.addMonths(this.state.currentMonth, 1)
+      currentWeek: dateFns.addWeeks(this.state.currentWeek, 1)
     });
   };
 
-  prevMonth = () => {
+  prevWeek = () => {
     this.setState({
-      currentMonth: dateFns.subMonths(this.state.currentMonth, 1)
+      currentWeek: dateFns.subWeeks(this.state.currentWeek, 1)
     });
   };
 

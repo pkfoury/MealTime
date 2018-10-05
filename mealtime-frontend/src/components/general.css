@@ -16,6 +16,7 @@
     border-radius: 10px;
     margin-top: 50px;
     height: 150px;
+    text-align: left;
     font-family: 'Roboto Slab', serif;
 }
 
@@ -29,4 +30,29 @@
     margin-top: 10px;
     margin-left: 10px;
     max-height: 125px;
+}
+.right {
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.centered-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-42 {
+    margin-left: 42%;
+}
+
+.selected-item-row {
+    background-color: lightgrey;
+    border-top: 1px solid darkgrey;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
 }
