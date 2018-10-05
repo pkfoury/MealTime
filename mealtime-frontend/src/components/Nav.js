@@ -31,7 +31,7 @@ export default class Example extends Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">MealTime</NavbarBrand>
+          <NavbarBrand href="/mainpage">MealTime</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

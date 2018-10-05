@@ -8,6 +8,8 @@ import AddRecipe from './components/AddRecipe';
 import LoginPage from './components/LoginPage';
 import RestaurantsPage from './components/RestaurantsPage';
 import DailyEntryPage from './components/DailyEntryPage';
+import ProgressPage from './components/ProgressPage';
+import MainPage from './components/MainPage';
 
  const Routes = () => (
   <Switch>
@@ -19,6 +21,9 @@ import DailyEntryPage from './components/DailyEntryPage';
     <Route path='/enter-daily-data' component={DailyEntryPage} />
     <Route path='/calendar' component={Calendar} />
     <Route path='/add-recipe' component={AddRecipe} />
+    <Route path='/progress' component={ProgressPage} />
+    <Route path='/mainpage' component={MainPage} />
+    
   </Switch>
 );
 
