@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_05_011818) do
+ActiveRecord::Schema.define(version: 2018_10_03_184707) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(version: 2018_10_05_011818) do
   end
 
   create_table "budgets", force: :cascade do |t|
-    t.decimal "weekly_budget", default: "0.0", null: false
-    t.decimal "weekly_spending", default: "0.0", null: false
-    t.decimal "monthly_budget", default: "0.0", null: false
-    t.decimal "monthly_spending", default: "0.0", null: false
+    t.decimal "weeklyBudget", default: "0.0", null: false
+    t.decimal "weeklySpending", default: "0.0", null: false
+    t.decimal "monthlyBudget", default: "0.0", null: false
+    t.decimal "monthlySpending", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -42,22 +42,21 @@ ActiveRecord::Schema.define(version: 2018_10_05_011818) do
   create_table "ingredients", force: :cascade do |t|
     t.text "name", null: false
     t.integer "calories", default: 0, null: false
-    t.integer "total_fat", default: 0, null: false
-    t.integer "trans_fat", default: 0, null: false
+    t.integer "totalFat", default: 0, null: false
+    t.integer "transFat", default: 0, null: false
     t.integer "cholesterol", default: 0, null: false
     t.integer "sodium", default: 0, null: false
-    t.integer "total_carbs", default: 0, null: false
+    t.integer "totalCarbs", default: 0, null: false
     t.integer "protein", default: 0, null: false
-    t.decimal "serving_size", null: false
-    t.decimal "dvTotal_fat", default: "0.0", null: false
-    t.decimal "dvTrans_fat", default: "0.0", null: false
-    t.decimal "dv_cholesterol", default: "0.0", null: false
-    t.decimal "dv_sodium", default: "0.0", null: false
-    t.decimal "dv_sarbs", default: "0.0", null: false
-    t.decimal "dv_protein", default: "0.0", null: false
+    t.decimal "servingSize", null: false
+    t.decimal "dvTotalFat", default: "0.0", null: false
+    t.decimal "dvTransFat", default: "0.0", null: false
+    t.decimal "dvCholesterol", default: "0.0", null: false
+    t.decimal "dvSodium", default: "0.0", null: false
+    t.decimal "dvCarbs", default: "0.0", null: false
+    t.decimal "dvProtein", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "ingredients_id"
   end
 
   create_table "meal_types", force: :cascade do |t|
@@ -79,10 +78,10 @@ ActiveRecord::Schema.define(version: 2018_10_05_011818) do
   end
 
   create_table "recipes", force: :cascade do |t|
-    t.text "recipe_name", null: false
+    t.text "recipeName", null: false
     t.text "instructions", null: false
     t.time "cookTime"
-    t.text "creator_comments", default: "", null: false
+    t.text "creatorComments", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -90,7 +89,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_011818) do
   end
 
   create_table "restaurant_histories", force: :cascade do |t|
-    t.date "date_visited", null: false
+    t.date "dateVisited", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -101,8 +100,8 @@ ActiveRecord::Schema.define(version: 2018_10_05_011818) do
 
   create_table "restaurants", force: :cascade do |t|
     t.text "name"
-    t.text "web_link"
-    t.text "yelp_ink"
+    t.text "weblink"
+    t.text "yelpLink"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -133,13 +132,12 @@ ActiveRecord::Schema.define(version: 2018_10_05_011818) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "user_name"
+    t.string "userName"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
   add_foreign_key "budgets", "users"
