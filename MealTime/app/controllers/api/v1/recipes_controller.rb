@@ -12,7 +12,7 @@ module Api
             end
 
             def create
-
+                recipe = Recipe.new(recipe_params)  
             end
 
             def destroy
@@ -23,7 +23,7 @@ module Api
 
             private 
             def recipe_params
-                params.permit(:recipe_name,:instructions, :cook_time, :creator_comments)
+                params.require(:recipe_name, :instructions, :cook_time).permit(:creator_comments)
             end
 
         end
