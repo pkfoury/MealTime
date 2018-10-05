@@ -16,6 +16,6 @@ class User < ApplicationRecord
 
     has_one :budget
     has_one :user_location
-    has_many :user_votes
+    has_many :user_votes, dependent: :delete_all
 
 end
