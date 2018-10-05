@@ -62,7 +62,7 @@ class DailyEntryPage extends Component {
                             />
                         <datalist id="items">
                             {this.state.dropdownItems.map((dropdownItem, index) => (
-                                <option key={dropdownItem.nbdno} value={dropdownItem.name}/>
+                                <option key={index} value={dropdownItem.name}/>
                             ))}
                         </datalist>
                         <div>

@@ -10,6 +10,7 @@ import RestaurantsPage from './components/RestaurantsPage';
 import DailyEntryPage from './components/DailyEntryPage';
 import ProgressPage from './components/ProgressPage';
 import MainPage from './components/MainPage';
+import FavoritesPage from './components/FavoritesPage';
 
  const Routes = () => (
   <Switch>
@@ -23,7 +24,7 @@ import MainPage from './components/MainPage';
     <Route path='/add-recipe' component={AddRecipe} />
     <Route path='/progress' component={ProgressPage} />
     <Route path='/mainpage' component={MainPage} />
-    
+    <Route path='/favorites' component={FavoritesPage} />
   </Switch>
 );
 
