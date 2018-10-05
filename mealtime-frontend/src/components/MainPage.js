@@ -34,6 +34,9 @@ class MainPage extends Component{
                         { x: 'Sugar', y: 40, color: '#3377FF' }
                   ]}
         	/>
+		<div>
+			<a href='./progress' class="btn-primary">Nutrition</a>
+		</div>
 		</CardBody>
 	    </Card>
 	    <Card>
