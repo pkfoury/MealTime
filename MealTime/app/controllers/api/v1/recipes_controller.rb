@@ -7,9 +7,12 @@ module Api
             end
 
             def show
+                recipe = Recipe.find(params[:id])
+                render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
             end
 
             def create
+
             end
 
             def destroy
@@ -20,7 +23,7 @@ module Api
 
             private 
             def recipe_params
-                params.permit()
+                params.permit(:recipe_name,:instructions, :cook_time, :creator_comments)
             end
 
         end

@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_011818) do
   create_table "recipes", force: :cascade do |t|
     t.text "recipe_name", null: false
     t.text "instructions", null: false
-    t.time "cookTime"
+    t.time "cook_time"
     t.text "creator_comments", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
