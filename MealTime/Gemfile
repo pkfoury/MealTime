@@ -67,4 +67,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # MealTime React
 gem 'react-rails', '~> 1.0'
-gem 'jquery-rails'
+gem 'rack-cors', require: 'rack/cors'

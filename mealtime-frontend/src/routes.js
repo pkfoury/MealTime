@@ -7,6 +7,7 @@ import Calendar from './components/Calendar';
 import AddRecipe from './components/AddRecipe';
 import LoginPage from './components/LoginPage';
 import RestaurantsPage from './components/RestaurantsPage';
+import DailyEntryPage from './components/DailyEntryPage';
 
  const Routes = () => (
   <Switch>
@@ -15,6 +16,7 @@ import RestaurantsPage from './components/RestaurantsPage';
     <Route path='/register' component={RegisterPage} />
     <Route path='/login' component={LoginPage} />
     <Route path='/restaurants' component={RestaurantsPage} />
+    <Route path='/enter-daily-data' component={DailyEntryPage} />
     <Route path='/calendar' component={Calendar} />
     <Route path='/add-recipe' component={AddRecipe} />
   </Switch>
