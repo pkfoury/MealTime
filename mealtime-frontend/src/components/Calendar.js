@@ -9,7 +9,7 @@ class Calendar extends Component {
   };
 
   renderHeader() {
-    const dateFormat = " MMMM DD";
+    const dateFormat = " MMMM DD YYYY";
 
     return (
       <div className="header row flex-middle">
@@ -19,9 +19,9 @@ class Calendar extends Component {
           </div>
         </div>
         <div className="col col-center">
-          <label>Week of
+          <h8>Week of
           <span>{dateFns.format(dateFns.startOfWeek(this.state.currentWeek), dateFormat)}</span>
-          </label>
+          </h8>
         </div>
         <div className="col col-end" onClick={this.nextWeek}>
           <div className="icon">Next Week</div>

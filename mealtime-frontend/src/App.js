@@ -10,8 +10,10 @@ class App extends Component {
       <div className="App">
         <Nav/>
         <Routes />
+        <div className="Footer">
+          <p>MealTime 2018 Team 10</p>
+        </div>
       </div>
-      
     );
   }
 }
