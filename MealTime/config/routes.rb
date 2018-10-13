@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/login', to: 'sessions#destroy'
       resources :recipes
+      resources :meals
+      resources :user_votes
     end
   end
 end
