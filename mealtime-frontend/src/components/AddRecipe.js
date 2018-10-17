@@ -2,6 +2,59 @@ import React, { Component } from 'react';
 import './AddRecipe.css';
 
 class AddRecipe extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dropdownItems: [],
+      items: [],
+      selectedItem: null,
+      term: null,
+      terms: []
+    }
+  }
+  doSearch(term) {
+    var link = 'https://api.nal.usda.gov/ndb/search/?format=json&q=' + term + '&sort=n&max=25&offset=0&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H';
+    fetch(link).then(function(response) {
+      return response.json();
+    }).then(function(jsonData) {
+      console.log(jsonData);
+      if (jsonData.list == null) {
+        this.setState({ term: term});
+        return;
+      }
+      const items = jsonData.list.item;
+      this.setState({dropdownItems: items});
+      if (items.length == 1) {
+        this.setState({ selectedItem: items[0] });
+      }
+      else {
+        this.setState({ term: term});
+      }
+    }.bind(this));
+  }
+
+  addItemToIngredientsList() {
+    var arrayTerms = this.state.terms.slice();
+    if (this.state.selectedItem == null) {
+      arrayTerms.push(this.state.term);
+      this.setState({ dropdownItems: [], selectedItem: null, terms: arrayTerms, term: null});
+      this.refs.foodSearch.value = '';
+    }
+    else {
+    var link='https://api.nal.usda.gov/ndb/nutrients/?format=json&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H&ndbno=' + this.state.selectedItem.ndbno + '&nutrients=208';
+    fetch(link).then(function(response) {
+      return response.json();
+    }).then(function(jsonData) {
+      console.log(jsonData);
+      var arrayItems = this.state.items.slice();
+      arrayItems.push(jsonData.report.foods[0]);
+      arrayTerms.push(jsonData.report.foods[0].name);
+      this.setState({ items: arrayItems, dropdownItems: [], selectedItem: null, terms: arrayTerms, term: null });
+      this.refs.foodSearch.value = '';
+    }.bind(this));
+    }
+  }
+
   render() {
     return (
       <div className="AddRecipe">
@@ -19,7 +72,40 @@ class AddRecipe extends Component {
               <label>Ingredients</label>
             </div>
             <div className="col-75">
-              <input type="text" id="ingred" name="ingredients" placeholder="Ingredients required..."/>
+              <input type="text"
+                onChange={event => this.doSearch(event.target.value)}
+                className="form-control"
+                placeholder="Ingredients required..."
+                id="foodSearch"
+                list="items"
+                ref="foodSearch"
+                />
+              <datalist id="items">
+                {this.state.dropdownItems.map((dropdownItem, index) => (
+                  <option key={index} value={dropdownItem.name}/>
+                ))}
+              </datalist>
+              <div>
+                <button type="button" className="btn-success btn" onClick={() => this.addItemToIngredientsList()}>Add Item</button>
+              </div>
+              <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+                integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                crossOrigin="anonymous"></link>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-25">
+              <label>Ingredient</label>
+            </div>
+            <div className="col-75">
+              {this.state.terms.map((item, index) => (
+                <div key={item} className="selected-item-row row">
+                  <div className="col-lg-5">{item}</div>
+                </div>
+              ))}
+              <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+                integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                crossOrigin="anonymous"></link>
             </div>
           </div>
           <div className="row">
@@ -32,7 +118,7 @@ class AddRecipe extends Component {
           </div>
           <div className="row">
             <div className="col-25">
-              <label>Time to Cook</label>
+              <label>Time to Cook in Minutes</label>
             </div>
             <div className="col-75">
               <input type="number" id="time" name="timeToCook" placeholder="0" step="1" min="0"/>
@@ -61,4 +147,4 @@ class AddRecipe extends Component {
   }
 }
 
-export default AddRecipe
+export default AddRecipe;
