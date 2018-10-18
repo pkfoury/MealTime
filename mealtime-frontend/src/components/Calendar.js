@@ -75,6 +75,8 @@ class Calendar extends Component {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
+            <span className="dailyCal">Daily Calories: </span>
+            <span className="dailyBud">Daily Budget: </span>
           </div>
         );
         day = dateFns.addDays(day, 1);
@@ -109,10 +111,12 @@ class Calendar extends Component {
 
   render() {
     return (
-      <div className="calendar">
-        {this.renderHeader()}
-        {this.renderDays()}
-        {this.renderCells()}
+      <div>
+        <div className="calendar">
+          {this.renderHeader()}
+          {this.renderDays()}
+          {this.renderCells()}
+        </div>
       </div>
     );
   }
