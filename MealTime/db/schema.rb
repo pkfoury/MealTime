@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_05_062425) do
+ActiveRecord::Schema.define(version: 2018_10_13_223520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,16 @@ ActiveRecord::Schema.define(version: 2018_10_05_062425) do
     t.index ["user_id"], name: "index_restaurant_histories_on_user_id"
   end
 
+  create_table "restaurant_preferences", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "restaurant_id"
+    t.boolean "dislike", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_restaurant_preferences_on_restaurant_id"
+    t.index ["user_id"], name: "index_restaurant_preferences_on_user_id"
+  end
+
   create_table "restaurants", force: :cascade do |t|
     t.text "name"
     t.text "web_link"
@@ -151,6 +161,8 @@ ActiveRecord::Schema.define(version: 2018_10_05_062425) do
   add_foreign_key "recipes", "users"
   add_foreign_key "restaurant_histories", "restaurants"
   add_foreign_key "restaurant_histories", "users"
+  add_foreign_key "restaurant_preferences", "restaurants"
+  add_foreign_key "restaurant_preferences", "users"
   add_foreign_key "user_locations", "users"
   add_foreign_key "user_votes", "recipes"
   add_foreign_key "user_votes", "users"
