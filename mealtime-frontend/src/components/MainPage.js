@@ -46,7 +46,6 @@ class MainPage extends Component{
 	    </Card>
 
 	</CardDeck>
-
     );
   }
 }
