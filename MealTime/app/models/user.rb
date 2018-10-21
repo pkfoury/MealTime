@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
     has_one :budget
     has_one :user_location
+    has_many :recipes, dependent: :nullify
     has_many :user_votes, dependent: :delete_all
     has_and_belongs_to_many :meals
 

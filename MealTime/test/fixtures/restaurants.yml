@@ -2,8 +2,8 @@
 
 one:
   name: MyText
-  weblink: MyText
+  web_link: MyText
 
 two:
   name: MyText
-  weblink: MyText
+  web_link: MyText
