@@ -52,7 +52,6 @@
 }
 
 .selected-item-row {
-    background-color: lightgrey;
     border-top: 1px solid darkgrey;
 }
 
@@ -64,4 +63,52 @@
 p {
     color: grey;
     font-style: italic;
+}
+
+.removeButton {
+    margin-top: 5px;
+}
+
+.btn-group {
+    margin-right: 5px;
+}
+
+.your-day-total {
+    margin-bottom: 20px !important;
+}
+
+.biggerLabel {
+    font-size: 20px;
+}
+
+.breakfast-container {
+    border: solid lightgreen 1px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.lunch-container {
+    border: solid blue 1px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.dinner-container {
+    border: solid turquoise 1px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.snack-container {
+    border: solid orangered 1px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
