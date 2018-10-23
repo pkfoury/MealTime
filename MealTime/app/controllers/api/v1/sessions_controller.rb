@@ -4,25 +4,26 @@ module Api
             skip_before_action :verify_authenticity_token
 
             def new
+                sessions = Sessions.order("id DESC")
             end
 
             def create
-                console.log(login_params)
-                user = User.find_by(u_name)
-                if user
-                    console.log("Success!");
+                user = User.find_by(user_name: params[:session][:user_name])
+                
+                if user && user.authenticate(params[:session][:password])
+                    render json: {status: 'SUCCESS', message: 'User Found', data:user}, status: :ok
+                    log_in(user)
+
                 else
-                    flash[:danger] = "Invalid email/password combination"
-                    render 'new'
+                    render json: {status: 'Authentication Failed', message: 'Username and password combination does not match', data:user}, status: :unauthorized
                 end
 
-                render json: {status: 'SUCCESS', message: 'Hit users endpoint'}, status: :ok
             end
 
             private
                 
             def login_params
-                params.permit(:user_name, :password)
+                params.require(:session).permit(:user_name, :password)
             end
         end
     end

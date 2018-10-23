@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, BrowserRouter as Router, Route, Redirect, withRouter} from 'react-router-dom';
 import axios from 'axios';
+
+//TODO 
+//Figure out how to route to the main page :(
 
 class LoginPage extends Component {
     constructor(props) { 
         super(props);
         this.state = {
-            username: '',   
+            showPopup: false,
+            username: '',
             password: ''
         };
         this.updateUsername = this.updateUsername.bind(this);
@@ -40,11 +44,14 @@ class LoginPage extends Component {
             })
 
             .then((res) => {
-                console.log('second request is okay');
+                window.location = '/mainpage'
             })
 
             .catch((err) => {
-                console.log(err);
+                if (err.response) {
+                    console.log('Error caught');
+                    alert('Invalid username and password combination');
+                }
             })
     }
 
@@ -60,7 +67,7 @@ class LoginPage extends Component {
                         <div/>
                         <label for="Password">
                             Password:
-                            <input type="text" className="form-control" placeholder="Enter Password" onChange={this.updatePassword} />
+                            <input type="password" className="form-control" placeholder="Enter Password" onChange={this.updatePassword} />
                         </label>
                         <div/>
                         <input className="btn btn-primary btn-lg" type="submit" value="Submit" />
