@@ -14,10 +14,10 @@ class User < ApplicationRecord
     has_secure_password
     validates :password, presence: true, length: {minimum: 6}
 
-    has_one :budget
-    has_one :user_location
-    has_many :recipes, dependent: :nullify
-    has_many :user_votes, dependent: :delete_all
+    has_one :budget, dependent: :destroy
+    has_one :user_location, dependent: :destroy
+    belongs_to_many :recipes, dependent: :nullify
+    has_many :user_votes, dependent: :destroy
     has_and_belongs_to_many :meals
 
 end
