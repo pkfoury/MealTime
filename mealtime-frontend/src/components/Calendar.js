@@ -123,6 +123,16 @@ class Calendar extends Component {
           <div className="col-25">
             <h5>Daily Calories: {this.state.number}</h5>
           </div>
+          <div className="col-25">
+            <h5>Daily Budget: </h5>
+          </div>
+          <div className="col-25">
+            <h5>Daily Macros: </h5>
+          </div>
+          <div className="col-25">
+            <h5>Planned Recipes: </h5>
+            <h5>What</h5>
+          </div>
         </div>
       </div>
     );
