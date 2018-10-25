@@ -5,7 +5,8 @@ import './Calendar.css';
 class Calendar extends Component {
   state = {
     currentWeek: new Date(),
-    selectedDate: new Date()
+    selectedDate: new Date(),
+    number: 1
   };
 
   renderHeader() {
@@ -93,7 +94,8 @@ class Calendar extends Component {
 
   onDateClick = day => {
     this.setState({
-      selectedDate: day
+      selectedDate: day,
+      number: 3
     });
   };
 
@@ -116,6 +118,11 @@ class Calendar extends Component {
           {this.renderHeader()}
           {this.renderDays()}
           {this.renderCells()}
+        </div>
+        <div className="page">
+          <div className="col-25">
+            <h5>Daily Calories: {this.state.number}</h5>
+          </div>
         </div>
       </div>
     );

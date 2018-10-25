@@ -9,9 +9,8 @@ class AddRecipe extends Component {
       items: [],
       selectedItem: null,
       specific: null,
-      specifics: [],
-      term: null,
-      terms: []
+      specifics: []
+
     }
   }
   doSearch(term) {
@@ -33,16 +32,6 @@ class AddRecipe extends Component {
         this.setState({ specific: term});
       }
     }.bind(this));
-  }
-
-  addItemToIngredientsList() {
-    var arrayTerms = this.state.terms.slice();
-    if (this.state.term == null) {
-      return;
-    }
-    arrayTerms.push(this.state.term);
-    this.setState({ terms: arrayTerms, term: null});
-    this.refs.foodItem.value = '';
   }
 
   addItemToSpecificIngredientsList() {
@@ -83,46 +72,11 @@ class AddRecipe extends Component {
             <div className="col-25">
               <label>Ingredient</label>
             </div>
-            <div className="col-75">
-              <input type="text"
-                onChange={event => this.setState({term: event.target.value})}
-                id="foodItem"
-                ref="foodItem"
-                name="ingredients"
-                placeholder="Ingredients..."
-                />
-            </div>
-            <div>
-              <button type="button" className="btn-success btn" onClick={() => this.addItemToIngredientsList()}>Add Ingredient</button>
-            </div>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-              integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-              crossOrigin="anonymous"></link>
-          </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Ingredients</label>
-            </div>
-            <div className="col-75">
-              {this.state.terms.map((item, index) => (
-                <div key={item} className="selected-item-row row">
-                  <div className="col-lg-5">{item}</div>
-                </div>
-              ))}
-              <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-                integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                crossOrigin="anonymous"></link>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Specific Ingredients (Optional)</label>
-            </div>
-            <div className="col-75">
+            <div className="col-40">
               <input type="text"
                 onChange={event => this.doSearch(event.target.value)}
                 className="form-control"
-                placeholder="Specific Ingredients (Optional)"
+                placeholder="Ingredient..."
                 id="foodSearch"
                 list="items"
                 ref="foodSearch"
@@ -132,17 +86,20 @@ class AddRecipe extends Component {
                   <option key={index} value={dropdownItem.name}/>
                 ))}
               </datalist>
-              <div>
-                <button type="button" className="btn-success btn" onClick={() => this.addItemToSpecificIngredientsList()}>Add Specific Ingredient</button>
-              </div>
-              <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-                integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                crossOrigin="anonymous"></link>
             </div>
+            <div className="col-15">
+              <input type="number" id="count" name="ingredientCount" placeholder="1" step="1" min="1"/>
+            </div>
+            <div className="col-20">
+              <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)"/>
+            </div>
+          </div>
+          <div>
+            <button type="button" className="btn-success btn" onClick={() => this.addItemToSpecificIngredientsList()}>Add Specific Ingredient</button>
           </div>
           <div className="row">
             <div className="col-25">
-              <label>Specific Ingredient</label>
+              <label>Ingredients</label>
             </div>
             <div className="col-75">
               {this.state.specifics.map((item, index) => (

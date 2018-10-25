@@ -78,14 +78,15 @@ main {
 
 .page {
   content: "";
-  display: table;
+  display: flex;
   clear: both;
+  margin-top: 3.5em;
 }
 
 .col-25 {
   float: left;
   width: 25%;
-  margin-top: 5em;
+  margin-top: 1.5em;
 }
 
 .row-middle {
