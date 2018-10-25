@@ -6,7 +6,8 @@ class Calendar extends Component {
   state = {
     currentWeek: new Date(),
     selectedDate: new Date(),
-    number: 1
+    calories: 1,
+    budget: 0
   };
 
   renderHeader() {
@@ -76,8 +77,8 @@ class Calendar extends Component {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
-            <span className="dailyCal">Daily Calories: </span>
-            <span className="dailyBud">Daily Budget: </span>
+            <span className="dailyCal">Calories: </span>
+            <span className="dailyBud">Budget: </span>
           </div>
         );
         day = dateFns.addDays(day, 1);
@@ -95,7 +96,7 @@ class Calendar extends Component {
   onDateClick = day => {
     this.setState({
       selectedDate: day,
-      number: 3
+      calories: 3
     });
   };
 
@@ -121,17 +122,17 @@ class Calendar extends Component {
         </div>
         <div className="page">
           <div className="col-25">
-            <h5>Daily Calories: {this.state.number}</h5>
+            <h5>Daily Calories: {this.state.calories} calories</h5>
+            <h5>Daily Budget: ${this.state.budget}</h5>
           </div>
           <div className="col-25">
-            <h5>Daily Budget: </h5>
+            <h5>Meals: </h5>
           </div>
           <div className="col-25">
-            <h5>Daily Macros: </h5>
+            <h5>Macro Information: </h5>
           </div>
           <div className="col-25">
             <h5>Planned Recipes: </h5>
-            <h5>What</h5>
           </div>
         </div>
       </div>
