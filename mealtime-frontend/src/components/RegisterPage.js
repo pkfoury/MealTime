@@ -11,7 +11,6 @@ class RegisterPage extends Component {
             email: '',
             password: '',
             password_confirmation: '',
-            user: ''
         };
         this.updateUsername = this.updateUsername.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
@@ -44,7 +43,6 @@ class RegisterPage extends Component {
             'email': this.state.email,
             'password': this.state.password,
             'password_confirmation': this.state.password_confirmation
-
         };
 
         axios.post('http://127.0.0.1:3000/api/v1/users', userInfo)
