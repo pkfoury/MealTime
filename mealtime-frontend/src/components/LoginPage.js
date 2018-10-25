@@ -44,7 +44,6 @@ class LoginPage extends Component {
                     user: data
                 });
                 console.log(data.data);
-                
             })
 
             .catch((err) => {
