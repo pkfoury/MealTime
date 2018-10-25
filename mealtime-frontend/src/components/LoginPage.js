@@ -36,15 +36,15 @@ class LoginPage extends Component {
         };
 
         axios.post('http://127.0.0.1:3000/api/v1/login', userInfo)
-            .then(({data}) => {
-                console.log(data);
+
+            // On success the data will be printed
+
+            .then(({data}) => {       
                 this.setState({
                     user: data
                 });
-            })
-
-            .then((res) => {
-                window.location = '/mainpage'
+                console.log(data.data);
+                
             })
 
             .catch((err) => {

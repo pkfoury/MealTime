@@ -63,7 +63,7 @@ export default class Example extends Component {
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    Reset
+                    Logout
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
