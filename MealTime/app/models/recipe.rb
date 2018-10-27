@@ -1,9 +1,8 @@
 class Recipe < ApplicationRecord
     has_many :ingredients
     has_many :allergens, through: :ingredient
-    has_many :user_votes
-    has_one :uom
-    has_one :user, dependent: :nullify
+    has_many :user_votes, dependent: :destroy
+    belongs_to :user
     #time format regex
     VALID_TIME_FORMAT = /\A((([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9])|([0-5][0-9]))\z/ 
     
