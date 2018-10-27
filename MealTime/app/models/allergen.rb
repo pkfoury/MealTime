@@ -1,3 +1,3 @@
 class Allergen < ApplicationRecord
-    belongs_to :ingredient
+    has_and_belongs_to_many :ingredient
 end

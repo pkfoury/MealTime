@@ -1,5 +1,5 @@
 class Recipe < ApplicationRecord
-    has_many :ingredients
+    has_and_belongs_to_many :ingredients
     has_many :allergens, through: :ingredient
     has_many :user_votes, dependent: :destroy
     belongs_to :user
