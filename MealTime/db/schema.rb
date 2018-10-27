@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_212557) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.string "auth_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end

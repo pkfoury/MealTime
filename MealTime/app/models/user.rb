@@ -1,5 +1,10 @@
 class User < ApplicationRecord
     before_save {self.email = email.downcase}
+    attr_accessor :auth_token
+
+    before_create {
+        self.auth_token = SecureRandom.urlsafe_base64
+    }
 
     # This regex is used widely to verify email formatting
     
@@ -19,5 +24,37 @@ class User < ApplicationRecord
     has_many :recipes, dependent: :nullify
     has_many :user_votes, dependent: :destroy
     has_and_belongs_to_many :meals
+
+    # This will digest and hash a given string
+
+    def self.digest(string)
+        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
+        BCrypt::Password.create(string, cost: cost)
+    end
+
+    # This will keep track of the user from the database during sessions
+
+    def remember
+        self.auth_token = User.new_token
+        update_attribute(:auth_digest, Digest::SHA1.hexdigest(auth_token))
+    end
+
+    # Creates and returns a new auth_token
+
+    def User.new_token
+        SecureRandom.urlsafe_base64
+    end
+
+    # This function will return true if the token matches up with the digest to ensure that
+    # the user is in a new session
+
+    def authenticated?(auth_token)
+        return false if auth_digest.nil?
+        BCrypt::Password.new(auth_digest).is_password?(auth_token)
+    end
+
+    def forget_user
+        update_attribute(:auth_digest, nil)
+    end
 
 end
