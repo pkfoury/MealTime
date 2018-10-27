@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_21_212557) do
+ActiveRecord::Schema.define(version: 2018_10_27_211120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 2018_10_21_212557) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "ingredients_id"
+  end
+
+  create_table "ingredients_recipes", id: false, force: :cascade do |t|
+    t.bigint "ingredient_id", null: false
+    t.bigint "recipe_id", null: false
+    t.decimal "amount"
+    t.bigint "uom_id"
+    t.index ["ingredient_id", "recipe_id"], name: "index_ingredients_recipes_on_ingredient_id_and_recipe_id"
+    t.index ["uom_id"], name: "index_ingredients_recipes_on_uom_id"
   end
 
   create_table "meal_types", force: :cascade do |t|
@@ -161,6 +170,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_212557) do
   end
 
   add_foreign_key "budgets", "users"
+  add_foreign_key "ingredients_recipes", "uoms"
   add_foreign_key "meals", "meal_types", on_delete: :nullify
   add_foreign_key "meals", "recipes"
   add_foreign_key "meals", "users"
