@@ -26,6 +26,14 @@ class LoginPage extends Component {
         this.setState({ password: e.target.value });
     }
 
+    checkLogin () {
+        axios.get('http://127.0.0.1:3000/api/v1/login')
+
+        .then (({data}) => {
+            console.log(data);
+        })
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         console.log(this.state);
@@ -43,16 +51,29 @@ class LoginPage extends Component {
                 this.setState({
                     user: data
                 });
+<<<<<<< Updated upstream
                 console.log(data.data);
+=======
+                console.log(data.status);
+
+                if (data.status == "SUCCESS") {
+                    window.location = "/mainpage";
+                }
+                
+>>>>>>> Stashed changes
             })
 
             .catch((err) => {
-                if (err.response) {
-                    console.log('Error caught');
+                if (err.response.status == 401) {
                     alert('Invalid username and password combination');
+                }
+                
+                else {
+                    alert("Not a login error, figure it out");
                 }
             })
     }
+
 
     render () {
         return (
@@ -69,7 +90,7 @@ class LoginPage extends Component {
                             <input type="password" className="form-control" placeholder="Enter Password" onChange={this.updatePassword} />
                         </label>
                         <div/>
-                        <input className="btn btn-primary btn-lg" type="submit" value="Submit" />
+                        <input className="btn btn-primary btn-lg" type="submit" value="Login" />
                     </div>
                 </form>
                 <Link to='/register' activeClassName="active">Don't have an account?</Link>

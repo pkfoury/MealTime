@@ -4,6 +4,11 @@ module Api
             skip_before_action :verify_authenticity_token
 
             def new
+                # if logged_in
+                #     render json: {status: "Logged in", message: "User is logged in", data: current_user} status: :ok
+                # else
+                #     render json: {status: "Not Logged", message: "User is not logged in"} status: :unauthorized
+                # end
             end
 
             def create
@@ -23,6 +28,7 @@ module Api
                 log_out if logged_in?
                 render json: {status: 'Logout', message: 'Return to root page'}, status: :ok
             end
+
 
             private
                 
