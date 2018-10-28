@@ -14,7 +14,8 @@ class AuthenticateApiRequest
   attr_reader :headers
 
   def user
-    @user ||= User.find_by(user_name: params[:session][:user_name])
+    @user ||= User.find_by_auth_digest(http_auth_header)
+    puts @user
     @user || errors.add(:token, 'Invalid token') && nil
   end
 
@@ -23,8 +24,8 @@ class AuthenticateApiRequest
   end
 
   def http_auth_header
-    if headers['Authorization'].present?
-      return headers['Authorization'].split(' ').last
+    if headers['Token'].present?
+      return headers['Token'].split(' ').last
     else
       errors.add :token, 'Missing token'
     end
