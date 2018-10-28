@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_27_211120) do
+ActiveRecord::Schema.define(version: 2018_10_28_174538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 2018_10_27_211120) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "allergens_ingredients", id: false, force: :cascade do |t|
-    t.bigint "ingredient_id", null: false
+  create_table "allergens_ingredients", force: :cascade do |t|
     t.bigint "allergen_id", null: false
+    t.bigint "ingredient_id", null: false
     t.index ["allergen_id"], name: "index_allergens_ingredients_on_allergen_id"
     t.index ["ingredient_id"], name: "index_allergens_ingredients_on_ingredient_id"
   end
@@ -60,12 +60,13 @@ ActiveRecord::Schema.define(version: 2018_10_27_211120) do
     t.bigint "ingredients_id"
   end
 
-  create_table "ingredients_recipes", id: false, force: :cascade do |t|
+  create_table "ingredients_recipes", force: :cascade do |t|
     t.bigint "ingredient_id", null: false
     t.bigint "recipe_id", null: false
     t.decimal "amount"
     t.bigint "uom_id"
-    t.index ["ingredient_id", "recipe_id"], name: "index_ingredients_recipes_on_ingredient_id_and_recipe_id"
+    t.index ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id"
+    t.index ["recipe_id"], name: "index_ingredients_recipes_on_recipe_id"
     t.index ["uom_id"], name: "index_ingredients_recipes_on_uom_id"
   end
 
@@ -87,9 +88,19 @@ ActiveRecord::Schema.define(version: 2018_10_27_211120) do
     t.index ["user_id"], name: "index_meals_on_user_id"
   end
 
-  create_table "meals_users", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
+  create_table "meals_recipes", force: :cascade do |t|
     t.bigint "meal_id", null: false
+    t.bigint "recipe_id", null: false
+    t.decimal "portion_count"
+    t.index ["meal_id"], name: "index_meals_recipes_on_meal_id"
+    t.index ["recipe_id"], name: "index_meals_recipes_on_recipe_id"
+  end
+
+  create_table "meals_users", force: :cascade do |t|
+    t.bigint "meal_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["meal_id"], name: "index_meals_users_on_meal_id"
+    t.index ["user_id"], name: "index_meals_users_on_user_id"
   end
 
   create_table "recipes", force: :cascade do |t|
