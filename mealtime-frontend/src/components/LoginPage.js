@@ -51,16 +51,12 @@ class LoginPage extends Component {
                 this.setState({
                     user: data
                 });
-<<<<<<< Updated upstream
-                console.log(data.data);
-=======
                 console.log(data.status);
 
                 if (data.status == "SUCCESS") {
                     window.location = "/mainpage";
                 }
                 
->>>>>>> Stashed changes
             })
 
             .catch((err) => {
