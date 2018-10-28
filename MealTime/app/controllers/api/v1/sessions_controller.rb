@@ -4,20 +4,16 @@ module Api
             skip_before_action :verify_authenticity_token
 
             def new
-                # if logged_in
-                #     render json: {status: "Logged in", message: "User is logged in", data: current_user} status: :ok
-                # else
-                #     render json: {status: "Not Logged", message: "User is not logged in"} status: :unauthorized
-                # end
             end
 
             def create
-                user = User.find_by(user_name: params[:session][:user_name])
-
+                
+                user = User.find_by(user_name: params["body"]["user_name"])
+                # puts user
                 # @current_user = AuthenticateApiRequest.call(request.headers).result
                 # render json: { error: 'Not Authorized' }, status: 401 unless @current_user
 
-                if user && user.authenticate(params[:session][:password])
+                if user && user.authenticate(params["body"]["password"])
                     log_in(user)
                     remember(user)
                     render json: {status: 'SUCCESS', message: 'Session Created', data: user.auth_digest}, status: :ok

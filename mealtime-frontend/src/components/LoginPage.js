@@ -42,17 +42,17 @@ class LoginPage extends Component {
             'password': this.state.password,
         };
 
-        axios.post('http://127.0.0.1:3000/api/v1/login', userInfo)
-        // apiPost('login', userInfo)
+
+        apiPost('login', userInfo)
             .then(({data}) => {
                 this.setState({
                     user: data
                 });
-                console.log(data);
-                // if (data.status == "SUCCESS") {
-                //     window.location = "/mainpage";
-                // }
-                localStorage.setItem('token', JSON.stringify(data.data))
+
+                if (data.status == "SUCCESS") {
+                    window.location = "/mainpage";
+                    localStorage.setItem('token', JSON.stringify(data.data))
+                }
             })
 
             .catch((err) => {
