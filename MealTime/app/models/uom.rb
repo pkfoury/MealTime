@@ -1,4 +1,4 @@
 class Uom < ApplicationRecord
-    has_many :recipes
-    has_many :ingredients
+    has_many :recipes, dependent: :destroy
+    has_many :ingredients, dependent: :destroy
 end
