@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link, BrowserRouter as Router, Route, Redirect, withRouter} from 'react-router-dom';
 import axios from 'axios';
+import { apiPost } from '../functions/Api';
 
 //TODO 
 //Figure out how to route to the main page :(
@@ -36,27 +37,22 @@ class LoginPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.state);
         const userInfo = {
             'user_name': this.state.username,
             'password': this.state.password,
-
         };
 
         axios.post('http://127.0.0.1:3000/api/v1/login', userInfo)
-
-            // On success the data will be printed
-
-            .then(({data}) => {       
+        // apiPost('login', userInfo)
+            .then(({data}) => {
                 this.setState({
                     user: data
                 });
-                console.log(data.status);
-
-                if (data.status == "SUCCESS") {
-                    window.location = "/mainpage";
-                }
-                
+                console.log(data);
+                // if (data.status == "SUCCESS") {
+                //     window.location = "/mainpage";
+                // }
+                localStorage.setItem('token', JSON.stringify(data.data))
             })
 
             .catch((err) => {
@@ -76,12 +72,12 @@ class LoginPage extends Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label for="Username">
+                        <label htmlFor="Username">
                             Username:
                             <input type="text" className="form-control" placeholder="Enter Username" onChange={this.updateUsername} />
                         </label>
                         <div/>
-                        <label for="Password">
+                        <label htmlFor="Password">
                             Password:
                             <input type="password" className="form-control" placeholder="Enter Password" onChange={this.updatePassword} />
                         </label>
