@@ -1,4 +1,6 @@
 class Ingredient < ApplicationRecord
-    has_and_belongs_to_many :allergens
-    has_and_belongs_to_many :recipes
+    has_many :allergens_ingredients, dependent: :destroy
+    has_many :allergens, through: :allergens_ingredients
+    has_many :ingredients_recipes, dependent: :destroy
+    has_many :recipes, through: :ingredients_recipes
 end
