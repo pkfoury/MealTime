@@ -1,5 +1,5 @@
 class Meal < ApplicationRecord
-    has_one :meal_type
+    belongs_to :meal_type
     has_many :recipes
     has_and_belongs_to_many :users
     after_initialize do |meal|
