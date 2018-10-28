@@ -2,16 +2,14 @@ module Api
     module V1
         class SessionsController < ApplicationController
             skip_before_action :verify_authenticity_token
-
+            skip_before_action :require_token
+            
             def new
             end
 
             def create
                 
                 user = User.find_by(user_name: params["body"]["user_name"])
-                # puts user
-                # @current_user = AuthenticateApiRequest.call(request.headers).result
-                # render json: { error: 'Not Authorized' }, status: 401 unless @current_user
 
                 if user && user.authenticate(params["body"]["password"])
                     log_in(user)

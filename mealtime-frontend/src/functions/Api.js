@@ -20,7 +20,7 @@ export function apiPost(endpoint, data = {}, token = getToken()) {
     headers: getHeaders(token),
     body: data
   }
-  console.log(data)
+  console.log(options)
 
   return axios.post(`${API_URL}${endpoint}/`, options);
 }

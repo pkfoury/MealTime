@@ -51,7 +51,7 @@ class LoginPage extends Component {
 
                 if (data.status == "SUCCESS") {
                     window.location = "/mainpage";
-                    localStorage.setItem('token', JSON.stringify(data.data))
+                    localStorage.setItem('token', data.data)
                 }
             })
 
