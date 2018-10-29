@@ -2,6 +2,32 @@ import React, { Component } from 'react';
 import './general.css'
 
 class FirstTimeUserPage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { showMacroGoals: false };
+    this.toggleShowMacroGoals = this.toggleShowMacroGoals.bind(this);
+    this.renderMacroOptions = this.renderMacroOptions.bind(this);
+  }
+
+  toggleShowMacroGoals() {
+    this.setState({ showMacroGoals: !this.state.showMacroGoals });
+  }
+  
+  renderMacroOptions() {
+    if (!this.state.showMacroGoals) return;
+
+    return (
+      <div class="macroNutrientGoals">
+        <label for="caloric-limit">Protein (Grams per day)</label>
+        <input type="number" className="form-control col-lg-2 left-42" id="protein" placeholder="0" />
+        <label for="caloric-limit">Fats (Grams per day)</label>
+        <input type="number" className="form-control col-lg-2 left-42" id="fats" placeholder="0" />
+        <label for="caloric-limit">Carbs (Grams per day)</label>
+        <input type="number" className="form-control col-lg-2 left-42" id="carbs" placeholder="0" />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -19,6 +45,9 @@ class FirstTimeUserPage extends Component {
                 <br />
                 <label for="budget">How much money would you like to spend per week on food?</label>
                 <input type="number" className="form-control col-lg-2 left-42" id="budget-limit" placeholder="0" />
+                <input type="checkbox" id="showMacrosBox" onClick={this.toggleShowMacroGoals}></input>
+                <label for="showMacrosBox">Track macronutrients as well? (Optional)</label>
+                { this.renderMacroOptions() }
                 <br />
                 <button className="btn btn-large btn-success">Let's do this thing!</button>
             </div>
