@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './AddRecipe.css';
 
 class AddRecipe extends Component {
@@ -54,6 +55,30 @@ class AddRecipe extends Component {
         this.refs.foodSearch.value = '';
       }.bind(this));
     }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(this.state);
+    const recipeInfo = {
+
+    };
+
+    axios.post('http://127.0.0.1:3000/api/v1/recipes', recipeInfo)
+      .then(({data}) => {
+        console.log(data);
+        this.setState({
+          user: data
+        });
+      })
+
+      .then((res) => {
+        console.log('second request is okay');
+      })
+
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   render() {
