@@ -11,7 +11,11 @@ function getHeaders(token) {
 }
 
 export function apiGet(endpoint, token = getToken()) {
-  return axios.get(`${API_URL}${endpoint}/`, {headers: getHeaders(token)});
+  const options = {
+    method: 'GET',
+    headers: getHeaders(token)
+  }
+  return axios.get(`${API_URL}${endpoint}/`, options);
 }
 
 export function apiPost(endpoint, data = {}, token = getToken()) {

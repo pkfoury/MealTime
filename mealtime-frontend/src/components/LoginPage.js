@@ -40,7 +40,7 @@ class LoginPage extends Component {
                 });
 
                 if (data.status == "SUCCESS") {
-                    window.location = "/mainpage";
+                    this.props.history.push('/mainpage')
                     localStorage.setItem('token', data.data)
                 }
             })

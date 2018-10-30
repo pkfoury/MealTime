@@ -4,8 +4,9 @@ class ApplicationController < ActionController::Base
 
     private
     def require_token
+        / Get the token here then check based on the token if logged in, then we should be good/
+        puts params
         unless logged_in?
-            puts logged_in?
             render json: {status: "Not logged in", message: "Not logged in"}, status: :unauthorized_user
         end
     end

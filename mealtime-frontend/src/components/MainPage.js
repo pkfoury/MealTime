@@ -9,7 +9,7 @@ class MainPage extends Component{
 
 	change_name (event) {
 		event.preventDefault()
-		apiGet('users')
+		apiGet('users', localStorage.getItem('token'))
 		.then(({data}) =>{
 			console.log(data)
 		})
