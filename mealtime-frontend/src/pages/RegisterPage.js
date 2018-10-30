@@ -67,17 +67,17 @@ class RegisterPage extends Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label for="Username">
+                        <label htmlFor="Username">
                             Username:
                             <input type="text" className="form-control" id="userName" placeholder="Enter Username" onChange={this.updateUsername} />
                         </label>
                         <div />
-                        <label for="Email">
+                        <label htmlFor="Email">
                             Email:
                             <input type="text" className="form-control" id="email" placeholder="Your Email" onChange={this.updateEmail} />
                         </label>
                         <div />
-                        <label for="Password">
+                        <label htmlFor="Password">
                             Password:
                             <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.updatePassword} />
                         </label>
