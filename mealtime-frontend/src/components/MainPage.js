@@ -3,13 +3,14 @@ import {BarChart} from 'react-easy-chart';
 import { Link } from 'react-router-dom';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
 import { apiGet } from '../functions/Api';
+import axios from 'axios';
 
 
 class MainPage extends Component{
 
 	change_name (event) {
 		event.preventDefault()
-		apiGet('users', localStorage.getItem('token'))
+		apiGet('users')
 		.then(({data}) =>{
 			console.log(data)
 		})
@@ -48,7 +49,7 @@ class MainPage extends Component{
 					]}
 				/>
 			<div>
-				<a href='./progress' class="btn-primary">Nutrition</a>
+				<a href='./progress' className="btn-primary">Nutrition</a>
 			</div>
 			</CardBody>
 			</Card>
