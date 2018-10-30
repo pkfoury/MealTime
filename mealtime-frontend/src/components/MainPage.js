@@ -2,13 +2,27 @@ import React, {Component} from 'react';
 import {BarChart} from 'react-easy-chart';
 import { Link } from 'react-router-dom';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
+import { apiGet } from '../functions/Api';
 
 
 class MainPage extends Component{
+
+	change_name (event) {
+		event.preventDefault()
+		apiGet('users')
+		.then(({data}) =>{
+			console.log(data)
+		})
+	}
+
   	render () {
     	return(
-		
+
 		<CardDeck>
+		<div>
+			<button onClick={this.change_name}> Contact the User
+			</button>
+		</div>
 			<Card>
 			<CardTitle>Welcome User</CardTitle>
 			<CardBody>
@@ -39,9 +53,6 @@ class MainPage extends Component{
 			</CardBody>
 			</Card>
 			<Card>
-					
-
-
 			</Card>
 
 		</CardDeck>

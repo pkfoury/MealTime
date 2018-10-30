@@ -4,8 +4,10 @@ module Api
             skip_before_action :verify_authenticity_token
 
             def index
-                users = User.order("created_at DESC")
-                render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
+
+                render json: {status: 'Hit the index'}, status: :ok
+                # users = User.order("created_at DESC")
+                # render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
             end
 
             def show

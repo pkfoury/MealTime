@@ -3,8 +3,6 @@ import {Link, BrowserRouter as Router, Route, Redirect, withRouter} from 'react-
 import axios from 'axios';
 import { apiPost } from '../functions/Api';
 
-//TODO 
-//Figure out how to route to the main page :(
 
 class LoginPage extends Component {
     constructor(props) { 
@@ -25,14 +23,6 @@ class LoginPage extends Component {
 
     updatePassword (e) {
         this.setState({ password: e.target.value });
-    }
-
-    checkLogin () {
-        axios.get('http://127.0.0.1:3000/api/v1/login')
-
-        .then (({data}) => {
-            console.log(data);
-        })
     }
 
     handleSubmit(event) {
