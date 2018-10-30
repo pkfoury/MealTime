@@ -8,12 +8,55 @@ class AddRecipe extends Component {
     this.state = {
       dropdownItems: [],
       items: [],
+      ingredients: [
+        {
+          name: '',
+          amount: null,
+          uom: null
+        }
+      ],
       selectedItem: null,
       specific: null,
-      specifics: []
-
+      specifics: [],
+      recipeName: '',
+      instructions: '',
+      time: 0,
+      difficulty: 1,
+      tempAmount: 0,
+      tempUom: null
     }
+    this.updateRecipeName = this.updateRecipeName.bind(this);
+    this.updateInstructions = this.updateInstructions.bind(this);
+    this.updateTime = this.updateTime.bind(this);
+    this.updateDifficulty = this.updateDifficulty.bind(this);
+    this.updateAmount = this.updateAmount.bind(this);
+    this.updateUom = this.updateUom.bind(this);
   }
+
+  updateRecipeName (e) {
+    this.setState({ recipeName: e.target.value });
+  }
+
+  updateInstructions (e) {
+    this.setState({ instructions: e.target.value });
+  }
+
+  updateTime (e) {
+    this.setState({ time: e.target.value });
+  }
+
+  updateDifficulty (e) {
+    this.setState({ difficulty: e.target.value });
+  }
+
+  updateAmount (e) {
+    this.setState({ tempAmount: e.target.value });
+  }
+
+  updateUom (e) {
+    this.setState({ tempUom: e.target.value });
+  }
+
   doSearch(term) {
     var link = 'https://api.nal.usda.gov/ndb/search/?format=json&q=' + term + '&sort=n&max=25&offset=0&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H';
     fetch(link).then(function(response) {
@@ -51,7 +94,14 @@ class AddRecipe extends Component {
         var arrayItems = this.state.items.slice();
         arrayItems.push(jsonData.report.foods[0]);
         arrayTerms.push(jsonData.report.foods[0].name);
-        this.setState({ items: arrayItems, dropdownItems: [], selectedItem: null, specifics: arrayTerms, specific: null });
+        const item = {
+          name: jsonData.report.foods[0],
+          amount: this.state.tempAmount,
+          uom: this.state.tempUom
+        }
+        var arrayIngredients = this.state.ingredients.slice();
+        arrayIngredients.push(item);
+        this.setState({ items: arrayItems, ingredients: arrayIngredients, dropdownItems: [], selectedItem: null, specifics: arrayTerms, specific: null });
         this.refs.foodSearch.value = '';
       }.bind(this));
     }
@@ -61,7 +111,10 @@ class AddRecipe extends Component {
     event.preventDefault();
     console.log(this.state);
     const recipeInfo = {
-
+      recipe_name: this.state.recipeName,
+      instructions: this.state.instructions,
+      cook_time: this.state.time,
+      ingredients: this.state.ingredients
     };
 
     axios.post('http://127.0.0.1:3000/api/v1/recipes', recipeInfo)
@@ -84,13 +137,13 @@ class AddRecipe extends Component {
   render() {
     return (
       <div className="AddRecipe">
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className="row">
             <div className="col-25">
               <label>Recipe Name</label>
             </div>
             <div className="col-75">
-              <input type="text" id="rName" name="recipeName" placeholder="Your recipe name..."/>
+              <input type="text" id="rName" name="recipeName" placeholder="Your recipe name..." onChange={this.updateRecipeName} />
             </div>
           </div>
           <div className="row">
@@ -113,7 +166,7 @@ class AddRecipe extends Component {
               </datalist>
             </div>
             <div className="col-15">
-              <input type="number" id="count" name="ingredientCount" placeholder="1" step="1" min="1"/>
+              <input type="number" id="count" name="ingredientCount" placeholder="1" step="1" min="1" onChange={this.updateAmount} />
             </div>
             <div className="col-20">
               <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)"/>
@@ -142,7 +195,7 @@ class AddRecipe extends Component {
               <label>Instructions</label>
             </div>
             <div className="col-75">
-              <input type="text" id="instruct" name="instructions" placeholder="Instructions to cook..."/>
+              <input type="text" id="instruct" name="instructions" placeholder="Instructions to cook..." onChange={this.updateInstructions} />
             </div>
           </div>
           <div className="row">
@@ -150,7 +203,7 @@ class AddRecipe extends Component {
               <label>Time to Cook in Minutes</label>
             </div>
             <div className="col-75">
-              <input type="number" id="time" name="timeToCook" placeholder="0" step="1" min="0"/>
+              <input type="number" id="time" name="timeToCook" placeholder="0" step="1" min="0" onChange={this.updateTime} />
             </div>
           </div>
           <div className="row">
@@ -158,7 +211,7 @@ class AddRecipe extends Component {
               <label>Difficulty</label>
             </div>
             <div className="col-75">
-              <select id="difficult" name="difficulty">
+              <select id="difficult" name="difficulty" onChange={this.updateDifficulty} >
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
