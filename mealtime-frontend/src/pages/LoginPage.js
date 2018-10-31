@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {Link, BrowserRouter as Router, Route, Redirect, withRouter} from 'react-router-dom';
-import axios from 'axios';
+import {Link} from 'react-router-dom';
 import { apiPost } from '../functions/Api';
-
 
 class LoginPage extends Component {
     constructor(props) { 
@@ -39,23 +37,23 @@ class LoginPage extends Component {
                     user: data
                 });
 
-                if (data.status == "SUCCESS") {
+                if (data.status === "SUCCESS") {
                     this.props.history.push('/mainpage')
                     localStorage.setItem('token', data.data)
                 }
             })
 
             .catch((err) => {
-                if (err.response.status == 401) {
+                if (err.response && err.response.status === 401) {
                     alert('Invalid username and password combination');
                 }
                 
                 else {
                     alert("Not a login error, figure it out");
+                    console.log(err.message);
                 }
             })
     }
-
 
     render () {
         return (

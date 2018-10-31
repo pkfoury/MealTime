@@ -21,7 +21,7 @@ module Api
 
             def destroy
                 log_out if logged_in?
-                render json: {status: 'Logout', message: 'Return to root page'}, status: :ok
+                render json: {status: 'SUCCESS', message: 'Return to root page'}, status: :ok
             end
 
             private

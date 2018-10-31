@@ -18,6 +18,16 @@ export function apiGet(endpoint, token = getToken()) {
   return axios.get(`${API_URL}${endpoint}/`, options);
 }
 
+export function apiDelete (endpoint, token = getToken()) {
+  console.log(token)
+  const options = {
+    method: 'DELETE',
+    headers: getHeaders(token)
+  }
+  
+  return axios.delete(`${API_URL}${endpoint}/`, options)
+}
+
 export function apiPost(endpoint, data = {}, token = getToken()) {
   const options = {
     method: 'POST',
