@@ -12,7 +12,6 @@ module SessionsHelper
     def current_user
         @current_user ||= User.find_by(auth_digest: request.headers["Token"])
         if (@current_user)
-            puts "found user!"
             @current_user
         # elsif (user_id = cookies.signed[:user_id])
         #     puts "Cookies"

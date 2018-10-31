@@ -53,10 +53,6 @@ class RegisterPage extends Component {
                 });
             })
 
-            .then((res) => {
-                console.log('second request is okay');
-            })
-
             .catch((err) => {
                 console.log(err);
             })

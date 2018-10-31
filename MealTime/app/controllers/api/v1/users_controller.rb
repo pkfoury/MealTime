@@ -5,8 +5,9 @@ module Api
             # skip_before_action :require_token
 
             def index
-
-                render json: {status: 'Hit the index'}, status: :ok
+                tok = request.headers["Token"]
+                user = User.find_by(auth_digest: tok)
+                render json: {status: 'Hit the index', data: user}, status: :ok
                 # users = User.order("created_at DESC")
                 # render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
             end
