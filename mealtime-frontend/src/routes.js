@@ -1,16 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 
-import FirstTimeUserPage from './components/FirstTimeUserPage';
-import RegisterPage from './components/RegisterPage';
+import FirstTimeUserPage from './pages/FirstTimeUserPage';
+import RegisterPage from './pages/RegisterPage';
 import Calendar from './components/Calendar';
 import AddRecipe from './components/AddRecipe';
-import LoginPage from './components/LoginPage';
-import RestaurantsPage from './components/RestaurantsPage';
-import DailyEntryPage from './components/DailyEntryPage';
-import ProgressPage from './components/ProgressPage';
-import MainPage from './components/MainPage';
-import FavoritesPage from './components/FavoritesPage';
+import LoginPage from './pages/LoginPage';
+import RestaurantsPage from './pages/RestaurantsPage';
+import DailyEntryPage from './pages/DailyEntryPage';
+import ProgressPage from './pages/ProgressPage';
+import MainPage from './pages/MainPage';
+import FavoritesPage from './pages/FavoritesPage';
 
  const Routes = () => (
   <Switch>

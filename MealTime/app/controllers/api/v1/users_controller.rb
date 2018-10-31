@@ -2,10 +2,13 @@ module Api
     module V1
         class UsersController < ApplicationController
             skip_before_action :verify_authenticity_token
+            # skip_before_action :require_token
 
             def index
-                users = User.order("created_at DESC")
-                render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
+
+                render json: {status: 'Hit the index'}, status: :ok
+                # users = User.order("created_at DESC")
+                # render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
             end
 
             def show
