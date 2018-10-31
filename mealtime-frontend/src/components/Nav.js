@@ -16,8 +16,6 @@ import {
 import { apiDelete } from '../functions/Api';
 import { withRouter } from 'react-router';
 
-import { apiDelete } from '../functions/Api';
-import { withRouter } from 'react-router';
 
 export default class Example extends Component {
 	constructor(props) {
@@ -36,13 +34,8 @@ export default class Example extends Component {
 		.then( data => {
 			console.log(data.data.status);
 			if (data.data.status === "SUCCESS") {
-<<<<<<< HEAD
 				this.history.push('/login');
 				localStorage.removeItem('token');
-=======
-			this.history.push('/login');
-			localStorage.removeItem('token');
->>>>>>> origin/master
 			}
 		})
 
