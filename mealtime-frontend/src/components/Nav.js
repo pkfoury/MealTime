@@ -7,10 +7,14 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
+//   UncontrolledDropdown,
+//   DropdownToggle,
+//   DropdownMenu,
+//   DropdownItem 
+} from 'reactstrap';
+
+import { apiDelete } from '../functions/Api';
+import { withRouter } from 'react-router';
 
 import { apiDelete } from '../functions/Api';
 import { withRouter } from 'react-router';
@@ -32,8 +36,13 @@ export default class Example extends Component {
 		.then( data => {
 			console.log(data.data.status);
 			if (data.data.status === "SUCCESS") {
+<<<<<<< HEAD
+				this.history.push('/login');
+				localStorage.removeItem('token');
+=======
 			this.history.push('/login');
 			localStorage.removeItem('token');
+>>>>>>> origin/master
 			}
 		})
 
@@ -72,22 +81,8 @@ export default class Example extends Component {
 					<NavLink href="/restaurants">Restaurants</NavLink>
 				</NavItem>
 				<NavItem>
-					{/* <NavLink onClick={this.logout}>Logout</NavLink> */}
+					<NavLink onClick={this.logout}>Logout</NavLink>
 				</NavItem>
-				<UncontrolledDropdown nav inNavbar>
-					<DropdownToggle nav caret>
-					Options
-					</DropdownToggle>
-					<DropdownMenu right>
-					<DropdownItem>
-						Option 1
-					</DropdownItem>
-					<DropdownItem>
-						Option 2
-					</DropdownItem>
-					<DropdownItem divider />
-					</DropdownMenu>
-				</UncontrolledDropdown>
 				</Nav>
 			</Collapse>
 			</Navbar>
