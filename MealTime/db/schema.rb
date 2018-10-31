@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_13_223520) do
+ActiveRecord::Schema.define(version: 2018_10_27_211120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 2018_10_13_223520) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "allergens_ingredients", id: false, force: :cascade do |t|
-    t.bigint "ingredient_id", null: false
+  create_table "allergens_ingredients", force: :cascade do |t|
     t.bigint "allergen_id", null: false
+    t.bigint "ingredient_id", null: false
     t.index ["allergen_id"], name: "index_allergens_ingredients_on_allergen_id"
     t.index ["ingredient_id"], name: "index_allergens_ingredients_on_ingredient_id"
   end
@@ -60,6 +60,16 @@ ActiveRecord::Schema.define(version: 2018_10_13_223520) do
     t.bigint "ingredients_id"
   end
 
+  create_table "ingredients_recipes", force: :cascade do |t|
+    t.bigint "ingredient_id", null: false
+    t.bigint "recipe_id", null: false
+    t.decimal "amount"
+    t.bigint "uom_id"
+    t.index ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id"
+    t.index ["recipe_id"], name: "index_ingredients_recipes_on_recipe_id"
+    t.index ["uom_id"], name: "index_ingredients_recipes_on_uom_id"
+  end
+
   create_table "meal_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -76,6 +86,21 @@ ActiveRecord::Schema.define(version: 2018_10_13_223520) do
     t.index ["meal_type_id"], name: "index_meals_on_meal_type_id"
     t.index ["recipe_id"], name: "index_meals_on_recipe_id"
     t.index ["user_id"], name: "index_meals_on_user_id"
+  end
+
+  create_table "meals_recipes", force: :cascade do |t|
+    t.bigint "meal_id", null: false
+    t.bigint "recipe_id", null: false
+    t.decimal "portion_count"
+    t.index ["meal_id"], name: "index_meals_recipes_on_meal_id"
+    t.index ["recipe_id"], name: "index_meals_recipes_on_recipe_id"
+  end
+
+  create_table "meals_users", force: :cascade do |t|
+    t.bigint "meal_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["meal_id"], name: "index_meals_users_on_meal_id"
+    t.index ["user_id"], name: "index_meals_users_on_user_id"
   end
 
   create_table "recipes", force: :cascade do |t|
@@ -150,12 +175,14 @@ ActiveRecord::Schema.define(version: 2018_10_13_223520) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.string "auth_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
   add_foreign_key "budgets", "users"
-  add_foreign_key "meals", "meal_types"
+  add_foreign_key "ingredients_recipes", "uoms"
+  add_foreign_key "meals", "meal_types", on_delete: :nullify
   add_foreign_key "meals", "recipes"
   add_foreign_key "meals", "users"
   add_foreign_key "recipes", "users"

@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  dateVisited: 2018-10-02
+  date_visited: 2018-10-02
 
 two:
-  dateVisited: 2018-10-02
+  date_visited: 2018-10-02

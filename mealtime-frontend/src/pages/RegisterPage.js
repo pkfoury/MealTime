@@ -11,7 +11,6 @@ class RegisterPage extends Component {
             email: '',
             password: '',
             password_confirmation: '',
-            user: ''
         };
         this.updateUsername = this.updateUsername.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
@@ -44,7 +43,6 @@ class RegisterPage extends Component {
             'email': this.state.email,
             'password': this.state.password,
             'password_confirmation': this.state.password_confirmation
-
         };
 
         axios.post('http://127.0.0.1:3000/api/v1/users', userInfo)
@@ -53,10 +51,6 @@ class RegisterPage extends Component {
                 this.setState({
                     user: data
                 });
-            })
-
-            .then((res) => {
-                console.log('second request is okay');
             })
 
             .catch((err) => {
@@ -69,17 +63,17 @@ class RegisterPage extends Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label for="Username">
+                        <label htmlFor="Username">
                             Username:
                             <input type="text" className="form-control" id="userName" placeholder="Enter Username" onChange={this.updateUsername} />
                         </label>
                         <div />
-                        <label for="Email">
+                        <label htmlFor="Email">
                             Email:
                             <input type="text" className="form-control" id="email" placeholder="Your Email" onChange={this.updateEmail} />
                         </label>
                         <div />
-                        <label for="Password">
+                        <label htmlFor="Password">
                             Password:
                             <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.updatePassword} />
                         </label>
