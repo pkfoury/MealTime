@@ -30,7 +30,7 @@ class User < ApplicationRecord
 
     # This will digest and hash a given string
 
-    def self.digest(string)
+    def User.digest(string)
         cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
         BCrypt::Password.create(string, cost: cost)
     end
@@ -39,7 +39,7 @@ class User < ApplicationRecord
 
     def remember
         self.auth_token = User.new_token
-        update_attribute(:auth_digest, Digest::SHA1.hexdigest(auth_token))
+        update_attribute(:auth_digest, User.digest(auth_token))
     end
 
     # Creates and returns a new auth_token
@@ -56,8 +56,8 @@ class User < ApplicationRecord
         BCrypt::Password.new(auth_digest).is_password?(auth_token)
     end
 
-    def forget_user
-        update_attribute(:auth_digest, nil)
-    end
+    # def forget_user
+    #     update_attribute(:auth_digest, nil)
+    # end
 
 end
