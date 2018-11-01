@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import './AddRecipe.css';
+import dateFns from 'date-fns';
+import { apiPost } from '../functions/Api';
 
 class AddRecipe extends Component {
   constructor(props) {
@@ -18,14 +19,16 @@ class AddRecipe extends Component {
       selectedItem: null,
       specific: null,
       specifics: [],
-      recipeName: '',
+      recipe_name: '',
       instructions: '',
       time: 0,
       difficulty: 1,
       tempAmount: 0,
-      tempUom: null
-    }
-    this.updateRecipeName = this.updateRecipeName.bind(this);
+      tempUom: null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.updaterecipe_name = this.updaterecipe_name.bind(this);
     this.updateInstructions = this.updateInstructions.bind(this);
     this.updateTime = this.updateTime.bind(this);
     this.updateDifficulty = this.updateDifficulty.bind(this);
@@ -33,8 +36,9 @@ class AddRecipe extends Component {
     this.updateUom = this.updateUom.bind(this);
   }
 
-  updateRecipeName (e) {
-    this.setState({ recipeName: e.target.value });
+  updaterecipe_name (e) {
+    this.setState({ recipe_name: e.target.value });
+    console.log(this.state.recipe_name);
   }
 
   updateInstructions (e) {
@@ -98,7 +102,7 @@ class AddRecipe extends Component {
           name: jsonData.report.foods[0],
           amount: this.state.tempAmount,
           uom: this.state.tempUom
-        }
+        };
         var arrayIngredients = this.state.ingredients.slice();
         arrayIngredients.push(item);
         this.setState({ items: arrayItems, ingredients: arrayIngredients, dropdownItems: [], selectedItem: null, specifics: arrayTerms, specific: null });
@@ -108,25 +112,23 @@ class AddRecipe extends Component {
   }
 
   handleSubmit(event) {
+
     event.preventDefault();
-    console.log(this.state);
     const recipeInfo = {
-      recipe_name: this.state.recipeName,
-      instructions: this.state.instructions,
-      cook_time: this.state.time,
-      ingredients: this.state.ingredients
+      'recipe_name': this.state.recipe_name,
+      'instructions': this.state.instructions,
+      'cook_time': this.state.time,
+      'ingredients': this.state.ingredients,
+      'instructions': this.state.instructions,
+
     };
 
-    axios.post('http://127.0.0.1:3000/api/v1/recipes', recipeInfo)
-      .then(({data}) => {
+    apiPost('add_recipe', recipeInfo)
+      .then(({data})=> {
         console.log(data);
-        this.setState({
-          user: data
-        });
-      })
-
-      .then((res) => {
-        console.log('second request is okay');
+        if (data.status === "SUCCESS") {
+          this.props.history.push('/add-recipe')
+        }
       })
 
       .catch((err) => {
@@ -143,7 +145,7 @@ class AddRecipe extends Component {
               <label>Recipe Name</label>
             </div>
             <div className="col-75">
-              <input type="text" id="rName" name="recipeName" placeholder="Your recipe name..." onChange={this.updateRecipeName} />
+              <input type="text" id="recipe_name" name="recipe_name" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
             </div>
           </div>
           <div className="row">
@@ -221,11 +223,11 @@ class AddRecipe extends Component {
             </div>
           </div>
           <div className="row">
-            <input type="submit" value="Submit"/>
+            <input className="btn btn-primary btn-lg" type="submit" value="Submit"/>
           </div>
         </form>
       </div>
-    )
+    );
   }
 }
 

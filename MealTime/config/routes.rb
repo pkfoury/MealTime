@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
       resources :recipes
-      get '/add-recipe', to: 'add_recipes#new'
+      get '/add-recipe', to: 'add_recipes#index'
       post '/add-recipe', to: 'add_recipes#submit'
       resources :meals
       resources :user_votes
