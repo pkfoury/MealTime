@@ -14,16 +14,17 @@ import {
 } from 'reactstrap';
 
 import { apiDelete } from '../functions/Api';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 
-export default class Example extends Component {
+class Example extends Component {
 	constructor(props) {
 		super(props);
 		this.logout = this.logout.bind(this)
 		this.toggle = this.toggle.bind(this);
+
 		this.state = {
-		isOpen: false
+			isOpen: false
 		};
 	}
 	
@@ -34,8 +35,11 @@ export default class Example extends Component {
 		.then( data => {
 			console.log(data.data.status);
 			if (data.data.status === "SUCCESS") {
-				this.history.push('/login');
+
+				this.props.history.push('/');
 				localStorage.removeItem('token');
+				this.toggle()
+
 			}
 		})
 
@@ -83,3 +87,4 @@ export default class Example extends Component {
 		);
 	}
 }
+export default withRouter(Example)
