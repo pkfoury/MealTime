@@ -20,7 +20,6 @@ class DailyEntryPage extends Component {
         fetch(link).then(function(response) {
             return response.json();
         }).then(function(jsonData) {
-            console.log(jsonData);
             if (jsonData.list == null) {
                 return;
             }
@@ -37,10 +36,11 @@ class DailyEntryPage extends Component {
         if (this.state.selectedItem == null) {
             return; // Failure
         }
-        var link='https://api.nal.usda.gov/ndb/nutrients/?format=json&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H&ndbno=' + this.state.selectedItem.ndbno + '&nutrients=208';
+        var link='https://api.nal.usda.gov/ndb/nutrients/?format=json&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H&ndbno=' + this.state.selectedItem.ndbno + '&nutrients=208&nutrients=203&nutrients=204&nutrients=205';
         fetch(link).then(function(response) {
             return response.json();
         }).then(function(jsonData) {
+            console.log(jsonData);
             var arrayItems = this.grabMealArray(meal).slice();
             arrayItems.push(jsonData.report.foods[0]);
             this.setState({ dropdownItems: [], selectedItem: null, totalCalorieCount: this.state.totalCalorieCount + +jsonData.report.foods[0].nutrients[0].value });
@@ -80,7 +80,6 @@ class DailyEntryPage extends Component {
     }
 
     deleteItemFromMeal(meal, itemName) {
-        console.log("Deleting " + itemName + " from " + meal);
         var mealArray = this.grabMealArray(meal);
         for (let i = 0; i < mealArray.length; i++) {
             if (mealArray[i].name === itemName) {
@@ -129,23 +128,29 @@ class DailyEntryPage extends Component {
                     <br />
                 </div>
                 <div className="row">
-                    <div className="col-lg-8 col-centered">
+                    <div className="col-lg-9 col-centered">
                         <div className="breakfast-container">
                             <div className="row">
                                 <h3 className="col-lg-4">Breakfast</h3>
                                 <hr />
                             </div>
                             <div className="row">
-                                <h6 className="col-lg-4">Item</h6>
-                                <h6 className="col-lg-3">Measurement</h6>
-                                <h6 className="col-lg-3">Calories</h6>
+                                <h6 className="col-lg-3">Item</h6>
+                                <h6 className="col-lg-2">Measurement</h6>
+                                <h6 className="col-lg-2">Calories</h6>
+                                <h6 className="col-lg-1">Protein</h6>
+                                <h6 className="col-lg-1">Fat</h6>
+                                <h6 className="col-lg-1">Carbs</h6>
                                 <h6 className="col-lg-1"></h6>
                             </div>
                             {this.state.breakfastItems.map((item, index) => (
                                 <div key={item.name} className="selected-item-row row">
-                                    <div className="col-lg-4">{item.name}</div>
-                                    <div className="col-lg-3">{item.measure}</div>
-                                    <div className="col-lg-3">{item.nutrients[0].value} calories</div>
+                                    <div className="col-lg-3">{item.name}</div>
+                                    <div className="col-lg-2">{item.measure}</div>
+                                    <div className="col-lg-2">{item.nutrients[0].value}</div>
+                                    <div className="col-lg-1">{item.nutrients[1].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[2].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[3].value} g</div>
                                     <div className="col-lg-1">
                                         <button className="btn btn-danger removeButton" onClick={() => this.deleteItemFromMeal("breakfast", item.name)}>Remove</button>
                                     </div>
@@ -158,16 +163,22 @@ class DailyEntryPage extends Component {
                                 <hr />
                             </div>
                             <div className="row">
-                                <h6 className="col-lg-4">Item</h6>
-                                <h6 className="col-lg-3">Measurement</h6>
-                                <h6 className="col-lg-3">Calories</h6>
+                                <h6 className="col-lg-3">Item</h6>
+                                <h6 className="col-lg-2">Measurement</h6>
+                                <h6 className="col-lg-2">Calories</h6>
+                                <h6 className="col-lg-1">Protein</h6>
+                                <h6 className="col-lg-1">Fat</h6>
+                                <h6 className="col-lg-1">Carbs</h6>
                                 <h6 className="col-lg-1"></h6>
                             </div>
                             {this.state.lunchItems.map((item, index) => (
                                 <div key={item.name} className="selected-item-row row">
-                                    <div className="col-lg-4">{item.name}</div>
-                                    <div className="col-lg-3">{item.measure}</div>
-                                    <div className="col-lg-3">{item.nutrients[0].value} calories</div>
+                                    <div className="col-lg-3">{item.name}</div>
+                                    <div className="col-lg-2">{item.measure}</div>
+                                    <div className="col-lg-2">{item.nutrients[0].value}</div>
+                                    <div className="col-lg-1">{item.nutrients[1].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[2].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[3].value} g</div>
                                     <div className="col-lg-1">
                                         <button className="btn btn-danger removeButton" onClick={() => this.deleteItemFromMeal("lunch", item.name)}>Remove</button>
                                     </div>
@@ -180,16 +191,22 @@ class DailyEntryPage extends Component {
                                 <hr />
                             </div>
                             <div className="row">
-                                <h6 className="col-lg-4">Item</h6>
-                                <h6 className="col-lg-3">Measurement</h6>
-                                <h6 className="col-lg-3">Calories</h6>
+                                <h6 className="col-lg-3">Item</h6>
+                                <h6 className="col-lg-2">Measurement</h6>
+                                <h6 className="col-lg-2">Calories</h6>
+                                <h6 className="col-lg-1">Protein</h6>
+                                <h6 className="col-lg-1">Fat</h6>
+                                <h6 className="col-lg-1">Carbs</h6>
                                 <h6 className="col-lg-1"></h6>
                             </div>
                             {this.state.dinnerItems.map((item, index) => (
                                 <div key={item.name} className="selected-item-row row">
-                                    <div className="col-lg-4">{item.name}</div>
-                                    <div className="col-lg-3">{item.measure}</div>
-                                    <div className="col-lg-3">{item.nutrients[0].value} calories</div>
+                                    <div className="col-lg-3">{item.name}</div>
+                                    <div className="col-lg-2">{item.measure}</div>
+                                    <div className="col-lg-2">{item.nutrients[0].value}</div>
+                                    <div className="col-lg-1">{item.nutrients[1].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[2].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[3].value} g</div>
                                     <div className="col-lg-1">
                                         <button className="btn btn-danger removeButton" onClick={() => this.deleteItemFromMeal("dinner", item.name)}>Remove</button>
                                     </div>
@@ -202,16 +219,22 @@ class DailyEntryPage extends Component {
                                 <hr />
                             </div>
                             <div className="row">
-                                <h6 className="col-lg-4">Item</h6>
-                                <h6 className="col-lg-3">Measurement</h6>
-                                <h6 className="col-lg-3">Calories</h6>
+                                <h6 className="col-lg-3">Item</h6>
+                                <h6 className="col-lg-2">Measurement</h6>
+                                <h6 className="col-lg-2">Calories</h6>
+                                <h6 className="col-lg-1">Protein</h6>
+                                <h6 className="col-lg-1">Fat</h6>
+                                <h6 className="col-lg-1">Carbs</h6>
                                 <h6 className="col-lg-1"></h6>
                             </div>
                             {this.state.snackItems.map((item, index) => (
                                 <div key={item.name} className="selected-item-row row">
-                                    <div className="col-lg-4">{item.name}</div>
-                                    <div className="col-lg-3">{item.measure}</div>
-                                    <div className="col-lg-3">{item.nutrients[0].value} calories</div>
+                                    <div className="col-lg-3">{item.name}</div>
+                                    <div className="col-lg-2">{item.measure}</div>
+                                    <div className="col-lg-2">{item.nutrients[0].value}</div>
+                                    <div className="col-lg-1">{item.nutrients[1].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[2].value} g</div>
+                                    <div className="col-lg-1">{item.nutrients[3].value} g</div>
                                     <div className="col-lg-1">
                                         <button className="btn btn-danger removeButton" onClick={() => this.deleteItemFromMeal("snacks", item.name)}>Remove</button>
                                     </div>
