@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_27_211120) do
+ActiveRecord::Schema.define(version: 2018_11_01_184259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,11 +49,11 @@ ActiveRecord::Schema.define(version: 2018_10_27_211120) do
     t.integer "total_carbs", default: 0, null: false
     t.integer "protein", default: 0, null: false
     t.decimal "serving_size", null: false
-    t.decimal "dvTotal_fat", default: "0.0", null: false
-    t.decimal "dvTrans_fat", default: "0.0", null: false
+    t.decimal "dv_total_fat", default: "0.0", null: false
+    t.decimal "dv_trans_fat", default: "0.0", null: false
     t.decimal "dv_cholesterol", default: "0.0", null: false
     t.decimal "dv_sodium", default: "0.0", null: false
-    t.decimal "dv_sarbs", default: "0.0", null: false
+    t.decimal "dv_carbs", default: "0.0", null: false
     t.decimal "dv_protein", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -176,21 +176,23 @@ ActiveRecord::Schema.define(version: 2018_10_27_211120) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "auth_digest"
+    t.boolean "track_macro"
+    t.boolean "first_time"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
-  add_foreign_key "budgets", "users"
+  add_foreign_key "budgets", "users", on_delete: :cascade
   add_foreign_key "ingredients_recipes", "uoms"
   add_foreign_key "meals", "meal_types", on_delete: :nullify
   add_foreign_key "meals", "recipes"
-  add_foreign_key "meals", "users"
-  add_foreign_key "recipes", "users"
-  add_foreign_key "restaurant_histories", "restaurants"
-  add_foreign_key "restaurant_histories", "users"
-  add_foreign_key "restaurant_preferences", "restaurants"
-  add_foreign_key "restaurant_preferences", "users"
-  add_foreign_key "user_locations", "users"
-  add_foreign_key "user_votes", "recipes"
-  add_foreign_key "user_votes", "users"
+  add_foreign_key "meals", "users", on_delete: :cascade
+  add_foreign_key "recipes", "users", on_delete: :nullify
+  add_foreign_key "restaurant_histories", "restaurants", on_delete: :cascade
+  add_foreign_key "restaurant_histories", "users", on_delete: :cascade
+  add_foreign_key "restaurant_preferences", "restaurants", on_delete: :cascade
+  add_foreign_key "restaurant_preferences", "users", on_delete: :cascade
+  add_foreign_key "user_locations", "users", on_delete: :cascade
+  add_foreign_key "user_votes", "recipes", on_delete: :cascade
+  add_foreign_key "user_votes", "users", on_delete: :cascade
 end
