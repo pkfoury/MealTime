@@ -2,6 +2,8 @@
 
 one:
   date_visited: 2018-10-02
+  user_id: 12
 
 two:
   date_visited: 2018-10-02
+  user_id: 12
