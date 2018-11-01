@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { apiPost } from '../functions/Api';
 
 class LoginPage extends Component {
-    constructor(props) { 
+    constructor(props) {
         super(props);
         this.state = {
             showPopup: false,
@@ -47,7 +47,7 @@ class LoginPage extends Component {
                 if (err.response && err.response.status === 401) {
                     alert('Invalid username and password combination');
                 }
-                
+
                 else {
                     alert("Not a login error, figure it out");
                     console.log(err.message);

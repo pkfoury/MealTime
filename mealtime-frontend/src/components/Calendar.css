@@ -76,6 +76,19 @@ main {
   width: 100%;
 }
 
+.page {
+  content: "";
+  display: flex;
+  clear: both;
+  margin-top: 3.5em;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 1.5em;
+}
+
 .row-middle {
   align-items: center;
 }
@@ -185,6 +198,24 @@ main {
   top: .75em;
   right: .75em;
   font-weight: 700;
+}
+
+.calendar .body .cell .dailyCal {
+  position: absolute;
+  font-size: 75%;
+  line-height: 1;
+  top: 1.75em;
+  left: .75em;
+  font-weight: 400;
+}
+
+.calendar .body .cell .dailyBud {
+  position: absolute;
+  font-size: 75%;
+  line-height: 1;
+  top: 3.25em;
+  left: .75em;
+  font-weight: 400;
 }
 
 .calendar .body .disabled {
