@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Routes from './routes'
-import Nav from './components/Nav'
+import Routes from './routes';
+import { browserRouter } from 'react-router';
+import Nav from './components/Nav';
 
 class App extends Component {
   render() {
