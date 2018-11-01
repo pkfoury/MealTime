@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './AddRecipe.css';
 import dateFns from 'date-fns';
 import { apiPost } from '../functions/Api';
+import {Link} from 'react-router-dom';
+import { getTime } from 'date-fns';
+import axios from 'axios';
 
 class AddRecipe extends Component {
   constructor(props) {
@@ -21,12 +24,10 @@ class AddRecipe extends Component {
       specifics: [],
       recipe_name: '',
       instructions: '',
-      time: 0,
+      time: "",
       difficulty: 1,
       tempAmount: 0,
       tempUom: null,
-      createdAt: new Date(),
-      updatedAt: new Date()
     };
     this.updaterecipe_name = this.updaterecipe_name.bind(this);
     this.updateInstructions = this.updateInstructions.bind(this);
@@ -34,11 +35,12 @@ class AddRecipe extends Component {
     this.updateDifficulty = this.updateDifficulty.bind(this);
     this.updateAmount = this.updateAmount.bind(this);
     this.updateUom = this.updateUom.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   updaterecipe_name (e) {
     this.setState({ recipe_name: e.target.value });
-    console.log(this.state.recipe_name);
+    //console.log(this.state.recipe_name);
   }
 
   updateInstructions (e) {
@@ -85,8 +87,6 @@ class AddRecipe extends Component {
   addItemToSpecificIngredientsList() {
     var arrayTerms = this.state.specifics.slice();
     if (this.state.selectedItem == null) {
-      arrayTerms.push(this.state.specific);
-      this.setState({ dropdownItems: [], selectedItem: null, specifics: arrayTerms, specific: null});
       this.refs.foodSearch.value = '';
     }
     else {
@@ -99,7 +99,7 @@ class AddRecipe extends Component {
         arrayItems.push(jsonData.report.foods[0]);
         arrayTerms.push(jsonData.report.foods[0].name);
         const item = {
-          name: jsonData.report.foods[0],
+          name: jsonData.report.foods[0].name,
           amount: this.state.tempAmount,
           uom: this.state.tempUom
         };
@@ -108,11 +108,11 @@ class AddRecipe extends Component {
         this.setState({ items: arrayItems, ingredients: arrayIngredients, dropdownItems: [], selectedItem: null, specifics: arrayTerms, specific: null });
         this.refs.foodSearch.value = '';
       }.bind(this));
+      console.log(this.state.ingredients);
     }
   }
 
   handleSubmit(event) {
-
     event.preventDefault();
     const recipeInfo = {
       'recipe_name': this.state.recipe_name,
@@ -120,14 +120,13 @@ class AddRecipe extends Component {
       'cook_time': this.state.time,
       'ingredients': this.state.ingredients,
       'instructions': this.state.instructions,
-
     };
 
-    apiPost('add_recipe', recipeInfo)
+    axios.post('http://127.0.0.1:3000/api/v1/add_recipes', recipeInfo)
       .then(({data})=> {
         console.log(data);
         if (data.status === "SUCCESS") {
-          this.props.history.push('/add-recipe')
+          this.props.history.push('/add-recipe');
         }
       })
 
@@ -140,14 +139,15 @@ class AddRecipe extends Component {
     return (
       <div className="AddRecipe">
         <form onSubmit={this.handleSubmit}>
-          <div className="row">
-            <div className="col-25">
-              <label>Recipe Name</label>
+          <div className="form-group">
+            <div className="row">
+              <div className="col-25">
+                <label>Recipe Name</label>
+              </div>
+              <div className="col-75">
+                <input type="text" id="recipe_name" name="recipe_name" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
+              </div>
             </div>
-            <div className="col-75">
-              <input type="text" id="recipe_name" name="recipe_name" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
-            </div>
-          </div>
           <div className="row">
             <div className="col-25">
               <label>Ingredient</label>
@@ -171,7 +171,7 @@ class AddRecipe extends Component {
               <input type="number" id="count" name="ingredientCount" placeholder="1" step="1" min="1" onChange={this.updateAmount} />
             </div>
             <div className="col-20">
-              <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)"/>
+              <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)" onChange={this.updateUom} />
             </div>
           </div>
           <div>
@@ -205,7 +205,7 @@ class AddRecipe extends Component {
               <label>Time to Cook in Minutes</label>
             </div>
             <div className="col-75">
-              <input type="number" id="time" name="timeToCook" placeholder="0" step="1" min="0" onChange={this.updateTime} />
+              <input type="string" id="time" name="timeToCook" placeholder="00:00"  onChange={this.updateTime} />
             </div>
           </div>
           <div className="row">
@@ -224,6 +224,7 @@ class AddRecipe extends Component {
           </div>
           <div className="row">
             <input className="btn btn-primary btn-lg" type="submit" value="Submit"/>
+          </div>
           </div>
         </form>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import dateFns from 'date-fns';
 import './Calendar.css';
+import { apiGet } from '../functions/Api';
 
 class Calendar extends Component {
   state = {
@@ -96,7 +97,7 @@ class Calendar extends Component {
   onDateClick = day => {
     this.setState({
       selectedDate: day,
-      calories: 3
+      calories: apiGet()
     });
   };
 
