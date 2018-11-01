@@ -24,7 +24,7 @@ export function apiDelete (endpoint, token = getToken()) {
     method: 'DELETE',
     headers: getHeaders(token)
   }
-
+  
   return axios.delete(`${API_URL}${endpoint}/`, options)
 }
 
