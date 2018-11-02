@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import './general.css'
+import './general.css';
+import { apiPost } from '../functions/Api';
+import { apiGet } from '../functions/Api';
 
 class DailyEntryPage extends Component {
     constructor(props) {
@@ -11,7 +13,8 @@ class DailyEntryPage extends Component {
             dinnerItems: [],
             snackItems: [],
             selectedItem: null,
-            totalCalorieCount: 0
+            totalCalorieCount: 0,
+            itemIsAUserRecipe: false
         }
     }
 
@@ -30,22 +33,58 @@ class DailyEntryPage extends Component {
                 this.setState({ selectedItem: items[0] });
             }
         }.bind(this));
+
+        // Search our backend for recipes.
+        const searchQuery = { 'searchQuery' : term };
+        apiGet('search/' + term).then(({data}) => {
+            console.log(data.data);
+            if (data.data != null) {
+                this.setState({ selectedItem: data.data, itemIsAUserRecipe: true });
+            } else {
+                this.setState({ itemIsAUserRecipe: false });
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     addItemToDailyList(meal) {
         if (this.state.selectedItem == null) {
             return; // Failure
         }
+        
+        var arrayItems = this.grabMealArray(meal).slice();
+
+        if (this.state.itemIsAUserRecipe) {
+            console.log("Selecte item below");
+            console.log(this.state.selectedItem);
+            let newObject = { 
+                name: this.state.selectedItem["recipe_name"],
+                measure: '1 Serving',
+                nutrients: [
+                    { 'value': '-' },
+                    { 'value': '-' },
+                    { 'value': '-' },
+                    { 'value': '-' },
+                ]
+            }
+
+            arrayItems.push(newObject);
+            this.setMealArray(meal, arrayItems);
+            this.setState({ dropdownItems: [], selectedItem: null});
+            this.refs.foodSearch.value = '';
+            return;
+        }
         var link='https://api.nal.usda.gov/ndb/nutrients/?format=json&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H&ndbno=' + this.state.selectedItem.ndbno + '&nutrients=208&nutrients=203&nutrients=204&nutrients=205';
         fetch(link).then(function(response) {
             return response.json();
         }).then(function(jsonData) {
             console.log(jsonData);
-            var arrayItems = this.grabMealArray(meal).slice();
             arrayItems.push(jsonData.report.foods[0]);
             this.setState({ dropdownItems: [], selectedItem: null, totalCalorieCount: this.state.totalCalorieCount + +jsonData.report.foods[0].nutrients[0].value });
             this.setMealArray(meal, arrayItems);
             this.refs.foodSearch.value = '';
+        
         }.bind(this));
     }
 
@@ -89,6 +128,21 @@ class DailyEntryPage extends Component {
             }
         }
         this.setMealArray(meal, mealArray);
+    }
+
+    saveResults() {
+        const mealInfo = {
+            'meal': 'Lunch',
+            'user': 'Evan'
+        };
+    
+       apiPost('add-meal', mealInfo).then(({data}) => 
+            {
+                console.log("Data Returned from Add Meal");
+                console.log(data);
+            }).catch((err) => {
+                console.log(err);
+            });
     }
 
     render() {
@@ -254,7 +308,7 @@ class DailyEntryPage extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <button className="btn btn-success col-lg-8 col-centered">Save Results for Day</button>
+                    <button className="btn btn-success col-lg-8 col-centered" onClick={() => this.saveResults()}>Save Results for Day</button>
                 </div>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
               integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
