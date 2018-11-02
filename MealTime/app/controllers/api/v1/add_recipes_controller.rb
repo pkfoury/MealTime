@@ -10,7 +10,6 @@ module Api
 
       def create
         recipe = Recipe.new(recipe_params)
-        ingredients = Ingredient.find_by(name: params["body"]["ingredients"]["name"])
         logger.debug "New recipe: #{recipe.attributes.inspect}"
         logger.debug "Recipe should be valid: #{recipe.valid?}"
         if recipe.save

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './AddRecipe.css';
 import dateFns from 'date-fns';
 import { apiPost } from '../functions/Api';
+import axios from 'axios';
+import { apiGet } from '../functions/Api';
 
 class AddRecipe extends Component {
   constructor(props) {
@@ -25,6 +27,7 @@ class AddRecipe extends Component {
       difficulty: 1,
       tempAmount: 0,
       tempUom: null,
+      user_id: null
     };
     this.updaterecipe_name = this.updaterecipe_name.bind(this);
     this.updateInstructions = this.updateInstructions.bind(this);
@@ -121,6 +124,7 @@ class AddRecipe extends Component {
     };
 
     axios.post('http://127.0.0.1:3000/api/v1/add_recipes', recipeInfo)
+  //  apiPost('add_recipes', recipeInfo)
       .then(({data})=> {
         console.log(data);
         if (data.status === "SUCCESS") {
@@ -146,20 +150,6 @@ class AddRecipe extends Component {
                 <input type="text" id="recipe_name" name="recipe_name" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
               </div>
             </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Ingredient</label>
-            </div>
-            <div className="col-75">
-              <input type="text" id="recipe_name" name="recipe_name" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
-            </div>
-            <div className="col-20">
-              <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)" onChange={this.updateUom} />
-            </div>
-          </div>
-          <div>
-            <button type="button" className="btn-success btn" onClick={() => this.addItemToSpecificIngredientsList()}>Add Specific Ingredient</button>
-          </div>
           <div className="row">
             <div className="col-25">
               <label>Ingredient</label>
