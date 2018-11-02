@@ -14,14 +14,10 @@ module Api
             end
 
             def create
-                meal = Meal.new(meal_params)
-                if meal.save
-                    render json: {status: 'SUCCESS', message: 'Meal created', data:meal}, status: :ok
-                else
-                    render json: {status: 'ERROR', message: 'Meal not created', data:meal.errors}, status: :unprocessable_entity
-
-                end
+                p "MEAL PARAMS: "
+                p params["body"]
             end
+
             def destroy
                 meal = Meal.find(params[:id])
                 meal.destroy

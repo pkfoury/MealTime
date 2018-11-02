@@ -3,7 +3,11 @@
 one:
   date_visited: 2018-10-02
   user_id: 12
+  created_at: 2018-10-02
+  updated_at: 2018-10-02
 
 two:
   date_visited: 2018-10-02
   user_id: 12
+  created_at: 2018-10-02
+  updated_at: 2018-10-02
