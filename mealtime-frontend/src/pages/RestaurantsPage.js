@@ -15,9 +15,10 @@ class RestaurantsPage extends Component {
     const YELP = require('yelp-fusion');
     const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
     const SEARCH_REQUEST = { 
+      term: "restaurants",
       term: searchTerm,
-      location: 'west lafayette, in'
-     };
+      location: 'west lafayette, in',
+    };
     const YELP_CLIENT = YELP.client(API_KEY);
 
     YELP_CLIENT.search(SEARCH_REQUEST).then(

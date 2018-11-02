@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { apiPost } from '../functions/Api';
 
 class RegisterPage extends Component {
 
@@ -51,6 +52,21 @@ class RegisterPage extends Component {
                 this.setState({
                     user: data
                 });
+
+                var user_id = data.id;
+
+                if (data.message === "User Created") {
+
+                    apiPost('login', userInfo)
+                    .then(({data}) => {
+                        if (data.status === "SUCCESS") {
+                            localStorage.setItem('token', data.data);
+                        }
+                    })
+
+                    this.props.history.push('/first-time-user/' + user_id);
+                    
+                }
             })
 
             .catch((err) => {
@@ -87,7 +103,7 @@ class RegisterPage extends Component {
                     </div>
                 </form>
 
-                <Link to='/login' activeClassName="active">Back to login</Link>
+                <Link to='/login' className="active">Back to login</Link>
             </div>
         );
     }

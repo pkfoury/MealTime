@@ -5,11 +5,11 @@ module Api
             # skip_before_action :require_token
 
             def index
-                tok = request.headers["Token"]
-                user = User.find_by(auth_digest: tok)
-                render json: {status: 'Hit the index', data: user}, status: :ok
-                # users = User.order("created_at DESC")
-                # render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
+                # tok = request.headers["Token"]
+                # user = User.find_by(auth_digest: tok)
+                # render json: {status: 'Hit the index', data: user}, status: :ok
+                users = User.order("created_at DESC")
+                render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
             end
 
             def show
@@ -20,10 +20,25 @@ module Api
             def create
                 user = User.new(user_params)
                 if user.save
-                    render json: {status: 'SUCCESS', message: 'User Created', data:user}, status: :ok
+                    user.track_macro = false;
+                    render json: {status: 'SUCCESS', message: 'User Created', data:user, id: user.id}, status: :ok
                 else
                     render json: {status: 'ERROR', message: 'User not created', data:user.errors}, status: :unprocessable_entity 
                 end
+            end
+
+            def update
+                user = User.find_by(auth_digest: params["headers"]["Token"])
+                if user
+                    if params["body"]["showMacros"] == true
+                        user.track_macro = true
+                        render json: {status: 'TRUE', message: 'Macro boolean flipped'}, status: :ok
+                    else
+                        render json: {status: 'FALSE', message: 'Macros are false'}, status: :ok
+                    end
+                    
+                end
+
             end
 
             def destroy
