@@ -20,6 +20,7 @@ class App extends Component {
 	get() {
 		if(this.state.flag === 0){
 			apiGet('ingredients').then(({data}) => {
+				console.log(data);
 				this.setState({ calories: data.data.calories, protein: data.data.protein, total_fat: data.data.total_fat, flag: 1 })
 			});
 		}
