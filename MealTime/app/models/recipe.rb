@@ -17,7 +17,7 @@ class Recipe < ApplicationRecord
         self.meal.update_nutrition(self.total_calories, self.total_fat, self.total_trans_fat, self.total_cholesterol, self.total_sodium,
             self.total_carbs, self.total_protein)
     }
-    def update_nutrition(input_cals. total_fat, trans_fat, cholesterol, sodium, total_carbs, protein)
+    def update_nutrition(input_cals, total_fat, trans_fat, cholesterol, sodium, total_carbs, protein)
         self.update_attributes(:total_calories => :total_calories + input_cals,
             :total_fat => :total_fat + total_fat,
             :trans_fat => :trans_fat + trans_fat,

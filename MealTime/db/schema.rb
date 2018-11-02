@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2018_11_02_070208) do
-=======
-ActiveRecord::Schema.define(version: 2018_11_02_052321) do
->>>>>>> master
+ActiveRecord::Schema.define(version: 2018_11_01_184259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +57,7 @@ ActiveRecord::Schema.define(version: 2018_11_02_052321) do
     t.decimal "dv_protein", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "ingredients_id"
   end
 
   create_table "ingredients_recipes", force: :cascade do |t|
@@ -84,34 +81,17 @@ ActiveRecord::Schema.define(version: 2018_11_02_052321) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.bigint "recipe_id"
     t.bigint "meal_type_id"
-    t.integer "total_calories", default: 0
-    t.integer "total_fat"
-    t.integer "total_trans_fat"
-    t.integer "total_cholesterol"
-    t.integer "total_sodium"
-    t.integer "total_carbs"
-    t.integer "total_protein"
     t.index ["meal_type_id"], name: "index_meals_on_meal_type_id"
+    t.index ["recipe_id"], name: "index_meals_on_recipe_id"
     t.index ["user_id"], name: "index_meals_on_user_id"
-  end
-
-  create_table "meals_ingredients", force: :cascade do |t|
-    t.bigint "meal_id", null: false
-    t.bigint "ingredient_id", null: false
-    t.decimal "portion_count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["ingredient_id"], name: "index_meals_ingredients_on_ingredient_id"
-    t.index ["meal_id"], name: "index_meals_ingredients_on_meal_id"
   end
 
   create_table "meals_recipes", force: :cascade do |t|
     t.bigint "meal_id", null: false
     t.bigint "recipe_id", null: false
     t.decimal "portion_count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["meal_id"], name: "index_meals_recipes_on_meal_id"
     t.index ["recipe_id"], name: "index_meals_recipes_on_recipe_id"
   end
@@ -131,14 +111,6 @@ ActiveRecord::Schema.define(version: 2018_11_02_052321) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.boolean "public", default: false
-    t.integer "total_calories"
-    t.integer "total_fat"
-    t.integer "total_trans_fat"
-    t.integer "total_cholesterol"
-    t.integer "total_sodium"
-    t.integer "total_carbs"
-    t.integer "total_protein"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
@@ -206,7 +178,6 @@ ActiveRecord::Schema.define(version: 2018_11_02_052321) do
     t.string "auth_digest"
     t.boolean "track_macro"
     t.boolean "first_time"
-    t.string "image_url"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
@@ -214,6 +185,7 @@ ActiveRecord::Schema.define(version: 2018_11_02_052321) do
   add_foreign_key "budgets", "users", on_delete: :cascade
   add_foreign_key "ingredients_recipes", "uoms"
   add_foreign_key "meals", "meal_types", on_delete: :nullify
+  add_foreign_key "meals", "recipes"
   add_foreign_key "meals", "users", on_delete: :cascade
   add_foreign_key "recipes", "users", on_delete: :nullify
   add_foreign_key "restaurant_histories", "restaurants", on_delete: :cascade

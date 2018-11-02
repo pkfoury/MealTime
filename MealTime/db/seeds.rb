@@ -19,3 +19,12 @@
 
 @meal1 = Meal.new(date_of_meal: "2018-9-10", total_calories: 200, user_id: 1, meal_type_id: 1)
 @meal1.save
+
+@meal2 = Meal.new(date_of_meal:"2018-11-2",total_calories: 300, user_id:1, meal_type_id: 1)
+@meal2.save
+
+@meal3 = Meal.new(date_of_meal:"2018-11-1",total_calories:400,user_id:1,meal_type_id:1)
+@meal3.save
+
+@ingredients1 = Ingredient.new(name:"potato",calories: 1000,sodium:2,total_carbs:2,protein:50,serving_size:2.0,total_fat:15)
+@ingredients1.save

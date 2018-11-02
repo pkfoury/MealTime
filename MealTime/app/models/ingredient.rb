@@ -7,10 +7,10 @@ class Ingredient < ApplicationRecord
     has_many :meals, through: :meals_ingredients
 
     before_save {
-        self.meal.update_nutrition(self.calories, self.total_fat, self.trans_fat, self.cholesterol, self.sodium,
-            self.total_carbs, self.protein)
-        self.recipe.update_nutrition(self.calories, self.total_fat, self.trans_fat, self.cholesterol, self.sodium,
-            self.total_carbs, self.protein)
+        #self.meals.update_nutrition(self.calories, self.total_fat, self.trans_fat, self.cholesterol, self.sodium,
+         #   self.total_carbs, self.protein)
+        #self.recipes.update_nutrition(self.calories, self.total_fat, self.trans_fat, self.cholesterol, self.sodium,
+         #   self.total_carbs, self.protein)
     }
 
 
