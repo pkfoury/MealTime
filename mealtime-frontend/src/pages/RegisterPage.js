@@ -87,7 +87,7 @@ class RegisterPage extends Component {
                     </div>
                 </form>
 
-                <Link to='/login' activeClassName="active">Back to login</Link>
+                <Link to='/login' className="active">Back to login</Link>
             </div>
         );
     }

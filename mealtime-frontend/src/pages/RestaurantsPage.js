@@ -51,6 +51,10 @@ class RestaurantsPage extends Component {
     });
   }
 
+  likeRestaurant(restaurant) {
+    // TODO implement, make call to backend to like a restaurant
+  }
+
   render() {
     return(
       <div>
@@ -82,7 +86,8 @@ class RestaurantsPage extends Component {
                 <h5>Phone #: { restaurant.phone }</h5>
                 <h5>Price: <b>{ restaurant.price }</b></h5>
                 <div className="btn-group restaurant-buttons">
-                  <button className="btn btn-primary">Save to Favorites</button>
+                  <button className="btn btn-primary" onClikc={() => this.likeRestaurant(restaurant)}>Like this recipe <i class="far fa-thumbs-up"></i></button>
+                  <button className="btn btn-danger">Dislike this recipe <i class="far fa-thumbs-down"></i></button>
                   <button className="btn btn-success" onClick={() => this.showReviews(restaurant.id, restaurant)}>Show Reviews</button>
                 </div>
               </div>
@@ -92,6 +97,7 @@ class RestaurantsPage extends Component {
           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
               integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
               crossOrigin="anonymous"></link>
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous"></link>
       </div>
     );
   }
