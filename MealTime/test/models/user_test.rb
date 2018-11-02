@@ -41,7 +41,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     test "Username should be unique" do
-        duplucate_user = @user.dup
+        duplicate_user = @user.dup
         duplicate_user.user_name = @user.user_name.upcase
         @user.save
         assert_not duplicate_user.valid?
