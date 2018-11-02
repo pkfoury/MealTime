@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { apiPost } from '../functions/Api';
 
 class LoginPage extends Component {
@@ -15,11 +15,11 @@ class LoginPage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    updateUsername (e) {
+    updateUsername(e) {
         this.setState({ username: e.target.value });
     }
 
-    updatePassword (e) {
+    updatePassword(e) {
         this.setState({ password: e.target.value });
     }
 
@@ -30,24 +30,20 @@ class LoginPage extends Component {
             'password': this.state.password,
         };
 
-
         apiPost('login', userInfo)
-            .then(({data}) => {
+            .then(({ data }) => {
                 this.setState({
                     user: data
                 });
-
                 if (data.status === "SUCCESS") {
-                    this.props.history.push('/mainpage')
+                    this.props.history.push('/home')
                     localStorage.setItem('token', data.data)
                 }
             })
-
             .catch((err) => {
                 if (err.response && err.response.status === 401) {
                     alert('Invalid username and password combination');
                 }
-
                 else {
                     alert("Not a login error, figure it out");
                     console.log(err.message);
@@ -55,7 +51,7 @@ class LoginPage extends Component {
             })
     }
 
-    render () {
+    render() {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
@@ -64,16 +60,16 @@ class LoginPage extends Component {
                             Username:
                             <input type="text" className="form-control" placeholder="Enter Username" onChange={this.updateUsername} />
                         </label>
-                        <div/>
+                        <div />
                         <label htmlFor="Password">
                             Password:
                             <input type="password" className="form-control" placeholder="Enter Password" onChange={this.updatePassword} />
                         </label>
-                        <div/>
+                        <div />
                         <input className="btn btn-primary btn-lg" type="submit" value="Login" />
                     </div>
                 </form>
-                <Link to='/register' activeClassName="active">Don't have an account?</Link>
+                <Link to='/register' className="active">Don't have an account?</Link>
             </div>
 
         );

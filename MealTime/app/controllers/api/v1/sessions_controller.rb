@@ -9,7 +9,6 @@ module Api
 
             def create
                 user = User.find_by(user_name: params["body"]["user_name"])
-
                 if user && user.authenticate(params["body"]["password"])
                     log_in(user)
                     remember(user)
