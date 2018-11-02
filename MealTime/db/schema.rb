@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_052321) do
+ActiveRecord::Schema.define(version: 2018_11_02_070208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,12 @@ ActiveRecord::Schema.define(version: 2018_11_02_052321) do
     t.bigint "user_id"
     t.bigint "meal_type_id"
     t.integer "total_calories", default: 0
+    t.integer "total_fat"
+    t.integer "total_trans_fat"
+    t.integer "total_cholesterol"
+    t.integer "total_sodium"
+    t.integer "total_carbs"
+    t.integer "total_protein"
     t.index ["meal_type_id"], name: "index_meals_on_meal_type_id"
     t.index ["user_id"], name: "index_meals_on_user_id"
   end
@@ -123,6 +129,12 @@ ActiveRecord::Schema.define(version: 2018_11_02_052321) do
     t.bigint "user_id"
     t.boolean "public", default: false
     t.integer "total_calories"
+    t.integer "total_fat"
+    t.integer "total_trans_fat"
+    t.integer "total_cholesterol"
+    t.integer "total_sodium"
+    t.integer "total_carbs"
+    t.integer "total_protein"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
