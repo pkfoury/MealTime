@@ -8,7 +8,7 @@ module Api
             end
 
             def show
-                recipe = Recipe.find(params[:id])
+                recipe = Recipe.find_by(params[:id])
                 render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
             end
 

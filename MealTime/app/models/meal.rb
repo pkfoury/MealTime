@@ -6,6 +6,8 @@ class Meal < ApplicationRecord
     has_many :recipes, through: :meals_recipes
     has_many :meals_users, dependent: :destroy
     has_many :users, through: :meals_users
+    has_many :meals_ingredients, dependent: :destroy
+    has_many :ingredients, through: :meals_ingredients
     after_initialize do |meal|
         # no idea if this is how it works...
         # plan is to set a current user and set user-meal join table row through it
