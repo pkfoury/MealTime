@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get '/search/:name', to: 'recipes#search'
       resources :add_recipes
       resources :meals
+      get '/get-meals-for-day/:dateTime', to: 'meals#show'
       post '/add-meal', to: 'meals#create'
       resources :user_votes
     end
