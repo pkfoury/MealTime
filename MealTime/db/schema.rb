@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_070208) do
+ActiveRecord::Schema.define(version: 2018_11_02_155320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,15 @@ ActiveRecord::Schema.define(version: 2018_11_02_070208) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_allergens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "recipe_id"
+    t.index ["recipe_id"], name: "index_user_allergens_on_recipe_id"
+    t.index ["user_id"], name: "index_user_allergens_on_user_id"
+  end
+
   create_table "user_locations", force: :cascade do |t|
     t.decimal "latitude"
     t.decimal "longitude"
@@ -216,6 +225,8 @@ ActiveRecord::Schema.define(version: 2018_11_02_070208) do
   add_foreign_key "restaurant_histories", "users", on_delete: :cascade
   add_foreign_key "restaurant_preferences", "restaurants", on_delete: :cascade
   add_foreign_key "restaurant_preferences", "users", on_delete: :cascade
+  add_foreign_key "user_allergens", "recipes"
+  add_foreign_key "user_allergens", "users"
   add_foreign_key "user_locations", "users", on_delete: :cascade
   add_foreign_key "user_votes", "recipes", on_delete: :cascade
   add_foreign_key "user_votes", "users", on_delete: :cascade
