@@ -5,10 +5,10 @@ class MealTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-
+    @meal = Meal.new(date_of_meal: "2018-9-10", total_calories: 200, user_id: 1, meal_type_id: 1,)
   end
 
-  test "should have meal associated with user" do
-    flunk("hello there")
+  test "meal is valid" do
+    flunk("lol")
   end
 end

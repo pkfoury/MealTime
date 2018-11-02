@@ -3,4 +3,6 @@ class MealsIngredients < ApplicationRecord
     
     belongs_to :allergen
     belongs_to :meal
+
+    
 end

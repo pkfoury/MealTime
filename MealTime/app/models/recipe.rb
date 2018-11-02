@@ -13,7 +13,9 @@ class Recipe < ApplicationRecord
     validates :cook_time, presence: true, length: {maximum: 5},
                 format: {with: VALID_TIME_FORMAT}
     validates :instructions, presence: true
-
+    before_save {
+        self.meal.update_calories(self.total_calories)
+    }
 
 
 
