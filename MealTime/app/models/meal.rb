@@ -14,4 +14,8 @@ class Meal < ApplicationRecord
         @user = User.find(session[:user_id])
         @user.meals << meal.meal_id
     end
+
+    def update_calories(input_cals)
+        self.update_attributes(:total_calories => :total_calories + input_cals)
+    end
 end
