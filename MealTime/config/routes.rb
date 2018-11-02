@@ -7,14 +7,12 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
       resources :recipes
-<<<<<<< HEAD
-=======
       get '/search/:name', to: 'recipes#search'
->>>>>>> master
       resources :add_recipes
       resources :meals
       post '/add-meal', to: 'meals#create'
       resources :user_votes
+      get '/meals/:id/:date', to: 'meals#daily'
     end
   end
 end
