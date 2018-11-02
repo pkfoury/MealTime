@@ -9,8 +9,9 @@ import LoginPage from './pages/LoginPage';
 import RestaurantsPage from './pages/RestaurantsPage';
 import DailyEntryPage from './pages/DailyEntryPage';
 import ProgressPage from './pages/ProgressPage';
-import MainPage from './pages/MainPage';
+import Home from './pages/Home';
 import FavoritesPage from './pages/FavoritesPage';
+import Profile from './pages/Profile';
 
  const Routes = () => (
   <Switch>
@@ -23,8 +24,9 @@ import FavoritesPage from './pages/FavoritesPage';
     <Route path='/calendar' component={Calendar} />
     <Route path='/add-recipe' component={AddRecipe} />
     <Route path='/progress' component={ProgressPage} />
-    <Route path='/mainpage' component={MainPage} />
+    <Route path='/home' component={Home} />
     <Route path='/favorites' component={FavoritesPage} />
+    <Route path='/profile' component={Profile} />
   </Switch>
 );
 
