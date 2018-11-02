@@ -25,7 +25,8 @@ module Api
             end
 
             def daily
-
+              meal = Meal.find_by(user_id: params["id"], date_of_meal: params["date"])
+              render json: {status: 'SUCCESS', message: 'Found a meal', data:meal}, status: :ok
             end
 
             private
