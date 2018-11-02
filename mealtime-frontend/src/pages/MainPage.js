@@ -97,7 +97,7 @@ class MainPage extends Component{
 					]}
 				/>
 			<div>
-				<a href='./progress' className="btn-primary">Nutrition</a>
+				<a href='/progress' className="btn-primary">Nutrition</a>
 			</div>
 			</CardBody>
 			</Card>

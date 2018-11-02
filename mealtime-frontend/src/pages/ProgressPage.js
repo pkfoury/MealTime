@@ -3,19 +3,39 @@ import React, { Component } from 'react';
 import {PieChart} from 'react-easy-chart';
 import {LineChart} from 'react-easy-chart';
 import {BarChart} from 'react-easy-chart';
+import {apiGet} from '../functions/Api';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
+
+
+
+
+
 class App extends Component {
+	state = {
+		calories: 0,
+		protein: 0,
+		total_fat: 0,
+		flag: 0
+	};
+	get() {
+		if(this.state.flag === 0){
+			apiGet('ingredients').then(({data}) => {
+				this.setState({ calories: data.data.calories, protein: data.data.protein, total_fat: data.data.total_fat, flag: 1 })
+			});
+		}
+	}
   render() {
     return (
 	<CardDeck>
+		{this.get()}
 	  <Card>
 	    <CardTitle>Calorie Usage</CardTitle>
 	    <CardBody>
 		<PieChart
 			labels
 			data={[
-				{ key: 'Calories Used' , value: 100 },
-				{ key: 'Calories Left' , value: 50 }
+				{ key: 'Calories Used' , value: this.state.calories },
+				{ key: 'Calories Left' , value: 2000 }
 			]}
 			styles={{
 				'.chart_text': {
@@ -35,9 +55,12 @@ class App extends Component {
                   	height={400}
                   	barWidth={350}
                   	yDomainRange={[0,100]}
-                  	data={[
-                        	{ x: 'Protein', y: 30, color: '#33CEFF' },
-                        	{ x: 'Fat', y: 40, color: '#33B5FF' },
+										
+										
+
+										data={[
+                        	{ x: 'Protein', y: this.state.protein, color: '#33CEFF' },
+                        	{ x: 'Total Fat', y: this.state.total_fat, color: '#33B5FF' },
                         	{ x: 'Fiber', y: 20, color: '#339CFF' },
                         	{ x: 'Sugar', y: 40, color: '#3377FF' }
                   	]}
