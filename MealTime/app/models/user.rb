@@ -27,6 +27,8 @@ class User < ApplicationRecord
     has_many :restaurant_histories, dependent: :destroy
     has_many :meals_users, dependent: :destroy
     has_many :meals, through: :meals_users
+    has_many :user_allergens, dependent: :destroy
+    has_many :allergens, through: :users
 
     # This will digest and hash a given string
 
