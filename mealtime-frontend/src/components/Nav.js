@@ -75,7 +75,7 @@ class Example extends Component {
 							<NavItem>
 								<NavLink href="/restaurants">Restaurants</NavLink>
 							</NavItem>
-							<NavItem right>
+							<NavItem>
 								<NavLink onClick={this.logout}>Logout</NavLink>
 							</NavItem>
 						</Nav>

@@ -1,34 +1,42 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Input, FormText, Button } from 'reactstrap';
-import { apiGet, apiPost } from '../functions/Api';
+import { apiPost } from '../functions/Api';
 
 class ProfileInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: {},
-      password: {},
-      allergies: {},
-      dietaryBudget: {},
-      financialBudget: {},
-      favorites: {}
+      email: null,
+      allergies: null
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  submit(event) {
+  change(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  handleSubmit(event) {
     event.preventDefault();
-    apiGet('/users').then (({data}) => {
-      console.log(data);
+    apiPost('/profile', this.state).then( (req, res) => {
+      console.log(res);
+
     })
   }
 
   render() {
     return (
       <div className="ProfileInfo">
-        <Form onSubmit={this.submit}>
+        <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="exampleEmail">Email</Label>
-            <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
+            <Label>Email</Label>
+            <Input type="email" name="email" onChange={e => this.change(e)} placeholder={this.props.user["email"]} />
+          </FormGroup>
+          <FormGroup>
+            <Label>Allergens</Label>
+            <Input type="text" name="allergens" onChange={e => this.change(e)} placeholder={"nuts, shellfish, etc."} />
           </FormGroup>
           <FormGroup>
             <Label>Profile image</Label>

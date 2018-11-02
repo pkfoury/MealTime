@@ -1,21 +1,31 @@
-import React from 'react';
-import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button } from 'reactstrap';
+import React, { Component } from 'react';
+import {
+  Card, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle, Button
+} from 'reactstrap';
 
-const ProfileCard = (props) => {
-  return (
-    <div>
-      <Card>
-        <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardSubtitle>Card subtitle</CardSubtitle>
-          <CardText>Some quick ProfileCard text to build on the card title and make up the bulk of the card's content.</CardText>
-          <Button>Button</Button>
-        </CardBody>
-      </Card>
-    </div>
-  );
+class ProfileCard extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
+
+  render() {
+    return (
+      <div>
+        <Card>
+          <CardImg top width="100%" src={this.props.user["image_url"]} alt="Card image cap" />
+          <CardBody>
+            <CardTitle>{this.props.user["user_name"]}</CardTitle>
+            <CardSubtitle>Card subtitle</CardSubtitle>
+            <CardText><pre>{JSON.stringify(this.props.user, null, 2)}</pre></CardText>
+            <Button>Button</Button>
+          </CardBody>
+        </Card>
+      </div>
+    )
+  }
 };
 
 export default ProfileCard;
