@@ -15,7 +15,30 @@ class DailyEntryPage extends Component {
             selectedItem: null,
             totalCalorieCount: 0,
             itemIsAUserRecipe: false
-        }
+        };
+    }
+
+    getMealInfo(mealId) {
+        var dateToday = new Date();
+        var formattedDate = dateToday.getMonth() + 1 + '/' + dateToday.getDate() + '/' + dateToday.getFullYear();
+        apiGet('get-meals-for-day/' + formattedDate).then(({data}) => {
+            switch (mealId) {
+                case 1:
+                    this.setState({ breakfastItems: data });
+                    break;
+                case 2:
+                    this.setState({ lunchItems: data });
+                    break;
+                case 3:
+                    this.setState({ dinnerItems: data });
+                    break;
+                case 4:
+                    this.setState({ snackItems: data });
+                    break;
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     doSearch(term) {
@@ -131,18 +154,34 @@ class DailyEntryPage extends Component {
     }
 
     saveResults() {
-        const mealInfo = {
-            'meal': 'Lunch',
-            'user': 'Evan'
-        };
+        var dateToday = new Date();
+        var formattedDate = dateToday.getMonth() + 1 + '/' + dateToday.getDate() + '/' + dateToday.getFullYear();
+        const breakfastInfo = {
+            mealId: 1,
+            mealData: this.state.breakfastItems,
+            date: formattedDate
+        }
+        const lunchInfo = {
+            mealId: 2,
+            mealData: this.state.dinnerItems,
+            date: formattedDate
+        }
+        const dinnerInfo = {
+            mealId: 3,
+            mealData: this.state.dinnerItems,
+            date: formattedDate
+        }
+        const snacksInfo = {
+            mealId: 4,
+            mealData: this.state.snackItems,
+            date: formattedDate
+        }
     
-       apiPost('add-meal', mealInfo).then(({data}) => 
-            {
-                console.log("Data Returned from Add Meal");
-                console.log(data);
-            }).catch((err) => {
-                console.log(err);
-            });
+    
+        if (breakfastInfo.length != 0) apiPost('add-meal', breakfastInfo).then(({data}) => {}).catch((err) => { console.log(err); });
+        if (lunchInfo.length != 0) apiPost('add-meal', lunchInfo).then(({data}) => {}).catch((err) => { console.log(err); });
+        if (dinnerInfo.length != 0) apiPost('add-meal', dinnerInfo).then(({data}) => {}).catch((err) => { console.log(err); });
+        if (snacksInfo.length != 0) apiPost('add-meal', snacksInfo).then(({data}) => {}).catch((err) => { console.log(err); });
     }
 
     render() {

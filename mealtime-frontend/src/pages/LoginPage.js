@@ -35,11 +35,14 @@ class LoginPage extends Component {
                 this.setState({
                     user: data
                 });
+
                 if (data.status === "SUCCESS") {
-                    this.props.history.push('/home')
-                    localStorage.setItem('token', data.data)
+                    var user_id = data.id;
+                    this.props.history.push('/home/' + user_id);
+                    localStorage.setItem('token', data.data);
                 }
             })
+            
             .catch((err) => {
                 if (err.response && err.response.status === 401) {
                     alert('Invalid username and password combination');
