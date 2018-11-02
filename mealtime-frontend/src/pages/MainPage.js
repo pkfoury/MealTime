@@ -29,8 +29,7 @@ class MainPage extends Component{
 		const SEARCH_REQUEST = { 
 		  term: searchTerm,
 		  location: 'west lafayette, in',
-		  //term:"restaurants",
-		  //location: 'west lafayette, in',
+		  sort_by: "rating",
 		  offset:(Math.floor(Math.random() * (100 - 0 + 1)) + 0),
 		  limit:3,
 		};
