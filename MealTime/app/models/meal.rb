@@ -18,7 +18,7 @@ class Meal < ApplicationRecord
     #     @user.meals << meal.meal_id
     # end
 
-    def update_nutrition(input_cals. total_fat, trans_fat, cholesterol, sodium, total_carbs, protein)
+    def update_nutrition(input_cals, total_fat, trans_fat, cholesterol, sodium, total_carbs, protein)
         self.update_attributes(:total_calories => :total_calories + input_cals,
             :total_fat => :total_fat + total_fat,
             :trans_fat => :trans_fat + trans_fat,
@@ -28,5 +28,5 @@ class Meal < ApplicationRecord
             :protein => :protein + protein)
     end
 
-    
+
 end

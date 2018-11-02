@@ -8,8 +8,8 @@ class BudgetTest < ActiveSupport::TestCase
     @budget = Budget.new(weekly_budget:10, user_id:1, monthly_budget:10, weekly_spending:1, monthly_spending:10)
   end
   
-  test "stuff" do
-    flunk("lol")
+  test "budget should be valid" do
+    assert @budget.valid?
   end
   
 end
