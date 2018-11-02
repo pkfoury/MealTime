@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {BarChart} from 'react-easy-chart';
-import { Link } from 'react-router-dom';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
-import { apiDelete } from '../functions/Api';
-import {browserHistory} from 'react-router'
 
 class MainPage extends Component{
 

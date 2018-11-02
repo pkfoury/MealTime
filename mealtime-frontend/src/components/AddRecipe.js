@@ -36,7 +36,7 @@ class AddRecipe extends Component {
     this.updateAmount = this.updateAmount.bind(this);
     this.updateUom = this.updateUom.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    apiGet('/users').then(({data}) => {
+    apiGet('users').then(({data}) => {
       console.log(data);
       console.log(data.data.id);
       this.setState({ user_id: data.data.id});

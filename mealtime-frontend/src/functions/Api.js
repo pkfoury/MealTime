@@ -34,7 +34,7 @@ export function apiPost(endpoint, data = {}, token = getToken()) {
     headers: getHeaders(token),
     body: data
   }
-
+  
   return axios.post(`${API_URL}${endpoint}/`, options);
 }
 
