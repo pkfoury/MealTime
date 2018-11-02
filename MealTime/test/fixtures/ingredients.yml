@@ -4,8 +4,41 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+carrots:
+  id: 12
+  name: Carrot
+  calories: 212
+  total_fat: 12
+  trans_fat: 21
+  cholesterol: 21
+  sodium: 12
+  total_carbs: 12
+  protein: 12
+  serving_size: 12
+  dv_total_fat: .2
+  dv_trans_fat: .2
+  dv_cholesterol: .2
+  dv_sodium: .2
+  dv_carbs: .2
+  dv_protein: .3 
+
 # column: value
 #
-two: {}
+apples: 
+  id: 13
+  name: Apple
+  calories: 212
+  total_fat: 12
+  trans_fat: 21
+  cholesterol: 21
+  sodium: 12
+  total_carbs: 12
+  protein: 12
+  serving_size: 12
+  dv_total_fat: .2
+  dv_trans_fat: .2
+  dv_cholesterol: .2
+  dv_sodium: .2
+  dv_carbs: .2
+  dv_protein: .3 
 # column: value

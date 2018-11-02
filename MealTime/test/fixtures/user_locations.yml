@@ -3,7 +3,5 @@
 one:
   latitude: 9.99
   longitude: 9.99
+  user_id: 12
 
-two:
-  latitude: 9.99
-  longitude: 9.99
