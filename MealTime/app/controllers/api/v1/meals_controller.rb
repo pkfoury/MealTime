@@ -13,9 +13,8 @@ module Api
                 render json: {status: 'SUCCESS', message: 'Hit meals endpoint', data:meal}, status: :ok
             end
 
-            # TODO figure out how to actually pass data to the database for this
             def create
-                p "MEAL PARAMS: " 
+                p "MEAL PARAMS: "
                 p params["body"]
             end
 
@@ -23,6 +22,11 @@ module Api
                 meal = Meal.find(params[:id])
                 meal.destroy
                 render json: {status: 'SUCCESS', message: 'Meal deleted', data:meal}, status: :ok
+            end
+
+            def daily
+              meal = Meal.find_by(user_id: params["id"], date_of_meal: params["date"])
+              render json: {status: 'SUCCESS', message: 'Found a meal', data:meal}, status: :ok
             end
 
             private

@@ -28,5 +28,5 @@ class Meal < ApplicationRecord
             :protein => :protein + protein)
     end
 
-    
+
 end

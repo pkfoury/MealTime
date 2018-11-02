@@ -23,7 +23,7 @@ module Api
                     user.track_macro = false;
                     render json: {status: 'SUCCESS', message: 'User Created', data:user, id: user.id}, status: :ok
                 else
-                    render json: {status: 'ERROR', message: 'User not created', data:user.errors}, status: :unprocessable_entity 
+                    render json: {status: 'ERROR', message: 'User not created', data:user.errors}, status: :unprocessable_entity
                 end
             end
 
@@ -36,7 +36,7 @@ module Api
                     else
                         render json: {status: 'FALSE', message: 'Macros are false'}, status: :ok
                     end
-                    
+
                 end
 
             end

@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import dateFns from 'date-fns';
 import './Calendar.css';
+import {apiGet} from '../functions/Api';
 
 class Calendar extends Component {
   state = {
     currentWeek: new Date(),
     selectedDate: new Date(),
     calories: 1,
-    budget: 0
+    budget: 0,
+    user_id: null,
+    flag: 0,
   };
+
 
   renderHeader() {
     const dateFormat = " MMMM DD YYYY";
+    if(this.state.flag === 0){
+      apiGet('users').then(({data}) => {
+      console.log(data);
+      console.log(data.data.id);
+      this.setState({ user_id: data.data.id, flag: 1});
 
+    });}
     return (
       <div className="header row flex-middle">
         <div className="col col-start">
@@ -96,7 +106,16 @@ class Calendar extends Component {
   onDateClick = day => {
     this.setState({
       selectedDate: day,
-      calories: 3
+      calories: 0
+    });
+    const newDateFormat = "YYYY-MM-DD";
+    var formattedDate = dateFns.format(day, newDateFormat);
+    apiGet('meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
+      console.log(data);
+      this.setState({ calories : data.data.total_calories })
+    });
+    this.setState({
+      selectedDate: day
     });
   };
 
