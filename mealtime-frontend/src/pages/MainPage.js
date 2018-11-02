@@ -104,6 +104,7 @@ class MainPage extends Component{
 			<Card>
 				<CardBody>
 					<CardTitle>Today's Recommendations</CardTitle>
+
 					{this.state.restaurants.map((restaurant, index) => (
 						<div>
 							<img src={restaurant.image_url} style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
@@ -113,6 +114,7 @@ class MainPage extends Component{
 							<hr style={ { marginTop: 50 + 'px' } }/>
 						</div>
 					))}
+
 				</CardBody>
 			</Card>
 
