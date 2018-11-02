@@ -36,6 +36,11 @@ class AddRecipe extends Component {
     this.updateAmount = this.updateAmount.bind(this);
     this.updateUom = this.updateUom.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    apiGet('/users').then(({data}) => {
+      console.log(data);
+      console.log(data.data.id);
+      this.setState({ user_id: data.data.id});
+    });
   }
 
   updaterecipe_name (e) {
@@ -121,18 +126,19 @@ class AddRecipe extends Component {
       'cook_time': this.state.time,
       'ingredients': this.state.ingredients,
       'instructions': this.state.instructions,
+      'user_id': this.state.user_id
     };
-
     axios.post('http://127.0.0.1:3000/api/v1/add_recipes', recipeInfo)
-  //  apiPost('add_recipes', recipeInfo)
+    //apiPost('add_recipes', recipeInfo)
       .then(({data})=> {
         console.log(data);
         if (data.status === "SUCCESS") {
-          this.props.history.push('/add-recipe');
+          this.props.history.push('/mainpage')
         }
       })
 
       .catch((err) => {
+        alert('Failed to add recipe');
         console.log(err);
       })
   }
@@ -147,7 +153,7 @@ class AddRecipe extends Component {
                 <label>Recipe Name</label>
               </div>
               <div className="col-75">
-                <input type="text" id="recipe_name" name="recipe_name" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
+                <input type="text" id="recipe_name" name="recipe_name" ref="recipeName" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
               </div>
             </div>
           <div className="row">
