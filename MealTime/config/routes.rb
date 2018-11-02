@@ -14,6 +14,9 @@ Rails.application.routes.draw do
       get '/get-meals-for-day/:dateTime', to: 'meals#show'
       post '/add-meal', to: 'meals#create'
       resources :user_votes
+
+      get '/profile', to: 'profile#index'
+      post '/profile', to: 'profile#create'
       get '/meals/:id/:date', to: 'meals#daily'
     end
   end

@@ -9,6 +9,6 @@ class MealTest < ActiveSupport::TestCase
   end
 
   test "meal is valid" do
-    flunk("lol")
+    assert @meal.valid?
   end
 end

@@ -7,9 +7,9 @@ module Api
             def index
                 tok = request.headers["Token"]
                 user = User.find_by(auth_digest: tok)
-                render json: {status: 'Hit the index', data: user}, status: :ok
-                #users = User.order("created_at DESC")
-                #render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
+                render json: {status: 'Hit users index', data: user}, status: :ok
+                # users = User.order("created_at DESC")
+                # render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
             end
 
             def show
