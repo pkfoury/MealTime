@@ -12,7 +12,7 @@ module Api
                 if user && user.authenticate(params["body"]["password"])
                     log_in(user)
                     remember(user)
-                    render json: {status: 'SUCCESS', message: 'Session Created', data: user.auth_digest}, status: :ok
+                    render json: {status: 'SUCCESS', message: 'Session Created', data: user.auth_digest, id: user.id}, status: :ok
                 else
                     render json: {status: 'Authentication Failed', message: 'Username and password combination does not match', data:user}, status: :unauthorized
                 end

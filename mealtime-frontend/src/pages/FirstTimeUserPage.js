@@ -1,12 +1,38 @@
 import React, { Component } from 'react';
 import './general.css'
+import { apiPatch } from '../functions/Api';
 
 class FirstTimeUserPage extends Component {
   constructor(props) {
     super(props)
-    this.state = { showMacroGoals: false };
+    this.state = { 
+      showMacroGoals: false,
+      weight: 0,
+      calories: 0,
+      money: 0,
+      protein: 0,
+      fats: 0,
+      carbs: 0,
+    };
+
+    this.updateMoney = this.updateMoney.bind(this);
+    this.updateWeight = this.updateWeight.bind(this);
+    this.updateCalories = this.updateCalories.bind(this);
     this.toggleShowMacroGoals = this.toggleShowMacroGoals.bind(this);
     this.renderMacroOptions = this.renderMacroOptions.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  updateMoney (e) {
+    this.setState({ money: e.target.value });
+  }
+
+  updateWeight (e) {
+    this.setState({ weight: e.target.value });
+  }
+
+  updateCalories (e) {
+    this.setState({ calories: e.target.value });
   }
 
   toggleShowMacroGoals() {
@@ -28,6 +54,25 @@ class FirstTimeUserPage extends Component {
     );
   }
 
+  handleSubmit (event) {
+    event.preventDefault();
+    const nutritionalInfo = {
+      'showMacros': this.state.showMacroGoals,
+      'weight': this.state.weight,
+      'calories': this.state.calories,
+      'money': this.state.money
+    }
+    var url = window.location.href;
+    var res = url.split("/");
+    var user_id = res[4];
+    console.log(user_id)
+
+    apiPatch('users/' + user_id, nutritionalInfo)
+      .then(({data}) => {
+        console.log(data)
+      })
+    }
+
   render() {
     return (
       <div>
@@ -35,7 +80,7 @@ class FirstTimeUserPage extends Component {
           <h2>Welcome to MealTime! We're glad you're here.</h2>
           <h4>Let's get some information from you.</h4>
         </div>
-        <form>
+        <form onSubmit = {this.handleSubmit}>
             <div className="form-control">
                 <label className="col-lg-4" for="weight">Your Weight (Pounds)</label>
                 <input type="number" className="form-control col-lg-2 left-42" id="weight" placeholder="0" />

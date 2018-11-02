@@ -16,15 +16,9 @@ module Api
             # TODO figure out how to actually pass data to the database for this
             def create
                 p "MEAL PARAMS: " 
-                p params
-                meal = Meal.new(meal_params) 
-                if meal.save 
-                    render json: {status: 'SUCCESS', message: 'Meal created', data:meal}, status: :ok
-                else
-                    render json: {status: 'ERROR', message: 'Meal not created', data:meal.errors}, status: :unprocessable_entity
-            
-                end
+                p params["body"]
             end
+
             def destroy
                 meal = Meal.find(params[:id])
                 meal.destroy
