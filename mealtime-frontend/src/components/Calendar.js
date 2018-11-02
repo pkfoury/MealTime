@@ -17,7 +17,7 @@ class Calendar extends Component {
   renderHeader() {
     const dateFormat = " MMMM DD YYYY";
     if(this.state.flag === 0){
-      apiGet('/users').then(({data}) => {
+      apiGet('users').then(({data}) => {
       console.log(data);
       console.log(data.data.id);
       this.setState({ user_id: data.data.id, flag: 1});
@@ -104,10 +104,13 @@ class Calendar extends Component {
   }
 
   onDateClick = day => {
+    this.setState({
+      selectedDate: day,
+      calories: 0
+    });
     const newDateFormat = "YYYY-MM-DD";
-
     var formattedDate = dateFns.format(day, newDateFormat);
-    apiGet('/meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
+    apiGet('meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
       console.log(data);
       this.setState({ calories : data.data.total_calories })
     });
