@@ -58,17 +58,24 @@ class MainPage extends Component{
 					<img src="" style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
 					<h6>Restaurant Title Here</h6>
 					<p>4.7 / 5.0 Stars</p>
+					<Button>Favorite</Button>
 					<hr style={ { marginTop: 50 + 'px' } }/>
-
+					
+					
 					<img src="" style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
 					<h6>Restaurant Title Here</h6>
 					<p>4.7 / 5.0 Stars</p>
+					<Button>Favorite</Button>
 					<hr style={ { marginTop: 50 + 'px' } }/>
-
+					
+					
 					<img src="" style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
 					<h6>Restaurant Title Here</h6>
 					<p>4.7 / 5.0 Stars</p>
+					<Button>Favorite</Button>
 					<hr style={ { marginTop: 50 + 'px' } }/>
+					
+
 				</CardBody>
 			</Card>
 
