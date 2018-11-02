@@ -10,6 +10,12 @@ class MainPage extends Component{
 	constructor(props) {
 		super(props);
 		// this.logout = this.logout.bind(this);
+
+		// TODO: Populate recommendations by getting a list of user's favorites and running them through the Yelp API to get
+		// similar places.
+		this.state = {
+			recommendations: [],
+		}
 	}
 
 
@@ -47,6 +53,23 @@ class MainPage extends Component{
 			</CardBody>
 			</Card>
 			<Card>
+				<CardBody>
+					<CardTitle>Today's Recommendations</CardTitle>
+					<img src="" style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
+					<h6>Restaurant Title Here</h6>
+					<p>4.7 / 5.0 Stars</p>
+					<hr style={ { marginTop: 50 + 'px' } }/>
+
+					<img src="" style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
+					<h6>Restaurant Title Here</h6>
+					<p>4.7 / 5.0 Stars</p>
+					<hr style={ { marginTop: 50 + 'px' } }/>
+
+					<img src="" style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
+					<h6>Restaurant Title Here</h6>
+					<p>4.7 / 5.0 Stars</p>
+					<hr style={ { marginTop: 50 + 'px' } }/>
+				</CardBody>
 			</Card>
 
 		</CardDeck>

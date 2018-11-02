@@ -60,10 +60,10 @@ development:
 test:
   <<: *default
 
-  host: ec2-54-225-97-112.compute-1.amazonaws.com
-  database: dcouv5b3qm9bv3
-  username: dfrrzlvuynxefe
-  password: 42021a4c63d2c4d7989690ddbabf300fe5fd2c229849b3f12f54bbd62081b941
+  host: localhost
+  database: testdb
+  username: postgres
+  #password: 42021a4c63d2c4d7989690ddbabf300fe5fd2c229849b3f12f54bbd62081b941
 
 
 # As with config/secrets.yml, you never want to store sensitive information,
