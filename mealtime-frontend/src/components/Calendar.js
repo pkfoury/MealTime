@@ -7,7 +7,7 @@ class Calendar extends Component {
   state = {
     currentWeek: new Date(),
     selectedDate: new Date(),
-    calories: 1,
+    calories: 0,
     budget: 0,
     user_id: null,
     flag: 0,
@@ -105,14 +105,18 @@ class Calendar extends Component {
 
   onDateClick = day => {
     this.setState({
-      selectedDate: day,
-      calories: 0
+      selectedDate: day
     });
     const newDateFormat = "YYYY-MM-DD";
     var formattedDate = dateFns.format(day, newDateFormat);
     apiGet('meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
       console.log(data);
-      this.setState({ calories : data.data.total_calories })
+      if (data.data === null){
+        this.setState({ calories: 0})
+      }
+      else {
+        this.setState({ calories : data.data.total_calories })
+      }
     });
     this.setState({
       selectedDate: day
