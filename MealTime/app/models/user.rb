@@ -21,6 +21,7 @@ class User < ApplicationRecord
 
     has_one :budget, dependent: :destroy
     has_one :user_location, dependent: :destroy
+    has_one :user_goal, dependent: :destroy
     has_many :recipes, dependent: :nullify
     has_many :user_votes, dependent: :destroy
     has_many :restaurant_preferences, dependent: :destroy
