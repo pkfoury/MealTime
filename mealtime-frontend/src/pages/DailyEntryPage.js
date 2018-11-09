@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './general.css';
 import { apiPost } from '../functions/Api';
 import { apiGet } from '../functions/Api';
+import { Button } from 'reactstrap';
 
 class DailyEntryPage extends Component {
     constructor(props) {
@@ -205,12 +206,12 @@ class DailyEntryPage extends Component {
                         </datalist>
                         <div>
                             <div className="btn-group">
-                                <button className="btn-outline-success btn" onClick={() => this.addItemToDailyList("breakfast")}>Breakfast</button>
-                                <button className="btn-outline-primary btn" onClick={() => this.addItemToDailyList("lunch")}>Lunch</button>
-                                <button className="btn-outline-info btn" onClick={() => this.addItemToDailyList("dinner")}>Dinner</button>
-                                <button className="btn-outline-danger btn" onClick={() => this.addItemToDailyList("snacks")}>Snacks</button>
+                                <Button onClick={() => this.addItemToDailyList("breakfast")}>Breakfast</Button>
+                                <Button onClick={() => this.addItemToDailyList("lunch")}>Lunch</Button>
+                                <Button onClick={() => this.addItemToDailyList("dinner")}>Dinner</Button>
+                                <Button onClick={() => this.addItemToDailyList("snacks")}>Snacks</Button>
                             </div>
-                            <button className="btn-warning btn">Cheat Day</button>
+                            <Button>Cheat Day</Button>
                         </div>
                     </div>
                 </div>
@@ -245,7 +246,7 @@ class DailyEntryPage extends Component {
                                     <div className="col-lg-1">{item.nutrients[2].value} g</div>
                                     <div className="col-lg-1">{item.nutrients[3].value} g</div>
                                     <div className="col-lg-1">
-                                        <button className="btn btn-danger removeButton" onClick={() => this.deleteItemFromMeal("breakfast", item.name)}>Remove</button>
+                                        <div className="btn btn-danger removeButton" onClick={() => this.deleteItemFromMeal("breakfast", item.name)}>Remove</div>
                                     </div>
                                 </div>
                             ))}
@@ -347,7 +348,7 @@ class DailyEntryPage extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <button className="btn btn-success col-lg-8 col-centered" onClick={() => this.saveResults()}>Save Results for Day</button>
+                    <Button className="col-lg-8 col-centered" onClick={() => this.saveResults()}>Save Results for Day</Button>
                 </div>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
               integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
