@@ -11,6 +11,7 @@ import DailyEntryPage from './pages/DailyEntryPage';
 import ProgressPage from './pages/ProgressPage';
 import MainPage from './pages/MainPage';
 import FavoritesPage from './pages/FavoritesPage';
+import FindRecipesPage from './pages/FindRecipesPage';
 import Profile from './pages/Profile';
 
  const Routes = () => (
@@ -23,6 +24,7 @@ import Profile from './pages/Profile';
     <Route path='/enter-daily-data' component={DailyEntryPage} />
     <Route path='/calendar' component={Calendar} />
     <Route path='/add-recipe' component={AddRecipe} />
+    <Route path='/find-recipes' component={FindRecipesPage} />
     <Route path='/progress' component={ProgressPage} />
     <Route path='/home' component={MainPage} />
     <Route path='/favorites' component={FavoritesPage} />

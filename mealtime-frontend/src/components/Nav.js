@@ -73,6 +73,9 @@ class Example extends Component {
 								<NavLink href="/add-recipe">Add Recipe</NavLink>
 							</NavItem>
 							<NavItem>
+								<NavLink href="/find-recipes">Find Recipes</NavLink>
+							</NavItem>
+							<NavItem>
 								<NavLink href="/restaurants">Restaurants</NavLink>
 							</NavItem>
 							<NavItem>
