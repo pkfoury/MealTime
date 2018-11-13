@@ -10,9 +10,12 @@ class FindRecipesPage extends Component {
     render() {
         return (
             <div>
+                <br/>
                 <div className="title col-lg-12 text-center">
-                    <h2>Find recipes <i class="fas fa-utensils"></i></h2>
+                    <h1>Find Recipes <i class="fas fa-utensils"></i></h1>
+                </div>
                     <br/>
+                
                     <div className="input-group col-lg-10">
                         <input type="text" onChange={event => this.doSearch(event.target.value)} className="form-control" placeholder="Search recipes" id="restaurantSearch"/>
                         <div className="input-group-append">
