@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './general.css'
-import { apiPatch } from '../functions/Api';
+import { apiPatch, apiGet, apiPost } from '../functions/Api';
 
 class FirstTimeUserPage extends Component {
   constructor(props) {
@@ -18,9 +18,26 @@ class FirstTimeUserPage extends Component {
     this.updateMoney = this.updateMoney.bind(this);
     this.updateWeight = this.updateWeight.bind(this);
     this.updateCalories = this.updateCalories.bind(this);
+
     this.toggleShowMacroGoals = this.toggleShowMacroGoals.bind(this);
+    this.updateProtein = this.updateProtein.bind(this);
+    this.updateCarbs = this.updateCarbs.bind(this)
+    this.updateFats = this.updateFats.bind(this);
+
     this.renderMacroOptions = this.renderMacroOptions.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  updateCarbs(e) {
+    this.setState({ carbs: e.target.value });
+  }
+
+  updateFats(e) {
+    this.setState({ fats: e.target.value });
+  }
+
+  updateProtein(e) {
+    this.setState({ protein: e.target.value });
   }
 
   updateMoney (e) {
@@ -43,13 +60,13 @@ class FirstTimeUserPage extends Component {
     if (!this.state.showMacroGoals) return;
 
     return (
-      <div class="macroNutrientGoals">
+      <div className="macroNutrientGoals">
         <label for="caloric-limit">Protein (Grams per day)</label>
-        <input type="number" className="form-control col-lg-2 left-42" id="protein" placeholder="0" />
+        <input type="number" className="form-control col-lg-2 left-42" id="protein" placeholder="0" onChange={this.updateProtein}/>
         <label for="caloric-limit">Fats (Grams per day)</label>
-        <input type="number" className="form-control col-lg-2 left-42" id="fats" placeholder="0" />
+        <input type="number" className="form-control col-lg-2 left-42" id="fats" placeholder="0" onChange={this.updateFats}/>
         <label for="caloric-limit">Carbs (Grams per day)</label>
-        <input type="number" className="form-control col-lg-2 left-42" id="carbs" placeholder="0" />
+        <input type="number" className="form-control col-lg-2 left-42" id="carbs" placeholder="0" onChange={this.updateCarbs}/>
       </div>
     );
   }
@@ -57,21 +74,19 @@ class FirstTimeUserPage extends Component {
   handleSubmit (event) {
     event.preventDefault();
     const nutritionalInfo = {
-      'showMacros': this.state.showMacroGoals,
       'weight': this.state.weight,
       'calories': this.state.calories,
-      'money': this.state.money
+      'money': this.state.money,
+      'protein': this.state.protein,
+      'fat': this.state.fats,
+      'carbs': this.state.carbs
     }
-    var url = window.location.href;
-    var res = url.split("/");
-    var user_id = res[4];
-    console.log(user_id)
 
-    apiPatch('users/' + user_id, nutritionalInfo)
-      .then(({data}) => {
-        console.log(data)
-      })
-    }
+    apiPost('user_goals', nutritionalInfo)
+    .then(({data}) => {
+      console.log(data)
+    })
+  }
 
   render() {
     return (
@@ -83,13 +98,13 @@ class FirstTimeUserPage extends Component {
         <form onSubmit = {this.handleSubmit}>
             <div className="form-control">
                 <label className="col-lg-4" for="weight">Your Weight (Pounds)</label>
-                <input type="number" className="form-control col-lg-2 left-42" id="weight" placeholder="0" />
+                <input type="number" className="form-control col-lg-2 left-42" id="weight" placeholder="0" onChange={this.updateWeight}/>
                 <br />
                 <label htmlFor="caloric-limit">How many calories would you like to limit yourself to per day?</label>
-                <input type="number" className="form-control col-lg-2 left-42" id="caloric-limit" placeholder="0" />
+                <input type="number" className="form-control col-lg-2 left-42" id="caloric-limit" placeholder="0" onChange={this.updateCalories}/>
                 <br />
                 <label htmlFor="budget">How much money would you like to spend per week on food?</label>
-                <input type="number" className="form-control col-lg-2 left-42" id="budget-limit" placeholder="0" />
+                <input type="number" className="form-control col-lg-2 left-42" id="budget-limit" placeholder="0" onChange={this.updateMoney}/>
                 <input type="checkbox" id="showMacrosBox" onClick={this.toggleShowMacroGoals}></input>
                 <label for="showMacrosBox">Track macronutrients as well? (Optional)</label>
                 { this.renderMacroOptions() }

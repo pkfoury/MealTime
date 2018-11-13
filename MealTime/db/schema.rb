@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_07_174207) do
+ActiveRecord::Schema.define(version: 2018_11_10_192157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,13 +187,12 @@ ActiveRecord::Schema.define(version: 2018_11_07_174207) do
     t.bigint "user_id"
     t.integer "calories", null: false
     t.integer "fat", default: -1, null: false
-    t.integer "trans_fat", default: -1, null: false
-    t.integer "cholesterol", default: -1, null: false
-    t.integer "sodium", default: -1, null: false
     t.integer "carbs", default: -1, null: false
     t.integer "protein", default: -1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "weight", null: false
+    t.decimal "money", precision: 8, scale: 2, null: false
     t.index ["user_id"], name: "index_user_goals_on_user_id"
   end
 

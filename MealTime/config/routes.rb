@@ -2,10 +2,15 @@ Rails.application.routes.draw do
   get 'sessions/new'
   namespace 'api' do
     namespace 'v1' do
+
       resources :users
       get '/login', to: 'sessions#new'
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
+
+      get '/user_goals', to: 'user_goals#index'
+      patch '/user_goals', to: 'user_goals#update'
+      post '/user_goals', to: 'user_goals#create'
 
       resources :recipes
       get '/search/:name', to: 'recipes#search'

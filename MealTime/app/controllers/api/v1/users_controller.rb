@@ -8,13 +8,6 @@ module Api
                 tok = request.headers["Token"]
                 user = User.find_by(auth_digest: tok)
                 render json: {status: 'Hit users index', data: user}, status: :ok
-                # users = User.order("created_at DESC")
-                # render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:users}, status: :ok
-            end
-
-            def show
-                user = User.find(params[:id])
-                render json: {status: 'SUCCESS', message: 'Hit users endpoint', data:user}, status: :ok
             end
 
             def create
@@ -29,6 +22,7 @@ module Api
 
             def update
                 user = User.find_by(auth_digest: params["headers"]["Token"])
+                param = params["param"]
                 if user
                     if params["body"]["showMacros"] == true
                         user.track_macro = true
@@ -36,7 +30,6 @@ module Api
                     else
                         render json: {status: 'FALSE', message: 'Macros are false'}, status: :ok
                     end
-
                 end
 
             end
