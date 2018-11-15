@@ -5,6 +5,7 @@ import {LineChart} from 'react-easy-chart';
 import {BarChart} from 'react-easy-chart';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
 class App extends Component {
+
   render() {
     return (
 	<CardDeck>

@@ -3,16 +3,24 @@ module Api
         class UserGoalsController < ApplicationController
             skip_before_action :verify_authenticity_token
 
+            def index
+
+                goals = UserGoal.find_by(user_id: @current_user.id)
+                render json: {status: "SUCCESS", message: "Hit index", data: @current_user, goals_data: goals}, status: :ok
+            end
+
             def create
                 user = User.find_by(auth_digest: params["headers"]["Token"])
-                puts user.user_name
-                if user
+
+                if User.exists?(auth_digest: params["headers"]["Token"])
+
                     goals = UserGoal.new(goals_params)
-                    puts goals_params
+                    goals.user_id = user.id
+
                     if goals.save
-                        render json: {status: "Create Hit", data: goals}, status: :ok
+                        render json: {status: "SUCCESS", data: goals}, status: :ok
                     else
-                        render json: {status: "Goals did not save", data: user}, status: :ok
+                        render json: {status: "Goals did not save", data: user}, status: :unprocessable_entity
                         puts goals.errors.full_messages
                     end
 
