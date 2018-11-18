@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_18_212003) do
+ActiveRecord::Schema.define(version: 2018_11_18_214920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,18 +162,16 @@ ActiveRecord::Schema.define(version: 2018_11_18_212003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.bigint "restaurant_id"
-    t.index ["restaurant_id"], name: "index_restaurant_histories_on_restaurant_id"
+    t.string "yelp_id", null: false
     t.index ["user_id"], name: "index_restaurant_histories_on_user_id"
   end
 
   create_table "restaurant_preferences", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "restaurant_id"
     t.boolean "dislike", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["restaurant_id"], name: "index_restaurant_preferences_on_restaurant_id"
+    t.string "yelp_id", null: false
     t.index ["user_id"], name: "index_restaurant_preferences_on_user_id"
   end
 
@@ -183,6 +181,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_212003) do
     t.text "yelp_ink"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "rating"
   end
 
   create_table "uoms", force: :cascade do |t|
@@ -253,9 +252,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_212003) do
   add_foreign_key "meals", "meal_types", on_delete: :nullify
   add_foreign_key "meals", "users", on_delete: :cascade
   add_foreign_key "recipes", "users", on_delete: :nullify
-  add_foreign_key "restaurant_histories", "restaurants", on_delete: :cascade
   add_foreign_key "restaurant_histories", "users", on_delete: :cascade
-  add_foreign_key "restaurant_preferences", "restaurants", on_delete: :cascade
   add_foreign_key "restaurant_preferences", "users", on_delete: :cascade
   add_foreign_key "user_allergens", "recipes"
   add_foreign_key "user_allergens", "users"
