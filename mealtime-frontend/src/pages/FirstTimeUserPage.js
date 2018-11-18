@@ -84,7 +84,9 @@ class FirstTimeUserPage extends Component {
 
     apiPost('user_goals', nutritionalInfo)
     .then(({data}) => {
-      console.log(data)
+      if (data.status === "SUCCESS") {
+        this.props.history.push('/home');
+      }
     })
   }
 

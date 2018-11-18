@@ -18,7 +18,7 @@ class Profile extends Component {
       this.setState({
         user: data.data
       })
-    }) 
+    })
   }
 
   render() {

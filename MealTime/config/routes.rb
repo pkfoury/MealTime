@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
       resources :recipes
       get '/search/:name', to: 'recipes#search'
+      get '/searchWithFilters/:name/:difficultyFilter/:timeFilter/:numIngredientsFilter/:onlyShowOwnerFilters', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
       resources :add_recipes
       resources :meals
       get '/get-meals-for-day/:dateTime', to: 'meals#show'
@@ -23,6 +24,8 @@ Rails.application.routes.draw do
       get '/profile', to: 'profile#index'
       post '/profile', to: 'profile#create'
       get '/meals/:id/:date', to: 'meals#daily'
+
+      post '/restaurant_preference/', to: 'restaurant_preference#addFavoritesFromUser'
     end
   end
 end

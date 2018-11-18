@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {BarChart} from 'react-easy-chart';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
+import { apiGet } from '../functions/Api';
 
 class MainPage extends Component{
 
@@ -12,6 +13,9 @@ class MainPage extends Component{
 		// TODO: Populate recommendations by getting a list of user's favorites and running them through the Yelp API to get
 		// similar places.
 		this.state = {
+			goals: {},
+			user: {},
+
 			//recommendations: [],
 			restaurants: [],
       		restaurantCount: 0,
@@ -19,6 +23,17 @@ class MainPage extends Component{
       		reviewsToShow: []
 		}
 	}
+
+	componentWillMount() {
+		apiGet('user_goals')
+		.then ( ({data}) => {	
+			console.log(data)
+      this.setState({
+				user: data.data,
+				goals: data.goals_data
+      })
+    })
+	};
 
 	doSearch(searchTerm) {
 		const YELP = require('yelp-fusion');
@@ -70,7 +85,7 @@ class MainPage extends Component{
 
 		<CardDeck>
 			<Card>
-			<CardTitle>Welcome User</CardTitle>
+			<CardTitle>Welcome {this.state.user['user_name']}</CardTitle>
 			<CardBody>
 			<CardText> Hope you're having a great day</CardText>
 			</CardBody>
@@ -78,23 +93,24 @@ class MainPage extends Component{
 			</Card>
 			<Card>
 			<CardTitle>Nutrition-at-a-glance</CardTitle>
-			<CardSubtitle>Heres a look at your nutritional budget for the week</CardSubtitle>	
+			<CardSubtitle>Heres a look at your nutritional budget for the day</CardSubtitle>	
 			<CardBody>
 			<BarChart
 					axes
 					grid
 					height={400}
 					barWidth={350}
-					yDomainRange={[0,100]}
+					yDomainRange={[0,250]}
+					margin={{top: 30, left: 30, bottom: 30, right: 30}}
 					data={[
-							{ x: 'Protein', y: 30, color: '#33CEFF' },
-							{ x: 'Fat', y: 40, color: '#33B5FF' },
-							{ x: 'Fiber', y: 20, color: '#339CFF' },
-							{ x: 'Sugar', y: 40, color: '#3377FF' }
+							{ x: 'Protein', y: this.state.goals["protein"], color: '#cc00ff' },
+							{ x: 'Protein Progress', y: 60, color: '#cc00ff'},
+							{ x: 'Fat', y: this.state.goals["fat"], color: '#00e58d' },
+							{ x: 'Carbs', y: this.state.goals["carbs"], color: '#00428d' }
 					]}
 				/>
 			<div>
-				<a href='./progress' className="btn-primary">Nutrition</a>
+				<a href='./progress'>Progress</a>
 			</div>
 			</CardBody>
 			</Card>

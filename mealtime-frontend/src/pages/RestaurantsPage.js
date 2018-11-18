@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { apiPost } from '../functions/Api';
 
 class RestaurantsPage extends Component {
   constructor(props) {
@@ -59,7 +60,20 @@ class RestaurantsPage extends Component {
   }
 
   likeRestaurant(restaurant) {
-    // TODO implement, make call to backend to like a restaurant
+    console.log(restaurant);
+    let data = {
+      id: restaurant.id,
+      name: restaurant.name,
+      phone: restaurant.displayPhone,
+      price: restaurant.price,
+      rating: restaurant.rating
+    }
+    
+    apiPost('restaurant_preference', data).
+      then(({data}) => {
+        // TODO: Handle request
+      }
+    );
   }
 
   changePriceOption(event) {

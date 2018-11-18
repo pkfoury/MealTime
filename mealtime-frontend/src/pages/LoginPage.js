@@ -37,9 +37,8 @@ class LoginPage extends Component {
                 });
 
                 if (data.status === "SUCCESS") {
-                    var user_id = data.id;
-                    this.props.history.push('/home/' + user_id);
                     localStorage.setItem('token', data.data);
+                    this.props.history.push('/home');
                 }
             })
             
