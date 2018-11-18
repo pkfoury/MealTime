@@ -10,6 +10,8 @@ module Api
 
       def create
         recipe = Recipe.new(recipe_params)
+        ingredients = params['ingredients']
+        ingredients.map {|ingredient| Ingredient.new(ingredient_params).save}
         logger.debug "New recipe: #{recipe.attributes.inspect}"
         logger.debug "Recipe should be valid: #{recipe.valid?}"
         if recipe.save
@@ -22,6 +24,9 @@ module Api
       private
       def recipe_params
         params.permit(:user_id, :recipe_name, :instructions, :cook_time, :creator_comments)
+      end
+      def ingredient_params
+        params.permit(:name, :calories, :total_fat, :trans_fat, :cholesterol, :sodium, :total_carbs, :protein)
       end
     end
   end

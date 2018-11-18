@@ -15,7 +15,14 @@ class AddRecipe extends Component {
         {
           name: '',
           amount: null,
-          uom: null
+          uom: null,
+          calories: 0,
+          total_fat: 0,
+          trans_fat: 0,
+          cholesterol: 0,
+          sodium: 0,
+          total_carbs: 0,
+          protein: 0
         }
       ],
       selectedItem: null,
@@ -95,7 +102,7 @@ class AddRecipe extends Component {
       this.refs.foodSearch.value = '';
     }
     else {
-      var link='https://api.nal.usda.gov/ndb/nutrients/?format=json&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H&ndbno=' + this.state.selectedItem.ndbno + '&nutrients=208';
+      var link='https://api.nal.usda.gov/ndb/nutrients/?format=json&api_key=WzLOlbq03SgcdDo2zPXUp5YgebYGwbcLcDnQJv8H&ndbno=' + this.state.selectedItem.ndbno + '&nutrients=203&nutrients=204&nutrients=205&nutrients=208&nutrients=307&nutrients=601&nutrients=605';
       fetch(link).then(function(response) {
         return response.json();
       }).then(function(jsonData) {
@@ -106,7 +113,14 @@ class AddRecipe extends Component {
         const item = {
           name: jsonData.report.foods[0].name,
           amount: this.state.tempAmount,
-          uom: this.state.tempUom
+          uom: this.state.tempUom,
+          calories: jsonData.report.foods[0].nutrients[4].value,
+          protein: jsonData.report.foods[0].nutrients[0].value,
+          total_fat: jsonData.report.foods[0].nutrients[1].value,
+          trans_fat: jsonData.report.foods[0].nutrients[6].value,
+          total_carbs: jsonData.report.foods[0].nutrients[2].value,
+          cholesterol: jsonData.report.foods[0].nutrients[3].value,
+          sodium: jsonData.report.foods[0].nutrients[5].value
         };
         var arrayIngredients = this.state.ingredients.slice();
         arrayIngredients.push(item);
