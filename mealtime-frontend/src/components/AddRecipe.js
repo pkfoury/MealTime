@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './AddRecipe.css';
 import dateFns from 'date-fns';
 import { apiPost } from '../functions/Api';
 import axios from 'axios';
@@ -34,7 +33,12 @@ class AddRecipe extends Component {
       difficulty: 1,
       tempAmount: 0,
       tempUom: null,
-      user_id: null
+      total_carbs: 0,
+      total_fat: 0,
+      total_trans_fat: 0,
+      total_protein: 0,
+      total_sodium: 0,
+      total_cholesterol: 0
     };
     this.updaterecipe_name = this.updaterecipe_name.bind(this);
     this.updateInstructions = this.updateInstructions.bind(this);
@@ -43,11 +47,6 @@ class AddRecipe extends Component {
     this.updateAmount = this.updateAmount.bind(this);
     this.updateUom = this.updateUom.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    apiGet('users').then(({data}) => {
-      console.log(data);
-      console.log(data.data.id);
-      this.setState({ user_id: data.data.id});
-    });
   }
 
   updaterecipe_name (e) {
@@ -112,20 +111,42 @@ class AddRecipe extends Component {
         arrayTerms.push(jsonData.report.foods[0].name);
         const item = {
           name: jsonData.report.foods[0].name,
-          amount: this.state.tempAmount,
+          amount: +this.state.tempAmount,
           uom: this.state.tempUom,
-          calories: jsonData.report.foods[0].nutrients[4].value,
-          protein: jsonData.report.foods[0].nutrients[0].value,
-          total_fat: jsonData.report.foods[0].nutrients[1].value,
-          trans_fat: jsonData.report.foods[0].nutrients[6].value,
-          total_carbs: jsonData.report.foods[0].nutrients[2].value,
-          cholesterol: jsonData.report.foods[0].nutrients[3].value,
-          sodium: jsonData.report.foods[0].nutrients[5].value
+          calories: +jsonData.report.foods[0].nutrients[4].value,
+          protein: +jsonData.report.foods[0].nutrients[0].value,
+          total_fat: +jsonData.report.foods[0].nutrients[1].value,
+          trans_fat: +jsonData.report.foods[0].nutrients[6].value,
+          total_carbs: +jsonData.report.foods[0].nutrients[2].value,
+          cholesterol: +jsonData.report.foods[0].nutrients[3].value,
+          sodium: +jsonData.report.foods[0].nutrients[5].value
         };
+        if (isNaN(item.calories)){
+          item.calories = 0;
+        }
+        if (isNaN(item.sodium)){
+          item.sodium = 0;
+        }
+        if (isNaN(item.protein)){
+          item.protein = 0;
+        }
+        if (isNaN(item.total_fat)){
+          item.total_fat = 0;
+        }
+        if (isNaN(item.trans_fat)){
+          item.trans_fat = 0;
+        }
+        if (isNaN(item.total_carbs)){
+          item.total_carbs = 0;
+        }
+        if (isNaN(item.cholesterol)){
+          item.total_cholesterol = 0;
+        }
         var arrayIngredients = this.state.ingredients.slice();
         arrayIngredients.push(item);
         this.setState({ items: arrayItems, ingredients: arrayIngredients, dropdownItems: [], selectedItem: null, specifics: arrayTerms, specific: null });
         this.refs.foodSearch.value = '';
+        console.log(this.state.ingredients);
       }.bind(this));
       console.log(this.state.ingredients);
     }
@@ -139,11 +160,10 @@ class AddRecipe extends Component {
       'instructions': this.state.instructions,
       'cook_time': this.state.time,
       'ingredients': this.state.ingredients,
-      'instructions': this.state.instructions,
-      'user_id': this.state.user_id
+      'instructions': this.state.instructions
     };
-    axios.post('http://127.0.0.1:3000/api/v1/add_recipes', recipeInfo)
     //apiPost('add_recipes', recipeInfo)
+    apiPost('add_recipes', recipeInfo)
       .then(({data})=> {
         console.log(data);
         if (data.status === "SUCCESS") {
@@ -159,7 +179,7 @@ class AddRecipe extends Component {
 
   render() {
     return (
-      <div className="AddRecipe">
+      /*<div className="AddRecipe">
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <div className="row">
@@ -193,7 +213,7 @@ class AddRecipe extends Component {
               <input type="number" id="count" name="ingredientCount" placeholder="1" step="1" min="1" onChange={this.updateAmount} />
             </div>
             <div className="col-20">
-              <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)"/>
+              <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)" onChange={this.updateUom} />
             </div>
           </div>
           <div>
@@ -249,7 +269,60 @@ class AddRecipe extends Component {
           </div>
           </div>
         </form>
+      </div>*/
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-control">
+            <div class="row">
+              <label className="col-lg-3" for="recipe_name">Recipe Name:</label>
+              <input type="text" className="form-control col-lg-9" id="recipe_name" placeholder="Recipe Name..." onChange={this.updaterecipe_name}/>
+            </div>
+            <div class="row">
+              <label className="col-lg-3" for="ingredient">Ingredient:</label>
+              <input type="text"
+                onChange={event => this.doSearch(event.target.value)}
+                className="form-control col-lg-5"
+                placeholder="Ingredient..."
+                id="foodSearch"
+                list="items"
+                ref="foodSearch"
+                />
+                <datalist id="items">
+                  {this.state.dropdownItems.map((dropdownItem, index) => (
+                    <option key={index} value={dropdownItem.name}/>
+                  ))}
+                  </datalist>
+              <input type="number" className="form-control col-lg-2" id="ingredientCount" placeholder="1" step="1" min="1" onChange={this.updateAmount} />
+              <input type="text" className="form-control col-lg-2" id="unit" placeholder="Unit Type (Tablespoons, teaspoons, etc.)" onChange={this.updateUom} />
+            </div>
+            <div>
+              <div className="btn btn-large btn-success" onClick={() => this.addItemToSpecificIngredientsList()}>Add Ingredient</div>
+            </div>
+            <br />
+            <div class="row">
+              <label className="col-lg-3" for="ingredients">Ingredients:</label>
+              {this.state.specifics.map((item, index) => (
+                <div key={item} className="selected-item-row row">
+                  <div className="col-lg-9">{item}</div>
+                </div>
+              ))}
+            </div>
+            <div class="row">
+              <label className="col-lg-3" for="instructions">Instructions:</label>
+              <input type="text" className="form-control col-lg-9" id="instructions" placeholder="Instructions to cook..." onChange={this.updateInstructions} />
+            </div>
+            <div class="row">
+              <label className="col-lg-3" for="cookTime">Time to Cook:</label>
+              <input type="text" className="col-lg-1" id="cookTime" placeholder="00:00" onChange={this.updateTime}/>
+            </div>
+            <button className="btn btn-large btn-success">Add Recipe</button>
+          </div>
+        </form>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+              integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+              crossorigin="anonymous"></link>
       </div>
+
     );
   }
 }
