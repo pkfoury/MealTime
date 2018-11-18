@@ -5,10 +5,11 @@ class MealTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @meal = Meal.new(date_of_meal: "2018-9-10", total_calories: 200, user_id: 1, meal_type_id: 1,)
+    @meal = Meal.new(date_of_meal: Date.parse("2018-9-10"), total_calories: 200, user_id: 12, meal_type_id: 1)
   end
 
   test "meal is valid" do
     assert @meal.valid?
   end
+  
 end
