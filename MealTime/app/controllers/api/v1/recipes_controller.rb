@@ -18,6 +18,16 @@ module Api
                 render json: {status: 'SUCCESS', message: 'Found a recipe', data:recipe}, status: :ok
             end
 
+            def searchWithFilters
+                # TODO: Actually search DB using these filters and return a listing.
+                # p params["name"]
+                # p params["difficultyFilter"]
+                # p params["timeFilter"]
+                # p params["numIngredientsFilter"]
+                # p params["onlyShowOwnerFilters"]
+                render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.'}, status: :ok
+            end
+
             def create
                 recipe = Recipe.new(recipe_params) 
                 if recipe.save 
@@ -37,7 +47,6 @@ module Api
             def recipe_params
                 params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments)
             end
-
         end
     end
 end
