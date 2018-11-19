@@ -21,7 +21,8 @@ class AddRecipe extends Component {
           cholesterol: 0,
           sodium: 0,
           total_carbs: 0,
-          protein: 0
+          protein: 0,
+          serving_size: 0.0
         }
       ],
       selectedItem: null,
@@ -33,6 +34,7 @@ class AddRecipe extends Component {
       difficulty: 1,
       tempAmount: 0,
       tempUom: null,
+      total_calories: 0,
       total_carbs: 0,
       total_fat: 0,
       total_trans_fat: 0,
@@ -112,39 +114,76 @@ class AddRecipe extends Component {
         const item = {
           name: jsonData.report.foods[0].name,
           amount: +this.state.tempAmount,
-          uom: this.state.tempUom,
+          uom: jsonData.report.foods[0].measure.substring(jsonData.report.foods[0].measure.indexOf(" ")+1),
           calories: +jsonData.report.foods[0].nutrients[4].value,
           protein: +jsonData.report.foods[0].nutrients[0].value,
           total_fat: +jsonData.report.foods[0].nutrients[1].value,
           trans_fat: +jsonData.report.foods[0].nutrients[6].value,
           total_carbs: +jsonData.report.foods[0].nutrients[2].value,
           cholesterol: +jsonData.report.foods[0].nutrients[3].value,
-          sodium: +jsonData.report.foods[0].nutrients[5].value
+          sodium: +jsonData.report.foods[0].nutrients[5].value,
+          serving_size: +jsonData.report.foods[0].measure.substring(0, jsonData.report.foods[0].measure.indexOf(" "))
+
         };
         if (isNaN(item.calories)){
           item.calories = 0;
         }
+        item.calories *= item.amount;
         if (isNaN(item.sodium)){
           item.sodium = 0;
         }
+        item.sodium *= item.amount;
         if (isNaN(item.protein)){
           item.protein = 0;
         }
+        item.protein *= item.amount;
         if (isNaN(item.total_fat)){
           item.total_fat = 0;
         }
+        item.total_fat *= item.amount;
         if (isNaN(item.trans_fat)){
           item.trans_fat = 0;
         }
+        item.trans_fat *= item.amount;
         if (isNaN(item.total_carbs)){
           item.total_carbs = 0;
         }
+        item.total_carbs *= item.amount;
         if (isNaN(item.cholesterol)){
-          item.total_cholesterol = 0;
+          item.cholesterol = 0;
         }
+        item.cholesterol *= item.amount;
+        var carbs = this.state.total_carbs;
+        carbs += item.total_carbs;
+        var fat = this.state.total_fat;
+        fat += item.total_fat;
+        var calories = this.state.total_calories;
+        calories += item.calories;
+        var trans_fat = this.state.total_trans_fat;
+        trans_fat += item.trans_fat;
+        var protein = this.state.total_protein;
+        protein += item.protein;
+        var cholesterol = this.state.total_cholesterol;
+        cholesterol += item.cholesterol;
+        var sodium = this.state.total_sodium;
+        sodium += item.sodium;
         var arrayIngredients = this.state.ingredients.slice();
         arrayIngredients.push(item);
-        this.setState({ items: arrayItems, ingredients: arrayIngredients, dropdownItems: [], selectedItem: null, specifics: arrayTerms, specific: null });
+        this.setState({
+          items: arrayItems,
+          ingredients: arrayIngredients,
+          dropdownItems: [],
+          selectedItem: null,
+          specifics: arrayTerms,
+          specific: null,
+          total_carbs: carbs,
+          total_fat: fat,
+          total_calories: calories,
+          total_trans_fat: trans_fat,
+          total_protein: protein,
+          total_cholesterol: cholesterol,
+          total_sodium: sodium
+        });
         this.refs.foodSearch.value = '';
         console.log(this.state.ingredients);
       }.bind(this));
@@ -160,14 +199,22 @@ class AddRecipe extends Component {
       'instructions': this.state.instructions,
       'cook_time': this.state.time,
       'ingredients': this.state.ingredients,
-      'instructions': this.state.instructions
+      'instructions': this.state.instructions,
+      'total_calories': this.state.total_calories,
+      'total_fat': this.state.total_fat,
+      'total_carbs': this.state.total_carbs,
+      'total_trans_fat': this.state.total_trans_fat,
+      'total_protein': this.state.total_protein,
+      'total_cholesterol': this.state.total_cholesterol,
+      'total_sodium': this.state.total_sodium
     };
     //apiPost('add_recipes', recipeInfo)
     apiPost('add_recipes', recipeInfo)
       .then(({data})=> {
         console.log(data);
         if (data.status === "SUCCESS") {
-          this.props.history.push('/mainpage')
+          alert('Recipe successfully added');
+          this.props.history.push('/home');
         }
       })
 
@@ -313,7 +360,18 @@ class AddRecipe extends Component {
             </div>
             <div class="row">
               <label className="col-lg-3" for="cookTime">Time to Cook:</label>
-              <input type="text" className="col-lg-1" id="cookTime" placeholder="00:00" onChange={this.updateTime}/>
+              <input type="string" className="col-lg-1" id="cookTime" placeholder="00:00" onChange={this.updateTime}/>
+            </div>
+            <div class="row">
+              <label className="col-lg" for="calories">Total Calories: {this.state.total_calories}</label>
+            </div>
+            <div class="row">
+              <label className="col-lg-2" for="total_fat">Total Fat: {this.state.total_fat}</label>
+              <label className="col-lg-2" for="total_trans_fat">Total Trans Fat: {this.state.total_trans_fat}</label>
+              <label className="col-lg-2" for="total_carbs">Total Carbohydrates: {this.state.total_carbs}</label>
+              <label className="col-lg-2" for="total_protein">Total Protein: {this.state.total_protein}</label>
+              <label className="col-lg-2" for="total_cholesterol">Total Cholesterol: {this.state.total_cholesterol}</label>
+              <label className="col-lg-2" for="total_sodium">Total Sodium: {this.state.total_sodium}</label>
             </div>
             <button className="btn btn-large btn-success">Add Recipe</button>
           </div>

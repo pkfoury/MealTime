@@ -13,7 +13,7 @@ module Api
             def create
                 user = User.new(user_params)
                 if user.save
-                    user.track_macro = false;
+                    #user.track_macro = false;
                     render json: {status: 'SUCCESS', message: 'User Created', data:user, id: user.id}, status: :ok
                 else
                     render json: {status: 'ERROR', message: 'User not created', data:user.errors.full_messages}, status: :unprocessable_entity
