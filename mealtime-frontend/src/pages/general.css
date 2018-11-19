@@ -33,6 +33,12 @@
     margin-left: 10px;
     max-height: 125px;
 }
+.restaurant-image-sm {
+    height: 85px;
+    width: 85px;
+    float: left;
+}
+
 .right {
     float: right;
     margin-top: 10px;
