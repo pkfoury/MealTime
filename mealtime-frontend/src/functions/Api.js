@@ -10,7 +10,7 @@ function getHeaders(token) {
   };
 }
 
-export function apiGet(endpoint, token = getToken()) {
+export function apiGet (endpoint, token = getToken()) {
   const options = {
     method: 'GET',
     headers: getHeaders(token)
@@ -28,7 +28,7 @@ export function apiDelete (endpoint, token = getToken()) {
   return axios.delete(`${API_URL}${endpoint}/`, options)
 }
 
-export function apiPost(endpoint, data = {}, token = getToken()) {
+export function apiPost (endpoint, data = {}, token = getToken()) {
   const options = {
     method: 'POST',
     headers: getHeaders(token),
