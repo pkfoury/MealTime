@@ -11,22 +11,24 @@ module Api
                 user = User.find_by(auth_digest: params["headers"]["Token"])
                 restaurantPreference = RestaurantPreference.new(preference_params);
                 restaurantPreference.user_id = user.id 
-                
+                restaurantPreference.yelp_id = params["body"]["yelp_id"]
+
                 if restaurantPreference.save
                     render json: {status: 'SUCCESS', message: 'Preference saved'}, status: :ok
                 else
-                    render json: {status: 'ERROR', message: 'Preference not created'}, status: :unprocessable_entity
+                    render json: {status: 'ERROR', message: 'Preference not created', data:restaurantPreference.errors}, status: :unprocessable_entity
                 end
             end
 
             def getFavoritesFromUser
-                preferences = RestaurantPreference.find_by(user_id: params["user_id"])
-                render json: {status: 'SUCCESS', message: 'Found a recipe', data:preferences}, status: :ok
+                user = User.find_by(id: @current_user.id)
+                preferences = RestaurantPreference.where(user_id: user.id)
+                render :json => { status: 'SUCCESS', message: 'Preferences returned.', data: preferences}, status: :ok
             end
-  
-            private
+
+            private 
             def preference_params
-                params.permit(:restaurant_id)
+                params.permit(:user_id, :yelp_id)
             end
         end
     end
