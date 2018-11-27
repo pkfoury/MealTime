@@ -44,13 +44,12 @@ ActiveRecord::Schema.define(version: 2018_11_18_214920) do
   create_table "daily_nutrients", force: :cascade do |t|
     t.bigint "user_id"
     t.integer "calories", default: 0, null: false
-    t.decimal "protein", default: "0.0", null: false
-    t.decimal "fat", default: "0.0", null: false
-    t.decimal "carbs", default: "0.0", null: false
+    t.integer "protein", default: 0, null: false
+    t.integer "fat", default: 0, null: false
+    t.integer "carbs", default: 0, null: false
     t.decimal "budget", precision: 8, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "trans_fat"
     t.index ["user_id"], name: "index_daily_nutrients_on_user_id"
   end
 

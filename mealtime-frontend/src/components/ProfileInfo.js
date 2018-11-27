@@ -26,7 +26,7 @@ class ProfileInfo extends Component {
       apiGet('aws').then( ({data}) => {
         console.log(data);
         axios.put(data, file).then( (res) => {
-          if(res.status == 200) {
+          if(res.status === 200) {
             window.location.reload();
           } else {
             window.alert("Upload error");
@@ -37,7 +37,7 @@ class ProfileInfo extends Component {
     if(this.state.email || this.state.allergies) {
       apiPost('profile', this.state).then((res) => {
         window.alert("Wait for page to refresh!");
-        if(res.status == 200) {
+        if(res.status === 200) {
           window.location.reload();
         } else {
           window.alert("Upload error");

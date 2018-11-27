@@ -19,7 +19,7 @@ export function apiGet (endpoint, token = getToken()) {
 }
 
 export function apiDelete (endpoint, token = getToken()) {
-  console.log(token)
+  // console.log(token)
   const options = {
     method: 'DELETE',
     headers: getHeaders(token)
@@ -34,7 +34,6 @@ export function apiPost (endpoint, data = {}, token = getToken()) {
     headers: getHeaders(token),
     body: data
   }
-  console.log(options)
   return axios.post(`${API_URL}${endpoint}/`, options);
 }
 
