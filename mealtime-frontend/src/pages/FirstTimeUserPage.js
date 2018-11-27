@@ -5,7 +5,7 @@ import { apiPatch, apiGet, apiPost } from '../functions/Api';
 class FirstTimeUserPage extends Component {
   constructor(props) {
     super(props)
-    this.state = { 
+    this.state = {
       showMacroGoals: false,
       weight: 0,
       calories: 0,
@@ -13,6 +13,7 @@ class FirstTimeUserPage extends Component {
       protein: 0,
       fats: 0,
       carbs: 0,
+      cheat_day_calories: 0
     };
 
     this.updateMoney = this.updateMoney.bind(this);
@@ -55,7 +56,7 @@ class FirstTimeUserPage extends Component {
   toggleShowMacroGoals() {
     this.setState({ showMacroGoals: !this.state.showMacroGoals });
   }
-  
+
   renderMacroOptions() {
     if (!this.state.showMacroGoals) return;
 
@@ -80,7 +81,8 @@ class FirstTimeUserPage extends Component {
       'protein': this.state.protein,
       'fat': this.state.fats,
       'carbs': this.state.carbs,
-      'track_macros': this.state.showMacroGoals
+      'track_macros': this.state.showMacroGoals,
+
     }
 
     apiPost('user_goals', nutritionalInfo)
@@ -120,8 +122,8 @@ class FirstTimeUserPage extends Component {
                 <button className="btn btn-large btn-success">Let's do this thing!</button>
             </div>
         </form>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
-              integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+              integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
               crossorigin="anonymous"></link>
       </div>
     );

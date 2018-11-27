@@ -14,9 +14,6 @@ module Api
           recipe_parse = params["body"]
           recipe = Recipe.new(recipe_params)
           recipe.user_id = user.id
-          recipe.recipe_name = params["body"]["recipe_name"]
-          recipe.instructions = params["body"]["instructions"]
-          recipe.cook_time = params["body"]["cook_time"]
           if recipe.save
             ingredients = params["body"]['ingredients']
             ingredients.map do |ingredient|
@@ -76,7 +73,7 @@ module Api
       end
       private
       def recipe_params
-        params.permit(:user_id, :recipe_name, :instructions, :cook_time, :creator_comments, :total_calories, :total_fat, :total_trans_fat, :total_cholesterol, :total_sodium, :total_carbs, :total_protein)
+        params.require(:body).permit(:recipe_name, :instructions, :cook_time, :total_calories, :total_fat, :total_trans_fat, :total_cholesterol, :total_sodium, :total_carbs, :total_protein)
       end
       def ingredient_params
         params.permit(:name, :calories, :total_fat, :trans_fat, :cholesterol, :sodium, :total_carbs, :protein, :serving_size)
