@@ -29,7 +29,7 @@ module Api
                         puts goals.errors.full_messages
                     end
 
-                    
+
                 end
             end
 
@@ -47,7 +47,7 @@ module Api
             private
 
             def goals_params
-                params.require(:body).permit(:calories, :weight, :money, :fat, :carbs, :protein, :track_macros)
+                params.require(:body).permit(:calories, :weight, :money, :fat, :carbs, :protein, :track_macros, :cheat_day_calories)
             end
         end
     end

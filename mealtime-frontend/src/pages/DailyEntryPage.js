@@ -75,13 +75,13 @@ class DailyEntryPage extends Component {
         if (this.state.selectedItem === null) {
             return; // Failure
         }
-        
+
         var arrayItems = this.grabMealArray(meal).slice();
 
         if (this.state.itemIsAUserRecipe) {
             console.log("Selecte item below");
             console.log(this.state.selectedItem);
-            let newObject = { 
+            let newObject = {
                 name: this.state.selectedItem["recipe_name"],
                 measure: '1 Serving',
                 nutrients: [
@@ -107,7 +107,7 @@ class DailyEntryPage extends Component {
             this.setState({ dropdownItems: [], selectedItem: null, totalCalorieCount: this.state.totalCalorieCount + +jsonData.report.foods[0].nutrients[0].value });
             this.setMealArray(meal, arrayItems);
             this.refs.foodSearch.value = '';
-        
+
         }.bind(this));
     }
 
@@ -139,6 +139,10 @@ class DailyEntryPage extends Component {
                 this.setState({ snackItems: arrayItems });
                 break;
         }
+    }
+
+    setCheatDay() {
+
     }
 
     deleteItemFromMeal(meal, itemName) {
@@ -178,10 +182,10 @@ class DailyEntryPage extends Component {
             mealData: this.state.snackItems,
             date: formattedDate
         }
-    
+
         // console.log(breakfastInfo.mealData.length)
 
-        if (breakfastInfo.mealData.length !== 0) 
+        if (breakfastInfo.mealData.length !== 0)
             console.log(breakfastInfo)
             apiPost('add-meal', breakfastInfo)
                 .then(({data}) => {
@@ -190,7 +194,7 @@ class DailyEntryPage extends Component {
                 .catch((err) => {
                     console.log(err);
                 });
-        
+
         console.log(lunchInfo.mealData.length)
 
         if (lunchInfo.mealData.length !== 0)
@@ -248,7 +252,7 @@ class DailyEntryPage extends Component {
                                 <Button onClick={() => this.addItemToDailyList("dinner")}>Dinner</Button>
                                 <Button onClick={() => this.addItemToDailyList("snacks")}>Snacks</Button>
                             </div>
-                            <Button>Cheat Day</Button>
+                            <Button onClick={() => this.setCheatDay()}>Cheat Day</Button>
                         </div>
                     </div>
                 </div>

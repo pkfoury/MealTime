@@ -31,6 +31,12 @@ module Api
                     render json: {status: "FAIL on POST", message: "Daily vals something else idkkk", data:daily_vals}, status: :ok
                 end
             end
+
+            def cheat_day
+                user = @current_user
+                daily_vals = DailyNutrient.find_by(user_id: user.id)
+
+                if daily
         end
     end
 end

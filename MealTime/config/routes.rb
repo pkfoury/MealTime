@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       patch '/daily_nutrients', to: 'daily_nutrients#update'
       get '/daily_nutrients', to: 'daily_nutrients#index'
       get '/daily_nutrients/all', to: 'daily_nutrients#show_all'
+      patch '/daily_nutrients/cheat_day', to: 'daily_nutrients#cheat_day'
 
       resources :aws
 
@@ -27,7 +28,7 @@ Rails.application.routes.draw do
       get '/searchWithFilters/:name/:difficultyFilter/:timeFilter/:numIngredientsFilter/:onlyShowOwnerFilters', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
       resources :add_recipes
       resources :meals
-      
+
       get '/get-meals-for-day/:dateTime', to: 'meals#show'
       post '/add-meal', to: 'meals#create'
       resources :user_votes
