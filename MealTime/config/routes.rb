@@ -8,17 +8,26 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
 
+
+      post '/daily_nutrients', to: 'daily_nutrients#create'
+      patch '/daily_nutrients', to: 'daily_nutrients#update'
+      get '/daily_nutrients', to: 'daily_nutrients#index'
+      get '/daily_nutrients/all', to: 'daily_nutrients#show_all'
+
       resources :aws
 
       get '/user_goals', to: 'user_goals#index'
+      get '/user_goals/all', to: 'user_goals#show'
       patch '/user_goals', to: 'user_goals#update'
       post '/user_goals', to: 'user_goals#create'
+      delete '/user_goals/:id', to: 'user_goals#destroy'
 
       resources :recipes
       get '/search/:name', to: 'recipes#search'
       get '/searchWithFilters/:name/:difficultyFilter/:timeFilter/:numIngredientsFilter/:onlyShowOwnerFilters', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
       resources :add_recipes
       resources :meals
+      
       get '/get-meals-for-day/:dateTime', to: 'meals#show'
       post '/add-meal', to: 'meals#create'
       resources :user_votes

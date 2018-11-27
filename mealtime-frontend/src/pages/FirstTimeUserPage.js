@@ -79,7 +79,8 @@ class FirstTimeUserPage extends Component {
       'money': this.state.money,
       'protein': this.state.protein,
       'fat': this.state.fats,
-      'carbs': this.state.carbs
+      'carbs': this.state.carbs,
+      'track_macros': this.state.showMacroGoals
     }
 
     apiPost('user_goals', nutritionalInfo)
@@ -88,6 +89,11 @@ class FirstTimeUserPage extends Component {
         this.props.history.push('/home');
       }
     })
+
+    apiPost('daily_nutrients')
+		.then (({data}) => {
+			console.log(data.data)
+		})
   }
 
   render() {
