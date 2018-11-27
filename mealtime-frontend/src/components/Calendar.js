@@ -9,20 +9,12 @@ class Calendar extends Component {
     selectedDate: new Date(),
     calories: 1,
     budget: 0,
-    user_id: null,
-    flag: 0,
+    ingredients: []
   };
 
 
   renderHeader() {
     const dateFormat = " MMMM DD YYYY";
-    if(this.state.flag === 0){
-      apiGet('users').then(({data}) => {
-      console.log(data);
-      console.log(data.data.id);
-      this.setState({ user_id: data.data.id, flag: 1});
-
-    });}
     return (
       <div className="header row flex-middle">
         <div className="col col-start">
@@ -87,8 +79,6 @@ class Calendar extends Component {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
-            <span className="dailyCal">Calories: </span>
-            <span className="dailyBud">Budget: </span>
           </div>
         );
         day = dateFns.addDays(day, 1);
@@ -110,9 +100,10 @@ class Calendar extends Component {
     });
     const newDateFormat = "YYYY-MM-DD";
     var formattedDate = dateFns.format(day, newDateFormat);
-    apiGet('meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
+    apiGet('meals/'+formattedDate).then(({data}) => {
       console.log(data);
       this.setState({ calories : data.data.total_calories })
+      this.setState({ meals: data.data.meals })
     });
     this.setState({
       selectedDate: day
@@ -138,21 +129,6 @@ class Calendar extends Component {
           {this.renderHeader()}
           {this.renderDays()}
           {this.renderCells()}
-        </div>
-        <div className="page">
-          <div className="col-25">
-            <h5>Daily Calories: {this.state.calories} calories</h5>
-            <h5>Daily Budget: ${this.state.budget}</h5>
-          </div>
-          <div className="col-25">
-            <h5>Meals: </h5>
-          </div>
-          <div className="col-25">
-            <h5>Macro Information: </h5>
-          </div>
-          <div className="col-25">
-            <h5>Planned Recipes: </h5>
-          </div>
         </div>
       </div>
     );
