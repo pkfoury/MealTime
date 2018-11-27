@@ -47,13 +47,13 @@ class DailyEntryPage extends Component {
         fetch(link).then(function(response) {
             return response.json();
         }).then(function(jsonData) {
-            if (jsonData.list == null) {
+            if (jsonData.list === null) {
                 return;
             }
             const items = jsonData.list.item;
             this.setState({ dropdownItems: items });
 
-            if (items.length == 1) {
+            if (items.length === 1) {
                 this.setState({ selectedItem: items[0] });
             }
         }.bind(this));
@@ -61,7 +61,6 @@ class DailyEntryPage extends Component {
         // Search our backend for recipes.
         const searchQuery = { 'searchQuery' : term };
         apiGet('search/' + term).then(({data}) => {
-            console.log(data.data);
             if (data.data != null) {
                 this.setState({ selectedItem: data.data, itemIsAUserRecipe: true });
             } else {
@@ -73,7 +72,7 @@ class DailyEntryPage extends Component {
     }
 
     addItemToDailyList(meal) {
-        if (this.state.selectedItem == null) {
+        if (this.state.selectedItem === null) {
             return; // Failure
         }
         
@@ -157,14 +156,16 @@ class DailyEntryPage extends Component {
     saveResults() {
         var dateToday = new Date();
         var formattedDate = dateToday.getMonth() + 1 + '/' + dateToday.getDate() + '/' + dateToday.getFullYear();
+
         const breakfastInfo = {
             mealId: 1,
             mealData: this.state.breakfastItems,
             date: formattedDate
+
         }
         const lunchInfo = {
             mealId: 2,
-            mealData: this.state.dinnerItems,
+            mealData: this.state.lunchItems,
             date: formattedDate
         }
         const dinnerInfo = {
@@ -178,11 +179,47 @@ class DailyEntryPage extends Component {
             date: formattedDate
         }
     
-    
-        if (breakfastInfo.length != 0) apiPost('add-meal', breakfastInfo).then(({data}) => {}).catch((err) => { console.log(err); });
-        if (lunchInfo.length != 0) apiPost('add-meal', lunchInfo).then(({data}) => {}).catch((err) => { console.log(err); });
-        if (dinnerInfo.length != 0) apiPost('add-meal', dinnerInfo).then(({data}) => {}).catch((err) => { console.log(err); });
-        if (snacksInfo.length != 0) apiPost('add-meal', snacksInfo).then(({data}) => {}).catch((err) => { console.log(err); });
+        // console.log(breakfastInfo.mealData.length)
+
+        if (breakfastInfo.mealData.length !== 0) 
+            console.log(breakfastInfo)
+            apiPost('add-meal', breakfastInfo)
+                .then(({data}) => {
+                    console.log(data)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        
+        console.log(lunchInfo.mealData.length)
+
+        if (lunchInfo.mealData.length !== 0)
+
+            apiPost('add-meal', lunchInfo)
+                .then(({data}) => {
+                    console.log(data)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+        if (dinnerInfo.mealData.length !== 0)
+            apiPost('add-meal', dinnerInfo)
+                .then(({data}) => {
+                    console.log(data)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+        if (snacksInfo.mealData.length !== 0)
+            apiPost('add-meal', snacksInfo)
+            .then(({data}) => {
+                console.log(data)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     render() {

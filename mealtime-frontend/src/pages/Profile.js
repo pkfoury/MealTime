@@ -3,7 +3,7 @@ import './Profile.css';
 import { Card, CardDeck } from 'reactstrap';
 import ProfileCard from '../components/ProfileCard'
 import ProfileInfo from '../components/ProfileInfo'
-import { apiGet, apiPost } from '../functions/Api';
+import { apiGet } from '../functions/Api';
 
 class Profile extends Component {
   constructor(props) {

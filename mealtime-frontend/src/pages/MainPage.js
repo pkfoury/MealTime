@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {BarChart} from 'react-easy-chart';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
-import { apiGet } from '../functions/Api';
+import { apiGet, apiPost } from '../functions/Api';
 
 class MainPage extends Component{
 
 	constructor(props) {
 		super(props);
-		// this.logout = this.logout.bind(this);
 		this.doSearch("restaurants");
 		  
 		// TODO: Populate recommendations by getting a list of user's favorites and running them through the Yelp API to get
@@ -15,6 +14,7 @@ class MainPage extends Component{
 		this.state = {
 			goals: {},
 			user: {},
+			current_progress: {},
 
 			//recommendations: [],
 			restaurants: [],
@@ -25,14 +25,23 @@ class MainPage extends Component{
 	}
 
 	componentWillMount() {
+
 		apiGet('user_goals')
-		.then ( ({data}) => {	
-			console.log(data)
-      this.setState({
-				user: data.data,
-				goals: data.goals_data
-      })
-    })
+			.then ( ({data}) => {	
+				console.log(data)
+				this.setState({
+					user: data.data,
+					goals: data.goals_data
+				})
+			})
+
+		apiGet('daily_nutrients')
+			.then (({data}) => {
+				console.log(data.data)
+				this.setState({
+					current_progress: data.data
+				})
+			})
 	};
 
 	doSearch(searchTerm) {
@@ -104,9 +113,11 @@ class MainPage extends Component{
 					margin={{top: 30, left: 30, bottom: 30, right: 30}}
 					data={[
 							{ x: 'Protein', y: this.state.goals["protein"], color: '#cc00ff' },
-							{ x: 'Protein Progress', y: 60, color: '#cc00ff'},
+							{ x: 'Protein Progress', y: this.state.current_progress["protein"], color: '#cc00ff'},
 							{ x: 'Fat', y: this.state.goals["fat"], color: '#00e58d' },
-							{ x: 'Carbs', y: this.state.goals["carbs"], color: '#00428d' }
+							{ x: 'Fat Progress', y: this.state.current_progress["fat"], color: '#00e58d'},
+							{ x: 'Carbs', y: this.state.goals["carbs"], color: '#00428d' },
+							{ x: 'Carbs Progress', y: this.state.current_progress["carbs"], color: '#00428d'}
 					]}
 				/>
 			<div>

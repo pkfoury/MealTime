@@ -61,10 +61,11 @@ class RegisterPage extends Component {
                     .then(({data}) => {
                         if (data.status === "SUCCESS") {
                             localStorage.setItem('token', data.data);
+                            this.props.history.push('/first-time-user/' + user_id);
                         }
                     })
 
-                    this.props.history.push('/first-time-user/' + user_id);
+                    
                     
                 }
             })

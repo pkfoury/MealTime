@@ -1,7 +1,9 @@
 module Api
     module V1
         class MealsController < ApplicationController
+            include MealsHelper
             skip_before_action :verify_authenticity_token
+
             def index
                 #this method will soon be only accessable by admins
                 meal = Meal.order("user_id DESC")
@@ -14,8 +16,18 @@ module Api
             end
 
             def create
-                p "MEAL PARAMS: "
-                p params["body"]
+
+                meal_data = params['body']['mealData'] #This is an array of meal items
+                user = User.find_by(auth_digest: params["headers"]["Token"])
+                user_goals = UserGoal.find_by(user_id: user.id)
+                daily_nut = DailyNutrient.find_by(user_id: user.id)
+                date = params['body']['date']
+
+                if user && user_goals
+                    processMeal(meal_data, daily_nut)
+                end
+
+                render json: {status: "SUCCESS", message: "HIT CREATE!", data: daily_nut}, status: :ok
             end
 
             def destroy
