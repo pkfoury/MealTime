@@ -62,7 +62,7 @@ class RestaurantsPage extends Component {
   likeRestaurant(restaurant) {
     console.log(restaurant);
     let data = {
-      id: restaurant.id,
+      yelp_id: restaurant.id,
       name: restaurant.name,
       phone: restaurant.displayPhone,
       price: restaurant.price,
@@ -144,8 +144,8 @@ class RestaurantsPage extends Component {
                 <h5>Phone #: { restaurant.phone }</h5>
                 <h5>Price: <b>{ restaurant.price }</b></h5>
                 <div className="btn-group restaurant-buttons">
-                  <button className="btn btn-secondary" onClick={() => this.likeRestaurant(restaurant)}>Like this recipe <i className="far fa-thumbs-up"></i></button>
-                  <button className="btn btn-secondary">Dislike this recipe <i className="far fa-thumbs-down"></i></button>
+                  <button className="btn btn-secondary" onClick={() => this.likeRestaurant(restaurant)}>Like this restaurant <i className="far fa-thumbs-up"></i></button>
+                  <button className="btn btn-secondary">Dislike this restaurant <i className="far fa-thumbs-down"></i></button>
                   <button className="btn btn-secondary" onClick={() => this.showReviews(restaurant.id, restaurant)}>Show Reviews</button>
                 </div>
               </div>

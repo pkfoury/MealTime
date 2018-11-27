@@ -10,18 +10,10 @@ module SessionsHelper
     end
 
     def current_user
-        @current_user ||= User.find_by(auth_digest: request.headers["Token"])
-        if (@current_user)
-            @current_user
-        # elsif (user_id = cookies.signed[:user_id])
-        #     puts "Cookies"
-        #     user = User.find_by(id: cookies.signed[:user_id])
-        #     puts user
-
-        #     if user && user.authenticated?(cookies[:auth_token])
-        #         log_in(user)
-        #         @current_user = user
-        #     end
+        if request.headers["Token"]
+            @current_user = User.find_by(auth_digest: request.headers["Token"])
+        else
+            @current_user = nil
         end
     end
 

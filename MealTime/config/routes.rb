@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
 
+      resources :aws
+
       get '/user_goals', to: 'user_goals#index'
       patch '/user_goals', to: 'user_goals#update'
       post '/user_goals', to: 'user_goals#create'
@@ -26,6 +28,7 @@ Rails.application.routes.draw do
       get '/meals/:id/:date', to: 'meals#daily'
 
       post '/restaurant_preference/', to: 'restaurant_preference#addFavoritesFromUser'
+      get '/get_restaurant_preferences/', to: 'restaurant_preference#getFavoritesFromUser'
     end
   end
 end

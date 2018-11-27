@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Input, FormText, Button } from 'reactstrap';
-import { apiPost } from '../functions/Api';
+import { apiPost, apiGet } from '../functions/Api';
+import axios from 'axios';
 
 class ProfileInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: null,
-      allergies: null
+      allergies: null,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  change(e) {
+  handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -20,10 +21,29 @@ class ProfileInfo extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    apiPost('/profile', this.state).then( (req, res) => {
-      console.log(res);
-
-    })
+    const file = document.getElementById('profile-pic').files[0];
+    if(file) {
+      apiGet('aws').then( ({data}) => {
+        console.log(data);
+        axios.put(data, file).then( (res) => {
+          if(res.status == 200) {
+            window.location.reload();
+          } else {
+            window.alert("Upload error");
+          }
+        })
+      })
+    }
+    if(this.state.email || this.state.allergies) {
+      apiPost('profile', this.state).then((res) => {
+        window.alert("Wait for page to refresh!");
+        if(res.status == 200) {
+          window.location.reload();
+        } else {
+          window.alert("Upload error");
+        }
+      })
+    }
   }
 
   render() {
@@ -32,15 +52,15 @@ class ProfileInfo extends Component {
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label>Email</Label>
-            <Input type="email" name="email" onChange={e => this.change(e)} placeholder={this.props.user["email"]} />
+            <Input type="email" name="email" onChange={e => this.handleChange(e)} placeholder={this.props.user["email"]} />
           </FormGroup>
           <FormGroup>
             <Label>Allergens</Label>
-            <Input type="text" name="allergens" onChange={e => this.change(e)} placeholder={"nuts, shellfish, etc."} />
+            <Input type="text" name="allergens" onChange={e => this.handleChange(e)} placeholder={"nuts, shellfish, etc."} />
           </FormGroup>
           <FormGroup>
             <Label>Profile image</Label>
-            <Input type="file" name="file" id="profile-pic" />
+            <Input type="file" name="file" id="profile-pic" onChange={e => this.handleChange(e)} />
             <FormText color="muted">
               Upload a profile picture here.
           </FormText>
