@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_18_214920) do
+ActiveRecord::Schema.define(version: 2018_11_27_025242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,12 +44,14 @@ ActiveRecord::Schema.define(version: 2018_11_18_214920) do
   create_table "daily_nutrients", force: :cascade do |t|
     t.bigint "user_id"
     t.integer "calories", default: 0, null: false
-    t.integer "protein", default: 0, null: false
-    t.integer "fat", default: 0, null: false
-    t.integer "carbs", default: 0, null: false
+    t.decimal "protein", default: "0.0", null: false
+    t.decimal "fat", default: "0.0", null: false
+    t.decimal "carbs", default: "0.0", null: false
     t.decimal "budget", precision: 8, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "trans_fat"
+    t.boolean "cheat_day_flag", default: false
     t.index ["user_id"], name: "index_daily_nutrients_on_user_id"
   end
 
@@ -137,6 +139,15 @@ ActiveRecord::Schema.define(version: 2018_11_18_214920) do
     t.index ["user_id"], name: "index_meals_users_on_user_id"
   end
 
+  create_table "recipe_preferences", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "recipe_id"
+    t.index ["recipe_id"], name: "index_recipe_preferences_on_recipe_id"
+    t.index ["user_id"], name: "index_recipe_preferences_on_user_id"
+  end
+
   create_table "recipes", force: :cascade do |t|
     t.text "recipe_name", null: false
     t.text "instructions", null: false
@@ -211,6 +222,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_214920) do
     t.integer "weight", null: false
     t.decimal "money", precision: 8, scale: 2, null: false
     t.boolean "track_macros", default: false
+    t.integer "cheat_day_calories", default: 0, null: false
     t.index ["user_id"], name: "index_user_goals_on_user_id"
   end
 
@@ -250,6 +262,8 @@ ActiveRecord::Schema.define(version: 2018_11_18_214920) do
   add_foreign_key "ingredients_recipes", "uoms"
   add_foreign_key "meals", "meal_types", on_delete: :nullify
   add_foreign_key "meals", "users", on_delete: :cascade
+  add_foreign_key "recipe_preferences", "recipes"
+  add_foreign_key "recipe_preferences", "users"
   add_foreign_key "recipes", "users", on_delete: :nullify
   add_foreign_key "restaurant_histories", "users", on_delete: :cascade
   add_foreign_key "restaurant_preferences", "users", on_delete: :cascade
