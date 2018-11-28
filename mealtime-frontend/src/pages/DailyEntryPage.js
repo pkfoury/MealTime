@@ -15,7 +15,8 @@ class DailyEntryPage extends Component {
             snackItems: [],
             selectedItem: null,
             totalCalorieCount: 0,
-            itemIsAUserRecipe: false
+            itemIsAUserRecipe: false,
+            foodItems: []
         };
     }
 
@@ -47,13 +48,13 @@ class DailyEntryPage extends Component {
         fetch(link).then(function(response) {
             return response.json();
         }).then(function(jsonData) {
-            if (jsonData.list === null) {
+            if (jsonData.list == null) {
                 return;
             }
             const items = jsonData.list.item;
             this.setState({ dropdownItems: items });
 
-            if (items.length === 1) {
+            if (items.length == 1) {
                 this.setState({ selectedItem: items[0] });
             }
         }.bind(this));
@@ -183,47 +184,23 @@ class DailyEntryPage extends Component {
             date: formattedDate
         }
 
-        // console.log(breakfastInfo.mealData.length)
+        const allFood = {
+            breakfastInfo,
+            lunchInfo,
+            dinnerInfo,
+            snacksInfo
+        }
 
-        if (breakfastInfo.mealData.length !== 0)
-            console.log(breakfastInfo)
-            apiPost('add-meal', breakfastInfo)
-                .then(({data}) => {
-                    console.log(data)
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+        console.log(allFood)
+        apiPost('add-meal', allFood)
+        .then(({data}) =>{
+            console.log(data)
+            if (data.status === "SUCCESS") {
+                this.props.history.push('/home');
+            }
+        })
 
-        console.log(lunchInfo.mealData.length)
 
-        if (lunchInfo.mealData.length !== 0)
-
-            apiPost('add-meal', lunchInfo)
-                .then(({data}) => {
-                    console.log(data)
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-
-        if (dinnerInfo.mealData.length !== 0)
-            apiPost('add-meal', dinnerInfo)
-                .then(({data}) => {
-                    console.log(data)
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-
-        if (snacksInfo.mealData.length !== 0)
-            apiPost('add-meal', snacksInfo)
-            .then(({data}) => {
-                console.log(data)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     }
 
     render() {
