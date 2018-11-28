@@ -10,17 +10,16 @@ module SessionsHelper
     end
 
     def current_user
-
+        
         if request.headers["Token"]
             @current_user = User.find_by(auth_digest: request.headers["Token"])
-        elsif request.headers["Token"] == nil
+        elsif params["headers"]["Token"] != nil
             tok = params["headers"]["Token"]
             @current_user = User.find_by(auth_digest: tok)
         else
             @current_user = nil
         end
 
-        puts @current_user.user_name
     end
 
     # Returns true if current user is logged in and false otherwise
