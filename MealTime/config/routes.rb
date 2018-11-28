@@ -35,7 +35,8 @@ Rails.application.routes.draw do
       get '/profile', to: 'profile#index'
       post '/profile', to: 'profile#create'
       get '/meals/:id/:date', to: 'meals#daily'
-
+      resources :allergens
+      
       post '/restaurant_preference/', to: 'restaurant_preference#addFavoritesFromUser'
       get '/get_restaurant_preferences/', to: 'restaurant_preference#getFavoritesFromUser'
     end

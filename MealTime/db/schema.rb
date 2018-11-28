@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_27_025242) do
+ActiveRecord::Schema.define(version: 2018_11_28_031812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,6 +167,14 @@ ActiveRecord::Schema.define(version: 2018_11_27_025242) do
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
+  create_table "restaurant_dislikes", force: :cascade do |t|
+    t.string "yelp_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_restaurant_dislikes_on_user_id"
+  end
+
   create_table "restaurant_histories", force: :cascade do |t|
     t.date "date_visited", null: false
     t.datetime "created_at", null: false
@@ -178,7 +186,6 @@ ActiveRecord::Schema.define(version: 2018_11_27_025242) do
 
   create_table "restaurant_preferences", force: :cascade do |t|
     t.bigint "user_id"
-    t.boolean "dislike", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "yelp_id", null: false
