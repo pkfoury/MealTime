@@ -36,7 +36,7 @@ module Api
                 user = @current_user
                 daily_vals = DailyNutrient.find_by(user_id: user.id)
 
-                if daily
+            end
         end
     end
 end

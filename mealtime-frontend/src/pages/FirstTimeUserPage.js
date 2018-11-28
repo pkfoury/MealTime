@@ -87,7 +87,7 @@ class FirstTimeUserPage extends Component {
       'fat': this.state.fats,
       'carbs': this.state.carbs,
       'track_macros': this.state.showMacroGoals,
-      'cheat_day_calories': this.state.
+      'cheat_day_calories': this.state.cheat_day_calories
     }
 
     apiPost('user_goals', nutritionalInfo)
