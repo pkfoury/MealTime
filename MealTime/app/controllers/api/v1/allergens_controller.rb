@@ -20,14 +20,14 @@ module Api
                 end
             end
 
-            def destroy
-            end
-
             def show
+                allergen = Allergen.where(:allergen_id => params["id"])
+                render json: {status: 'SUCCESS', message: 'Allergen found', data: allergen }, status: :ok
             end
+            
             private 
             def allergen_params 
-                params.permit(:name)
+                params.permit(:name, :allergen_id)
             end
         end
     end
