@@ -26,21 +26,12 @@ module Api
                 user = @current_user
                 raw_date = params["day"]
                 date = raw_date.slice(0, raw_date.length - 1)
-                puts date
                 daily_vals = DailyNutrient.find_by(user_id: user.id, day: date)
-                puts daily_vals
-                render json: {status: "SUCCESS", message: "Hit show_day", data: daily_vals}, status: :ok
-            end
-
-            def update_cheat_day
-                user = @current_user
-                today = get_today
-                daily_vals = DailyNutrient.find_by(user_id: user.id, day: today)
-                daily_vals.toggle(:cheat_day_flag)
-                if daily_vals.save
-                    render json: {status: "SUCCESS", message: "Cheat day has been toggled", data: daily_vals}, status: :ok
+                
+                if daily_vals != nil
+                    render json: {status: "SUCCESS", message: "Hit show_day", data: daily_vals}, status: :ok
                 else
-                    render json: {status: "FAIL on POST", message: "Cheat day failed to toggle", data:daily_vals}, status: :ok
+                    render json: {status: "NULL VALS", message: "Values do not exist for that day"}, status: :not_found
                 end
             end
 

@@ -8,7 +8,7 @@ module Api
             end
 
             def addFavoritesFromUser
-                user = User.find_by(auth_digest: params["headers"]["Token"])
+                user = User.find_by(auth_digest: params["Token"])
                 recipePreference = RecipePreference.new(preference_params)
                 recipePreference.user_id = user.id
                 recipePreference.recipe_id = params["body"]["id"].to_i
