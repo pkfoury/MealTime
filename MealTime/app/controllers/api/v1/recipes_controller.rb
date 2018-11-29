@@ -2,6 +2,7 @@ module Api
     module V1
         class RecipesController < ApplicationController
             skip_before_action :verify_authenticity_token
+            skip_before_action :require_token
             def index
                 recipe = Recipe.order("recipe_name DESC")
                 render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
