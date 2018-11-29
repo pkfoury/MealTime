@@ -9,7 +9,7 @@ module Api
           end
 
           def create
-            user = User.find_by(auth_digest: params["headers"]["Token"])
+            user = User.find_by(auth_digest: params["Token"])
             if params["body"]["email"]
                 user.update_attribute(:email, params["body"]["email"])
             end
