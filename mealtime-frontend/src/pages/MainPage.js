@@ -98,7 +98,9 @@ class MainPage extends Component{
 			<CardBody>
 			<CardText> Hope you're having a great day</CardText>
 			</CardBody>
-				<Button>Profile</Button>
+			<Button>
+				<a href='./profile' class="btn btn-primary">>Profile</a>
+			</Button>
 			</Card>
 			<Card>
 			<CardTitle>Nutrition-at-a-glance</CardTitle>
@@ -109,21 +111,25 @@ class MainPage extends Component{
 					grid
 					height={400}
 					barWidth={350}
-					yDomainRange={[0,250]}
-					margin={{top: 30, left: 30, bottom: 30, right: 30}}
+					yDomainRange={[0,400]}
+					margin={{top: 10, left: 30, bottom: 30, right: 50}}
 					data={[
-							{ x: 'Protein', y: this.state.goals["protein"], color: '#cc00ff' },
-							{ x: 'Protein Progress', y: this.state.current_progress["protein"], color: '#cc00ff'},
-							{ x: 'Fat', y: this.state.goals["fat"], color: '#00e58d' },
-							{ x: 'Fat Progress', y: this.state.current_progress["fat"], color: '#00e58d'},
-							{ x: 'Carbs', y: this.state.goals["carbs"], color: '#00428d' },
-							{ x: 'Carbs Progress', y: this.state.current_progress["carbs"], color: '#00428d'}
+							{ x: 'Protein Goal', y: this.state.goals["protein"], color: '#cc00ff' },
+							{ x: 'Protein', y: this.state.current_progress["protein"], color: '#cc00ff'},
+							{ x: 'Fat Goal', y: this.state.goals["fat"], color: '#00e58d' },
+							{ x: 'Fat', y: this.state.current_progress["fat"], color: '#00e58d'},
+							{ x: 'Carbs Goal', y: this.state.goals["carbs"], color: '#00428d' },
+							{ x: 'Carbs', y: this.state.current_progress["carbs"], color: '#00428d'}
 					]}
+					clickHandler={(d) => this.setState({dataDisplay: `The value of ${d.x} is ${d.y} grams`})}
 				/>
-			<div>
-				<a href='./progress'>Progress</a>
-			</div>
+				<div style={{display: 'inline-block', verticalAlign: 'top', paddingLeft: '20px'}}>
+      		{this.state.dataDisplay ? this.state.dataDisplay : 'Click on a bar to show the value'}
+    		</div>
 			</CardBody>
+			<Button>
+				<a href='./progress' class="btn btn-primary">>Progress</a>
+			</Button>
 			</Card>
 			<Card>
 				<CardBody>
