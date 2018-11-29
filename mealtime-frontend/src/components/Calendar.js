@@ -104,19 +104,29 @@ class Calendar extends Component {
   }
 
   onDateClick = day => {
-    this.setState({
-      selectedDate: day,
-      calories: 0
-    });
-    const newDateFormat = "YYYY-MM-DD";
+    // this.setState({
+    //   selectedDate: day,
+    //   calories: 0
+    // });
+    // const newDateFormat = "YYYY-MM-DD";
+    // var formattedDate = dateFns.format(day, newDateFormat);
+    // apiGet('meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
+    //   console.log(data);
+    //   this.setState({ calories : data.data.total_calories })
+    // });
+    // this.setState({
+    //   selectedDate: day
+    // });
+
+    // console.log(day)
+    const newDateFormat = "MM/DD/YY";
     var formattedDate = dateFns.format(day, newDateFormat);
-    apiGet('meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
-      console.log(data);
-      this.setState({ calories : data.data.total_calories })
-    });
-    this.setState({
-      selectedDate: day
-    });
+    // console.log(formattedDate)
+
+    apiGet('daily_nutrients/date?day=' + formattedDate)
+      .then(({data}) => {
+        console.log(data)
+      })
   };
 
   nextWeek = () => {

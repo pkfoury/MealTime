@@ -37,7 +37,7 @@ class MainPage extends Component{
 
 		apiGet('daily_nutrients')
 			.then (({data}) => {
-				console.log(data.data)
+				console.log(data.message)
 				this.setState({
 					current_progress: data.data
 				})
