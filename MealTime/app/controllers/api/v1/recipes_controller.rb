@@ -27,6 +27,10 @@ module Api
                 # p params["onlyShowOwnerFilters"]
                 render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.'}, status: :ok
             end
+            def recipe_allergens
+                recipe = Recipe.joins(ingredients_recipes: {ingredients: {allergens_ingredients: :allergen }}).where.not(allergens: {name: params["allergen_name"]})
+                render json: {status: 'SUCCESS', message: 'Searching for recipes that do not contain specified allergen', data: recipe}, status: :ok
+            end
 
             def create
                 recipe = Recipe.new(recipe_params) 
@@ -45,7 +49,7 @@ module Api
             end
             private 
             def recipe_params
-                params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments)
+                params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments, :allergen_name)
             end
         end
     end
