@@ -19,15 +19,11 @@ module Api
             end
 
             def searchWithFilters
-                # TODO: Actually search DB using these filters and return a listing.
-                name = params["name"]
-                difficulty = params["difficultyFilter"].to_i
-                time = params["timeFilter"].to_i
-                numIngredients = params["numIngredientsFilter"].to_i
-                onlyShowOnwer = params["onlyShowOwnerFilters"]
+                name = "%" + params["name"] + "%"
 
-                p difficulty
-                render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.'}, status: :ok
+                recipes = Recipe.where("recipe_name like ?", name);
+
+                render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.', data: recipes}, status: :ok
             end
             def recipe_allergens
                 recipe = []
@@ -51,9 +47,9 @@ module Api
                     render json: {status: 'SUCCESS', message: 'Recipe created', data:recipe}, status: :ok
                 else
                     render json: {status: 'ERROR', message: 'Recipe not created', data:recipe.errors}, status: :unprocessable_entity
-            
                 end
             end
+
             def destroy
                 recipe = Recipe.find_by(params[:id])
                 recipe.destroy
@@ -62,7 +58,7 @@ module Api
             end
             private 
             def recipe_params
-                params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments, :allergen_name)
+                params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments, :difficulty, :allergen_name)
             end
             #formats the query with the allergen_list allergens
             def build_query(allergen_list) 
@@ -115,6 +111,7 @@ module Api
                 temp.total_protein = row[10]
                 temp.difficulty = row[11]
                 return temp
+
             end
         end
     end

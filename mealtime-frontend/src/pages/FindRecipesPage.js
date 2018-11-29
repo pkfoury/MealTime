@@ -24,9 +24,13 @@ class FindRecipesPage extends Component {
         } else if (filter === 'timeFilter') {
             this.setState({ timeFilter: value });
         } else if (filter === 'ingredientsFilter') {
-            this.setState( {ingredientsFilter: value });
+            this.setState({ ingredientsFilter: value });
         }
+        this.doSearch();
+    }
 
+    changeSearchTerm(val) {
+        this.setState({ searchTerm: val });
         this.doSearch();
     }
 
@@ -56,7 +60,7 @@ class FindRecipesPage extends Component {
     }
 
     doFilteredSearch() {
-        let apiCall = 'searchWithFilters/' + (this.state.searchTerm ? this.state.searchTerm : 'none') + '/' + this.state.preperationFilter + '/' + this.state.timeFilter + '/' + this.state.onlyUserRecipesFilter;
+        let apiCall = 'searchWithFilters/' + (this.state.searchTerm ? this.state.searchTerm : 'none');
         apiGet(apiCall).then((response) => {
             if (response === undefined) this.setState({ recipes: [] });
             else if (response.data.data === undefined) this.setState({ recipes: [] });
@@ -100,6 +104,15 @@ class FindRecipesPage extends Component {
                                 <option value="2">15 - 30 minutes</option>
                                 <option value="3">30 minutes - 1 Hour</option>
                                 <option value="4">1 Hour - Up</option>
+                            </select>
+                        </div>
+                        <div className="input-group-append" style={{ marginLeft: 10 + 'px' }} onChange={(event) => this.changeFilter('ingredientsFilter', event)}>
+                            <select>
+                                <option value="0">Number of Ingredients</option>
+                                <option value="1">1-2</option>
+                                <option value="2">3-5</option>
+                                <option value="3">6-8</option>
+                                <option value="4">9+</option>
                             </select>
                         </div>
                     </div>
