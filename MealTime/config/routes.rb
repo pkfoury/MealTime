@@ -24,8 +24,10 @@ Rails.application.routes.draw do
       delete '/user_goals/:id', to: 'user_goals#destroy'
 
       resources :recipes
+
+      get '/recipe_allergens', to: "recipes#recipe_allergens"
       get '/search', to: 'recipes#search'
-      get '/searchWithFilters/:name/:difficultyFilter/:timeFilter/:onlyShowOwnerFilters', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
+      get '/searchWithFilters/:name', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
       resources :add_recipes
       resources :meals
       
@@ -42,6 +44,8 @@ Rails.application.routes.draw do
       get '/get_restaurant_preferences/', to: 'restaurant_preference#getFavoritesFromUser'
       post '/recipe_preference/', to: 'recipe_preference#addFavoritesFromUser'
       get '/get_recipe_preferences/', to: 'recipe_preference#getFavoritesFromUser'
+      post '/restaurant_dislikes/', to: 'restaurant_dislike#create'
+      get '/restaurant_dislikes/', to: 'restaurant_dislike#getDislikes'
     end
   end
 end

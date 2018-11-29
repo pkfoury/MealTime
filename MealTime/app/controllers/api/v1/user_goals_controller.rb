@@ -14,9 +14,9 @@ module Api
             end
 
             def create
-                user = User.find_by(auth_digest: params["headers"]["Token"])
+                user = User.find_by(auth_digest: params["Token"])
 
-                if User.exists?(auth_digest: params["headers"]["Token"])
+                if User.exists?(auth_digest: params["Token"])
 
                     goals = UserGoal.new(goals_params)
                     goals.user_id = user.id
@@ -34,7 +34,7 @@ module Api
             end
 
             def update
-                user = User.find_by(auth_digest: params["headers"]["Token"])
+                user = User.find_by(auth_digest: params["Token"])
                 goals = UserGoal[user.id]
             end
 

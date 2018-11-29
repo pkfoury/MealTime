@@ -17,7 +17,7 @@ module Api
 
             def create
                 meal_data = params['body'] #This is an array of the meals items
-                user = User.find_by(auth_digest: params["headers"]["Token"])
+                user = User.find_by(auth_digest: params["Token"])
                 user_goals = UserGoal.find_by(user_id: user.id)
 
                 today = get_today

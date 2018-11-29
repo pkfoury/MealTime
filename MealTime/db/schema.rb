@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2018_11_28_031812) do
 
   # These are extensions that must be enabled in order to support this database
@@ -167,6 +166,7 @@ ActiveRecord::Schema.define(version: 2018_11_28_031812) do
     t.integer "total_sodium"
     t.decimal "total_carbs"
     t.decimal "total_protein"
+    t.integer "difficulty"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 

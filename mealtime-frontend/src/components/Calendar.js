@@ -7,12 +7,13 @@ class Calendar extends Component {
   state = {
     currentWeek: new Date(),
     selectedDate: new Date(),
-    calories: 1,
-    budget: 0,
+    day_values: {},
+      calories: 1,
+      budget: 0,
+  
     user_id: null,
     flag: 0,
   };
-
 
   renderHeader() {
     const dateFormat = " MMMM DD YYYY";
@@ -121,11 +122,12 @@ class Calendar extends Component {
     // console.log(day)
     const newDateFormat = "MM/DD/YY";
     var formattedDate = dateFns.format(day, newDateFormat);
-    // console.log(formattedDate)
 
     apiGet('daily_nutrients/date?day=' + formattedDate)
       .then(({data}) => {
-        console.log(data)
+        this.setState({day_values: data.data})
+        console.log(this.state.day_values)
+        // alert("")
       })
   };
 
