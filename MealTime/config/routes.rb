@@ -8,11 +8,12 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
 
-
+      get '/daily_nutrients', to: 'daily_nutrients#index'
+      get '/daily_nutrients/date', to: 'daily_nutrients#show_day'
+      get '/daily_nutrients/all', to: 'daily_nutrients#show_all'
       post '/daily_nutrients', to: 'daily_nutrients#create'
       patch '/daily_nutrients', to: 'daily_nutrients#update'
-      get '/daily_nutrients', to: 'daily_nutrients#index'
-      get '/daily_nutrients/all', to: 'daily_nutrients#show_all'
+      delete '/daily_nutrients/:id', to: 'daily_nutrients#destroy'
 
       resources :aws
 

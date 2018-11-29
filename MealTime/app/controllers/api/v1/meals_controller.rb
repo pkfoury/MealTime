@@ -16,12 +16,12 @@ module Api
             end
 
             def create
-
                 meal_data = params['body'] #This is an array of the meals items
                 user = User.find_by(auth_digest: params["headers"]["Token"])
                 user_goals = UserGoal.find_by(user_id: user.id)
-                daily_nut = DailyNutrient.find_by(user_id: user.id)
-                date = params['body']['date']
+
+                today = get_today
+                daily_nut = DailyNutrient.find_by(user_id: user.id, day: today)
 
                 if user && user_goals
                     processEntry(meal_data, daily_nut)
