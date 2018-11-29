@@ -30,7 +30,7 @@ module Api
                 render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.'}, status: :ok
             end
             def recipe_allergens
-                recipe = Recipe.joins(ingredients_recipes: {ingredients: {allergens_ingredients: :allergen }}).where.not(allergens: {name: params["allergen_name"]})
+                recipe = Recipe.joins(ingredients_recipes: {ingredients: {allergens_ingredients: :allergen }}).where.not(allergens: {name: params[:allergen_name]})
                 render json: {status: 'SUCCESS', message: 'Searching for recipes that do not contain specified allergen', data: recipe}, status: :ok
             end
 
