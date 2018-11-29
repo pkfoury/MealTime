@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post '/daily_nutrients', to: 'daily_nutrients#create'
       patch '/daily_nutrients', to: 'daily_nutrients#update'
       delete '/daily_nutrients/:id', to: 'daily_nutrients#destroy'
+      get '/daily_nutrients/update_cheat_day', to: 'daily_nutrients#update_cheat_day'
 
       resources :aws
 
