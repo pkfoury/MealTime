@@ -30,6 +30,11 @@ class FindRecipesPage extends Component {
         this.doSearch();
     }
 
+    changeSearchTerm(val) {
+        this.setState({ searchTerm: val });
+        this.doSearch();
+    }
+
     toggleOnlyUserRecipesFilter() {
         this.setState({ onlyUserRecipesFilter: !this.state.onlyUserRecipesFilter });
         this.doSearch();
@@ -52,9 +57,10 @@ class FindRecipesPage extends Component {
 
     doFilteredSearch() {
         let apiCall = 'searchWithFilters/' + (this.state.searchTerm ? this.state.searchTerm : 'none') + '/' + this.state.preperationFilter + '/' + this.state.timeFilter + '/' + this.state.onlyUserRecipesFilter;
-        console.log('Filtered search : ' + apiCall);
         apiGet(apiCall).then((response) => {
-            this.setState({ recipes: response.data.data }, () => { console.log(this.state.recipes) });
+            if (response === undefined) this.setState({ recipes: [] });
+            else if (response.data.data === undefined) this.setState({ recipes: [] });
+            else this.setState({ recipes: response.data.data }, () => { console.log(this.state.recipes) });
         });
     }
 
@@ -73,7 +79,7 @@ class FindRecipesPage extends Component {
                     <br/>
                 
                     <div className="input-group col-lg-10">
-                        <input type="text" onChange={event => this.doSearch(event.target.value)} className="form-control" placeholder="Search recipes" id="restaurantSearch"/>
+                        <input type="text" onChange={event => this.changeSearchTerm(event.target.value)} className="form-control" placeholder="Search recipes" id="restaurantSearch"/>
                         <div className="input-group-append">
                             <button className="btn btn-secondary" onClick={() => this.doSearch(this.state.searchTerm)}>Search</button>
                         </div>
@@ -94,15 +100,6 @@ class FindRecipesPage extends Component {
                                 <option value="2">15 - 30 minutes</option>
                                 <option value="3">30 minutes - 1 Hour</option>
                                 <option value="4">1 Hour - Up</option>
-                            </select>
-                        </div>
-                        <div className="input-group-append" style={{ marginLeft: 10 + 'px' }} onChange={(event) => this.changeFilter('ingredientsFilter', event)}>
-                            <select>
-                                <option value="0">Number of Ingredients</option>
-                                <option value="1">0 - 5</option>
-                                <option value="2">5 - 10</option>
-                                <option value="3">10 - 20</option>
-                                <option value="4">20+</option>
                             </select>
                         </div>
                     </div>
