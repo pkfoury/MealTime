@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       delete '/user_goals/:id', to: 'user_goals#destroy'
 
       resources :recipes
+
+      get '/recipe_allergens', to: "recipes#recipe_allergens"
       get '/search', to: 'recipes#search'
       get '/searchWithFilters/:name/:difficultyFilter/:timeFilter/:onlyShowOwnerFilters', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
       resources :add_recipes
