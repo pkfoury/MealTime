@@ -37,12 +37,16 @@ class MainPage extends Component{
 
 		apiGet('daily_nutrients')
 			.then (({data}) => {
-				console.log(data.data)
+				console.log(data.message)
 				this.setState({
 					current_progress: data.data
 				})
 			})
 	};
+
+	favoriteRecipe(recipe) {
+		console.log(recipe);
+	}
 
 	doSearch(searchTerm) {
 		const YELP = require('yelp-fusion');
@@ -140,7 +144,7 @@ class MainPage extends Component{
 							<img src={restaurant.image_url} style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
 							<h6>{restaurant.name}</h6>
 							<p>{ restaurant.rating } / 5.0 Stars</p>
-							<Button>Insta-Favorite</Button>
+							<Button onClick={() => this.favoriteRecipe(restaurant)}>Insta-Favorite</Button>
 							<hr style={ { marginTop: 50 + 'px' } }/>
 						</div>
 					))}

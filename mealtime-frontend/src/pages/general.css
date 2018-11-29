@@ -124,3 +124,29 @@ p {
     margin-top: 20px;
     margin-bottom: 10px;
 }
+
+.recipe-container {
+    border: solid 1px grey;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: left;
+    padding: 10px;
+}
+
+.favorite-btn {
+    color: white;
+    float: right;
+}
+
+.favorite-card {
+    height: 100%;
+    padding: 10px;
+}
+
+.favoriteItem {
+    padding: 10px;
+}
+
+.favoritesText {
+    margin: 2px;
+}

@@ -10,11 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2018_11_27_025242) do
-=======
+
 ActiveRecord::Schema.define(version: 2018_11_28_031812) do
->>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +53,8 @@ ActiveRecord::Schema.define(version: 2018_11_28_031812) do
     t.datetime "updated_at", null: false
     t.decimal "trans_fat"
     t.boolean "cheat_day_flag", default: false
+    t.string "day", null: false
+    t.index ["user_id", "day"], name: "index_daily_nutrients_on_user_id_and_day", unique: true
     t.index ["user_id"], name: "index_daily_nutrients_on_user_id"
   end
 

@@ -10,10 +10,11 @@ function getHeaders(token) {
   };
 }
 
-export function apiGet (endpoint, token = getToken()) {
+export function apiGet (endpoint, date, token = getToken()) {
   const options = {
     method: 'GET',
-    headers: getHeaders(token)
+    headers: getHeaders(token),
+    day: date
   }
   return axios.get(`${API_URL}${endpoint}/`, options);
 }

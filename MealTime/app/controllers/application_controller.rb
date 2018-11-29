@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
     include SessionsHelper
+    include ApplicationHelper
+    
     before_action :require_token
 
     private
