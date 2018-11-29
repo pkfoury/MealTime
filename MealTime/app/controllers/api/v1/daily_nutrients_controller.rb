@@ -32,6 +32,13 @@ module Api
                 render json: {status: "SUCCESS", message: "Hit show_day", data: daily_vals}, status: :ok
             end
 
+            def update
+                user = @current_user
+                today = get_today
+                daily_vals = DailyNutrient.find_by(day: today)
+
+            end
+
             def create
                 user = @current_user
                 today = get_today
