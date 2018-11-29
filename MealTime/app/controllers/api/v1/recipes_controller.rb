@@ -12,19 +12,20 @@ module Api
                 render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
             end
 
-            # TODO implement this
             def search
-                recipe = Recipe.find_by(recipe_name: params["name"])
-                render json: {status: 'SUCCESS', message: 'Found a recipe', data:recipe}, status: :ok
+                recipes = Recipe.all
+                render json: {status: 'SUCCESS', message: 'Found a recipe', data:recipes}, status: :ok
             end
 
             def searchWithFilters
                 # TODO: Actually search DB using these filters and return a listing.
-                # p params["name"]
-                # p params["difficultyFilter"]
-                # p params["timeFilter"]
-                # p params["numIngredientsFilter"]
-                # p params["onlyShowOwnerFilters"]
+                name = params["name"]
+                difficulty = params["difficultyFilter"].to_i
+                time = params["timeFilter"].to_i
+                numIngredients = params["numIngredientsFilter"].to_i
+                onlyShowOnwer = params["onlyShowOwnerFilters"]
+
+                p difficulty
                 render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.'}, status: :ok
             end
 

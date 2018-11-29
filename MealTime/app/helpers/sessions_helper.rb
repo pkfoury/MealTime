@@ -9,7 +9,7 @@ module SessionsHelper
         cookies.permanent[:auth_token] = user.auth_token
     end
 
-    def current_user
+    def current_user        
         
         if request.headers["Token"]
             @current_user = User.find_by(auth_digest: request.headers["Token"])

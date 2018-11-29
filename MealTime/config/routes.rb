@@ -8,12 +8,12 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
 
-
+      get '/daily_nutrients', to: 'daily_nutrients#index'
+      get '/daily_nutrients/date', to: 'daily_nutrients#show_day'
+      get '/daily_nutrients/all', to: 'daily_nutrients#show_all'
       post '/daily_nutrients', to: 'daily_nutrients#create'
       patch '/daily_nutrients', to: 'daily_nutrients#update'
-      get '/daily_nutrients', to: 'daily_nutrients#index'
-      get '/daily_nutrients/all', to: 'daily_nutrients#show_all'
-      patch '/daily_nutrients/cheat_day', to: 'daily_nutrients#cheat_day'
+      delete '/daily_nutrients/:id', to: 'daily_nutrients#destroy'
 
       resources :aws
 
@@ -24,8 +24,8 @@ Rails.application.routes.draw do
       delete '/user_goals/:id', to: 'user_goals#destroy'
 
       resources :recipes
-      get '/search/:name', to: 'recipes#search'
-      get '/searchWithFilters/:name/:difficultyFilter/:timeFilter/:numIngredientsFilter/:onlyShowOwnerFilters', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
+      get '/search', to: 'recipes#search'
+      get '/searchWithFilters/:name/:difficultyFilter/:timeFilter/:onlyShowOwnerFilters', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
       resources :add_recipes
       resources :meals
 
@@ -37,9 +37,11 @@ Rails.application.routes.draw do
       post '/profile', to: 'profile#create'
       get '/meals/:id/:date', to: 'meals#daily'
       resources :allergens
-      
+
       post '/restaurant_preference/', to: 'restaurant_preference#addFavoritesFromUser'
       get '/get_restaurant_preferences/', to: 'restaurant_preference#getFavoritesFromUser'
+      post '/recipe_preference/', to: 'recipe_preference#addFavoritesFromUser'
+      get '/get_recipe_preferences/', to: 'recipe_preference#getFavoritesFromUser'
     end
   end
 end
