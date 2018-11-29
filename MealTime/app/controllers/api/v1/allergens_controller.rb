@@ -24,8 +24,6 @@ module Api
                 allergen = Allergen.where(:allergen_id => params["id"])
                 render json: {status: 'SUCCESS', message: 'Allergen found', data: allergen }, status: :ok
             end
-
-            
             
             private 
             def allergen_params 

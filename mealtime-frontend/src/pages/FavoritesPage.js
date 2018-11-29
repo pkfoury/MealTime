@@ -7,12 +7,10 @@ class FavoritesPage extends Component {
   constructor(props) {
     super(props);
 
-    // TODO: Figure out a way to fetch this information
     this.state = {
       favoriteRestaurants: [],
       favoriteRecipes: []
     }
-
 
     const YELP = require('yelp-fusion');
     const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
@@ -34,29 +32,38 @@ class FavoritesPage extends Component {
         });
       });
     });
+
+    apiGet('get_recipe_preferences').then(({data}) => {
+      this.setState({ favoriteRecipes: data.data });
+    });
   }
 
   render() {
     return (
       <div>
-        <div className="row favorite-restaurants col-md-11 col-centered">
-          <div className="col-md-5" style={{borderRight: "solid 1px black" }}>
+        <div className="row">
+          <div className="col-md-6 favorite-card" style={{borderRight: "solid 1px black" }}>
             <h3>Favorite Restaurants</h3>
             {this.state.favoriteRestaurants.map((restaurant, index) => (
               <div key={index}>
                 <img className="restaurant-image-sm" src={restaurant.image_url} />
-                <h5><a href={restaurant.url}>{restaurant.name}</a></h5>
-                <p>{restaurant.rating} / 5</p>
-                <p>{restaurant.display_phone}</p>
+                <div className="favoritesText">
+                  <h5><a href={restaurant.url}>{restaurant.name}</a></h5>
+                  <p>{restaurant.rating} / 5</p>
+                  <p>{restaurant.display_phone}</p>
+                </div>
                 <hr/>
               </div>
             ))}
           </div>
-          <div className="col-md-5">
+          <div className="col-md-6 favorite-card">
             <h3>Favorite recipes</h3> 
             {this.state.favoriteRecipes.map((recipe, index) => (
-              <div>
-                <h5><a href="">{recipe.name}</a></h5>
+              <div key={index} className="favoriteItem">
+                <h5>{recipe.recipe_name}</h5>
+                <p><i className="fas fa-clock"></i> {recipe.cook_time}</p>
+                <p>Instructions: {recipe.instructions}</p>
+                <hr />
               </div>
             ))}
           </div>
