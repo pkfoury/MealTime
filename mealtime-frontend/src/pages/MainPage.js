@@ -44,6 +44,10 @@ class MainPage extends Component{
 			})
 	};
 
+	favoriteRecipe(recipe) {
+		console.log(recipe);
+	}
+
 	doSearch(searchTerm) {
 		const YELP = require('yelp-fusion');
 		const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
@@ -134,7 +138,7 @@ class MainPage extends Component{
 							<img src={restaurant.image_url} style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
 							<h6>{restaurant.name}</h6>
 							<p>{ restaurant.rating } / 5.0 Stars</p>
-							<Button>Insta-Favorite</Button>
+							<Button onClick={() => this.favoriteRecipe(restaurant)}>Insta-Favorite</Button>
 							<hr style={ { marginTop: 50 + 'px' } }/>
 						</div>
 					))}
