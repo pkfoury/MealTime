@@ -16,7 +16,7 @@ class MainPage extends Component {
 			goals: {},
 			user: {},
 			current_progress: {},
-			budget: 40 ,
+			budget: 0 ,
 			restaurants: [],
       restaurantCount: 0,
     	reviewRestaurant: null,
@@ -134,6 +134,7 @@ class MainPage extends Component {
 			<CardTitle>Welcome {this.state.user['user_name']}</CardTitle>
 			<CardBody>
 			<CardText> Hope you're having a great day</CardText>
+			
 			</CardBody>
 			<Button>
 				<a href='./profile' class="btn btn-primary">Profile</a>
