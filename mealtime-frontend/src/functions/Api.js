@@ -16,7 +16,12 @@ export function apiGet (endpoint, date, token = getToken()) {
     headers: getHeaders(token),
     day: date
   }
-  return axios.get(`${API_URL}${endpoint}/`, options);
+  if (endpoint.includes("?")){
+    return axios.get(`${API_URL}${endpoint}&Token=` + token, options);
+  }
+  else{
+    return axios.get(`${API_URL}${endpoint}?Token=` + token, options);
+  }
 }
 
 export function apiDelete (endpoint, token = getToken()) {
@@ -25,8 +30,13 @@ export function apiDelete (endpoint, token = getToken()) {
     method: 'DELETE',
     headers: getHeaders(token)
   }
-  
-  return axios.delete(`${API_URL}${endpoint}/`, options)
+
+  if (endpoint.includes("?")){
+    return axios.delete(`${API_URL}${endpoint}&Token=` + token, options);
+  }
+  else{
+    return axios.delete(`${API_URL}${endpoint}?Token=` + token, options);
+  }
 }
 
 export function apiPost (endpoint, data = {}, token = getToken()) {
@@ -35,7 +45,13 @@ export function apiPost (endpoint, data = {}, token = getToken()) {
     headers: getHeaders(token),
     body: data
   }
-  return axios.post(`${API_URL}${endpoint}/`, options);
+  
+  if (endpoint.includes("?")){
+    return axios.post(`${API_URL}${endpoint}&Token=` + token, options);
+  }
+  else{
+    return axios.post(`${API_URL}${endpoint}?Token=` + token, options);
+  }
 }
 
 export function apiPatch(endpoint, param, data = {}, token = getToken()) {
@@ -47,5 +63,5 @@ export function apiPatch(endpoint, param, data = {}, token = getToken()) {
   }
 
   console.log(options)
-  return axios.patch(`${API_URL}${endpoint}/`, options);
+  return axios.patch(`${API_URL}${endpoint}`, options);
 }

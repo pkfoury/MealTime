@@ -26,10 +26,13 @@ module Api
                 user = @current_user
                 raw_date = params["day"]
                 date = raw_date.slice(0, raw_date.length - 1)
-                puts date
                 daily_vals = DailyNutrient.find_by(user_id: user.id, day: date)
-                puts daily_vals
-                render json: {status: "SUCCESS", message: "Hit show_day", data: daily_vals}, status: :ok
+                
+                if daily_vals != nil
+                    render json: {status: "SUCCESS", message: "Hit show_day", data: daily_vals}, status: :ok
+                else
+                    render json: {status: "NULL VALS", message: "Values do not exist for that day"}, status: :not_found
+                end
             end
 
             def create

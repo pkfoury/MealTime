@@ -2,7 +2,7 @@ module Api
     module V1
         class RecipesController < ApplicationController
             skip_before_action :verify_authenticity_token
-            skip_before_action :require_token
+            #skip_before_action :require_token
             def index
                 recipe = Recipe.order("recipe_name DESC")
                 render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
@@ -19,15 +19,15 @@ module Api
             end
 
             def searchWithFilters
-                # TODO: Actually search DB using these filters and return a listing.
-                name = params["name"]
-                difficulty = params["difficultyFilter"].to_i
-                time = params["timeFilter"].to_i
-                numIngredients = params["numIngredientsFilter"].to_i
-                onlyShowOnwer = params["onlyShowOwnerFilters"]
+                name = "%" + params["name"] + "%"
 
-                p difficulty
-                render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.'}, status: :ok
+                if params["name"] == "none"
+                    recipes = Recipe.all
+                else
+                    recipes = Recipe.where("recipe_name like ?", name);
+                end
+
+                render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.', data: recipes}, status: :ok
             end
             def recipe_allergens
                 recipe = []
@@ -35,7 +35,6 @@ module Api
                 params[:allergen_name].tr!('[]','')
                 #split input string by ',' if a list of allergens are provided
                 allergen_list = params[:allergen_name].split(',')
-                
                 records_array = ActiveRecord::Base.connection.execute(build_query(allergen_list))
                 
                 records_array.each do |row|
@@ -51,9 +50,9 @@ module Api
                     render json: {status: 'SUCCESS', message: 'Recipe created', data:recipe}, status: :ok
                 else
                     render json: {status: 'ERROR', message: 'Recipe not created', data:recipe.errors}, status: :unprocessable_entity
-            
                 end
             end
+
             def destroy
                 recipe = Recipe.find_by(params[:id])
                 recipe.destroy
@@ -62,7 +61,7 @@ module Api
             end
             private 
             def recipe_params
-                params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments, :allergen_name)
+                params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments, :difficulty, :allergen_name)
             end
             #formats the query with the allergen_list allergens
             def build_query(allergen_list) 
@@ -100,6 +99,42 @@ module Api
                 end
                 return ret_string
             end
+            #formats the query with the allergen_list allergens
+            def build_query(allergen_list) 
+                query = %"SELECT 
+                    recipes.recipe_name, 
+                    recipes.instructions,
+                    recipes.cook_time,
+                    recipes.creator_comments,
+                    recipes.total_calories,
+                    recipes.total_fat,
+                    recipes.total_trans_fat,
+                    recipes.total_cholesterol,
+                    recipes.total_sodium,
+                    recipes.total_carbs,
+                    recipes.total_protein,
+                    recipes.difficulty 
+                FROM recipes
+                    INNER JOIN ingredients_recipes 
+                        ON (recipes.id = ingredients_recipes.recipe_id)
+                    INNER JOIN ingredients 
+                        ON (ingredients_recipes.ingredient_id = ingredients.id)
+                    INNER JOIN allergens_ingredients 
+                        ON (ingredients.id = allergens_ingredients.ingredient_id)
+                    INNER JOIN allergens 
+                        ON (allergens_ingredients.allergen_id = allergens.id)
+                WHERE allergens.name != '#{allergen_list[0].strip}'"
+                #concat rest of allergens into the query
+                query << add_allergens_to_query(allergen_list[1..-1])
+            end
+            #if allergen_list contains multiple allergens concat them on to the query
+            def add_allergens_to_query(allergen_list)
+                ret_string = ''
+                allergen_list.each do |allergen|
+                    ret_string << %" AND allergens.name != '#{allergen.strip}'"
+                end
+                return ret_string
+            end
             def add_to_recipe(row)
                 temp = Recipe.new()
                 temp.recipe_name = row[0]
@@ -115,6 +150,7 @@ module Api
                 temp.total_protein = row[10]
                 temp.difficulty = row[11]
                 return temp
+
             end
         end
     end

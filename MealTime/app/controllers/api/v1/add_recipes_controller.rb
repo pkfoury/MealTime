@@ -3,6 +3,7 @@ module Api
     class AddRecipesController < ApplicationController
       skip_before_action :verify_authenticity_token
       # skip_before_action :require_token
+      
       def index
         recipe = Recipe.order("created by DESC")
         render json: {status: 'SUCCESS', message: 'Hit recipes endpoint', data: recipe}, status: :ok
@@ -21,7 +22,7 @@ module Api
       end
       private
       def recipe_params
-        params.permit(:user_id, :recipe_name, :instructions, :cook_time, :creator_comments)
+        params.permit(:user_id, :recipe_name, :instructions, :cook_time, :creator_comments, :difficulty, :num_ingredients)
       end
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_28_031812) do
+ActiveRecord::Schema.define(version: 2018_11_30_032339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,13 +159,15 @@ ActiveRecord::Schema.define(version: 2018_11_28_031812) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.boolean "public", default: false
-    t.integer "total_calories"
-    t.decimal "total_fat"
-    t.decimal "total_trans_fat"
-    t.integer "total_cholesterol"
-    t.integer "total_sodium"
-    t.decimal "total_carbs"
-    t.decimal "total_protein"
+    t.integer "total_calories", default: 1
+    t.decimal "total_fat", default: "1.0"
+    t.decimal "total_trans_fat", default: "1.0"
+    t.integer "total_cholesterol", default: 1
+    t.integer "total_sodium", default: 1
+    t.decimal "total_carbs", default: "1.0"
+    t.decimal "total_protein", default: "1.0"
+    t.integer "difficulty"
+    t.integer "num_ingredients"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
