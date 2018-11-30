@@ -49,10 +49,10 @@ class FavoritesPage extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col-md-6 favorite-card" style={{borderRight: "solid 1px black" }}>
+          <div className="col-md-6 favorite-card">
             <h3>Favorite Restaurants</h3>
             {this.state.favoriteRestaurants.map((restaurant, index) => (
-              <div key={index}>
+              <div key={index} className="favoriteItem">
                 <img className="restaurant-image-sm" src={restaurant.image_url} />
                 <div className="favoritesText">
                   <h5><a href={restaurant.url}>{restaurant.name}</a></h5>
@@ -66,7 +66,7 @@ class FavoritesPage extends Component {
           <div className="col-md-6 favorite-card">
             <h3>Favorite recipes</h3> 
             {this.state.favoriteRecipes.map((recipe, index) => (
-              <div key={index} className="favoriteItem">
+              <div key={index} className="favoriteItemRight">
                 <h5>{recipe.recipe_name}</h5>
                 <p><i className="fas fa-clock"></i> {recipe.cook_time}</p>
                 <p>Instructions: {recipe.instructions}</p>
