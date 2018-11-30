@@ -9,13 +9,11 @@ import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, Ca
 class App extends Component {
 	
 	state = {
-		total_calories: 0,
-		gcalories: 0,
-		gtotal_protein: 0,
-		gtotal_fat: 0,
+		totalCalorieCount: 0,
 		flag: 0,
-		current_progress: [],
-		total_progress: [],
+		current_progress: {},
+		total_progress: {},
+		goals: {},
 	};
 
 	componentWillMount(){
@@ -55,8 +53,8 @@ class App extends Component {
 			labels
 			size={375}
 			data={[
-				{ key: 'Calories Used' , value: 100 },
-				{ key: 'Calories Left' , value: 200 }
+				{ key: 'Calories Used' , value: 100},
+				{ key: 'Calories Left' , value: this.state.goals["calories"] }
 			]}
 			
 			styles={{
