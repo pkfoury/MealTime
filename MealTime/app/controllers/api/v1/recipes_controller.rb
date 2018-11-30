@@ -35,7 +35,6 @@ module Api
                 params[:allergen_name].tr!('[]','')
                 #split input string by ',' if a list of allergens are provided
                 allergen_list = params[:allergen_name].split(',')
-                
                 records_array = ActiveRecord::Base.connection.execute(build_query(allergen_list))
                 
                 records_array.each do |row|
@@ -88,7 +87,7 @@ module Api
                         ON (ingredients.id = allergens_ingredients.ingredient_id)
                     INNER JOIN allergens 
                         ON (allergens_ingredients.allergen_id = allergens.id)
-                WHERE allergens.name != '#{allergen_list[0]}'"
+                WHERE allergens.name != '#{allergen_list[0].strip}'"
                 #concat rest of allergens into the query
                 query << add_allergens_to_query(allergen_list[1..-1])
             end
@@ -96,7 +95,7 @@ module Api
             def add_allergens_to_query(allergen_list)
                 ret_string = ''
                 allergen_list.each do |allergen|
-                    ret_string << %" AND allergens.name != '#{allergen}'"
+                    ret_string << %" AND allergens.name != '#{allergen.strip}'"
                 end
                 return ret_string
             end
