@@ -238,7 +238,7 @@ class App extends Component {
                   	data={[
                         	{ x: 'Protein', y: this.state.current_progress["protein"], color: '#33CEFF' },
                         	{ x: 'Fat', y: this.state.current_progress["fat"], color: '#33B5FF' },
-                        	{ x: 'Fiber',y: this.state.current_progress["fiber"], color: '#339CFF' },
+                        	{ x: 'Calories',y: this.state.current_progress["calories"], color: '#339CFF' },
                         	{ x: 'Carbs',y: this.state.current_progress["carbs"], color: '#3377FF' }
 										]}
 										clickHandler={(d) => this.setState({dataDisplay: `The value of ${d.x} is ${d.y} grams`})}
