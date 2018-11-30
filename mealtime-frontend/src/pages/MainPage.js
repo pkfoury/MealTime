@@ -15,7 +15,7 @@ class MainPage extends Component{
 			goals: {},
 			user: {},
 			current_progress: {},
-			budget: 40 ,
+			budget: 0 ,
 			restaurants: [],
       restaurantCount: 0,
     	reviewRestaurant: null,
@@ -99,7 +99,7 @@ class MainPage extends Component{
 			<h5>Budget usage</h5>	
 			
 			<div className="text-center">used {this.state.current_progress["budget"]} of {this.state.goals["money"]}</div>
-			<Progress animated color="success" value={this.state.budget} />
+			<Progress animated color="success" value={this.state.current_progress["budget"]} />
 			</div>
 		<CardDeck>
 			<Card>
