@@ -7,13 +7,14 @@ import {apiGet} from '../functions/Api';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg, __esModule } from 'reactstrap';
 
 class App extends Component {
-	
+
 	state = {
 		totalCalorieCount: 0,
 		flag: 0,
 		current_progress: {},
 		total_progress: {},
 		goals: {},
+		caloriesLeft: 0
 	};
 
 	componentWillMount(){
@@ -22,17 +23,17 @@ class App extends Component {
 				console.log(data.data)
 				this.setState({
 					current_progress: data.data
-				})
+				}, this.getGoals)
 			})
 
-			apiGet('user_goals')
-			.then ( ({data}) => {	
+			/*apiGet('user_goals')
+			.then ( ({data}) => {
 				console.log(data)
 				this.setState({
 					user: data.data,
 					goals: data.goals_data
 				})
-			})	
+			})
 
 		apiGet('meals')
 			.then (({data}) => {
@@ -41,8 +42,41 @@ class App extends Component {
 					total_calories: data.data
 				})
 			})
+		console.log(this.state.goals);
+		console.log(this.state.current_progress);
+		var tempLimit = this.state.goals["calories"];
+		var tempCaloriesToday = this.state.current_progress["calories"];
+		var tempCalories = tempLimit - tempCaloriesToday;
+		this.setState({ caloriesLeft: tempCalories });
+		console.log(this.state.caloriesLeft);*/
 	};
+	getGoals(){
+		apiGet('user_goals').then(({data}) => {
+			console.log(data)
+			this.setState({
+				goals: data.goals_data
+			}, this.getMeals)
+		});
+	}
 
+	getMeals(){
+		apiGet('meals').then(({data}) => {
+			console.log(data.data)
+			this.setState({
+				total_calories: data.data
+			}, this.setCaloriesLeft)
+		});
+	}
+	setCaloriesLeft(){
+		console.log(this.state.goals);
+		console.log(this.state.current_progress);
+		var calories = this.state.goals["calories"];
+		if (this.state.current_progress["cheat_day_flag"]) {
+			calories = this.state.goals["cheat_day_calories"];
+		}
+		console.log(calories);
+		this.setState({ caloriesLeft: calories - this.state.current_progress["calories"]});
+	}
   render() {
     return (
 	<CardDeck>
@@ -53,14 +87,14 @@ class App extends Component {
 			labels
 			size={375}
 			data={[
-				{ key: 'Calories Used' , value: 100},
+				{ key: 'Calories Used' , value: this.state.current_progress["calories"]},
 				{ key: 'Calories Left' , value: this.state.goals["calories"] }
 			]}
-			
+
 			styles={{
 				'.chart_text': {
 					fontSize: '1em',
-				
+
 				}
 			}}
 		/>
@@ -69,7 +103,7 @@ class App extends Component {
 	  <Card>
 	    <CardTitle>Daily Values</CardTitle>
 	    <CardBody>
-				
+
 	 	<BarChart
                   	axes
                   	grid
@@ -93,7 +127,7 @@ class App extends Component {
 	  </Card>
 	  <Card>
 	    <CardTitle>Weekly Calories</CardTitle>
-	    <CardBody>	
+	    <CardBody>
 		<LineChart
 			xType={'text'}
 			axes
@@ -110,7 +144,7 @@ class App extends Component {
 					{ x: 'Sat' , y: 2200 },
 					{ x: 'Sun' , y: 1900 }
 				]
-				]}	
+				]}
 
 		/>
 	    </CardBody>
