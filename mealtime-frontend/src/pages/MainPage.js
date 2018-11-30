@@ -36,7 +36,7 @@ class MainPage extends Component{
 
 		apiGet('daily_nutrients')
 			.then (({data}) => {
-				console.log(data.message)
+				console.log(data.data)
 				this.setState({
 					current_progress: data.data
 				})
@@ -106,20 +106,33 @@ class MainPage extends Component{
 
 
   	render () {
+			var underWarning = {
+				color: 'red'
+			}
+			let warning
+
+			if (this.state.goals.protein > this.state.current_progress.protein ||
+					this.state.goals.carbs > this.state.current_progress.carbs ||
+					this.state.goals.fat > this.state.current_progress.carbs) {
+						warning = <div align="center" style={underWarning}>You have not met all of today's goals</div>
+			}
+			else {
+				warning = <CardText ><div>You have met today's goals</div></CardText>
+			}
+
     	return(
 		<div>
 		<div>
 			<h5>Budget usage</h5>	
 			
 			<div className="text-center">used {this.state.current_progress["budget"]} of {this.state.goals["money"]}</div>
-			<Progress animated color="success" value={this.state.budget} />
+			<Progress animated color="success" value={this.state.current_progress["budget"]} max={this.state.goals["money"]} />
 			</div>
 		<CardDeck>
 			<Card>
 			<CardTitle>Welcome {this.state.user['user_name']}</CardTitle>
 			<CardBody>
 			<CardText> Hope you're having a great day</CardText>
-			
 			</CardBody>
 			<Button>
 				<a href='./profile' class="btn btn-primary">Profile</a>
@@ -129,6 +142,7 @@ class MainPage extends Component{
 			<CardBody>
 			<CardTitle>Nutrition-at-a-glance</CardTitle>
 			<CardSubtitle>Heres a look at your nutritional budget for the day</CardSubtitle>
+			{warning}
 			<BarChart
 					axes
 					grid
