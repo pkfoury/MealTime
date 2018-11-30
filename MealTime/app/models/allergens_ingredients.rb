@@ -1,4 +1,4 @@
-class AllergensIngredients < ApplicationRecord
+class AllergensIngredient < ApplicationRecord
     validates_presence_of :allergen, :ingredient
 
     belongs_to :allergen

@@ -9,7 +9,7 @@ module Api
             end
 
             def show
-                recipe = Recipe.find_by(params[:id])
+                recipe = Recipe.find_by(%'id = #{params[:id]}')
                 render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
             end
 
@@ -54,7 +54,7 @@ module Api
             end
 
             def destroy
-                recipe = Recipe.find_by(params[:id])
+                recipe = Recipe.find_by(%'id = #{params[:id]}')
                 recipe.destroy
                 render json: {status: 'SUCCESS', message: 'Recipe deleted', data:recipe}, status: :ok
 
