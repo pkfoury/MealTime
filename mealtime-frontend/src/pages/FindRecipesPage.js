@@ -11,8 +11,15 @@ class FindRecipesPage extends Component {
             preperationFilter: '0',
             timeFilter: '0',
             ingredientsFilter: '0',
-            onlyUserRecipesFilter: false
+            onlyUserRecipesFilter: false,
+            user: null
         }
+
+        apiGet('users').then ( ({data}) => {
+            this.setState({
+              user: data.data
+            })
+          })
 
         this.doSearch(); // Populate recipes.
     }
@@ -20,28 +27,20 @@ class FindRecipesPage extends Component {
     changeFilter(filter, event) {
         let value = event.target.value;
         if (filter === 'preperationFilter') {
-            this.setState({ preperationFilter: value });
+            this.setState({ preperationFilter: value }, () => { this.doSearch() });
         } else if (filter === 'timeFilter') {
-            this.setState({ timeFilter: value });
+            this.setState({ timeFilter: value }, () => { this.doSearch() });
         } else if (filter === 'ingredientsFilter') {
-            this.setState({ ingredientsFilter: value });
+            this.setState({ ingredientsFilter: value }, () => { this.doSearch() });
         }
-        this.doSearch();
     }
 
     changeSearchTerm(val) {
-        this.setState({ searchTerm: val });
-        this.doSearch();
-    }
-
-    changeSearchTerm(val) {
-        this.setState({ searchTerm: val });
-        this.doSearch();
+        this.setState({ searchTerm: val }, () => { this.doSearch() });
     }
 
     toggleOnlyUserRecipesFilter() {
-        this.setState({ onlyUserRecipesFilter: !this.state.onlyUserRecipesFilter });
-        this.doSearch();
+        this.setState({ onlyUserRecipesFilter: !this.state.onlyUserRecipesFilter }, () => { this.doSearch(); });
     }
 
     doSearch() {
@@ -64,10 +63,56 @@ class FindRecipesPage extends Component {
         apiGet(apiCall).then((response) => {
             if (response === undefined) this.setState({ recipes: [] });
             else if (response.data.data === undefined) this.setState({ recipes: [] });
-            else this.setState({ recipes: response.data.data }, () => { console.log(this.state.recipes) });
+            else this.doFurtherFiltering(response.data.data);
         });
     }
 
+    doFurtherFiltering(recipes) {
+        let remainingRecipes = recipes;
+        let nextArray = [];
+        let index = 0;
+
+        if (this.state.preperationFilter !== '0') {
+            remainingRecipes.forEach(recipe => {
+                if (recipe.difficulty === +this.state.preperationFilter) nextArray.push(recipe);
+            });
+            remainingRecipes = nextArray;
+            nextArray = [];
+        }
+
+        if (this.state.timeFilter !== '0') {
+            remainingRecipes.forEach(recipe => {
+                if (recipe.cook_time === this.state.timeFilter) nextArray.push(recipe);
+            });
+            remainingRecipes = nextArray;
+            nextArray = [];
+        }
+
+        if (this.state.ingredientsFilter !== '0') {
+            remainingRecipes.forEach(recipe => {
+                if (this.state.ingredientsFilter === '1' && recipe.num_ingredients == 1 || recipe.num_ingredients == 2)
+                    nextArray.push(recipe);
+                else if (this.state.ingredientsFilter === '2' && (recipe.num_ingredients == 3 || recipe.num_ingredients == 4 || recipe.num_ingredients == 5))
+                    nextArray.push(recipe);
+                else if (this.state.ingredientsFilter === '3' && recipe.num_ingredients == 6 || recipe.num_ingredients == 7 || recipe.num_ingredients == 8)
+                    nextArray.push(recipe);
+                else if (this.state.ingredientsFilter == '4' && recipe.num_ingredients >= 9)
+                    nextArray.push(recipe);
+            });
+            remainingRecipes = nextArray;
+            nextArray = [];
+        }
+
+        if (this.state.onlyUserRecipesFilter) {
+            remainingRecipes.forEach(recipe => {
+                if (recipe.user_id == this.state.user.id) nextArray.push(recipe);
+            });
+            remainingRecipes = nextArray;
+            nextArray = [];
+        }
+
+        this.setState({ recipes: remainingRecipes });
+    }
 
     likeRecipe(recipe) {
         apiPost('recipe_preference', recipe).then((response) => {});
@@ -100,10 +145,10 @@ class FindRecipesPage extends Component {
                         <div className="input-group-append" style={{ marginLeft: 10 + 'px' }} onChange={(event) => this.changeFilter('timeFilter', event)}>
                             <select>
                                 <option value="0">Time</option>
-                                <option value="1">Less than 15 minutes</option>
-                                <option value="2">15 - 30 minutes</option>
-                                <option value="3">30 minutes - 1 Hour</option>
-                                <option value="4">1 Hour - Up</option>
+                                <option value="5:00">5:00 minutes</option>
+                                <option value="10:00">10:00 minutes</option>
+                                <option value="15:00">15:00 minutes</option>
+                                <option value="20:00">20:00 minutes</option>
                             </select>
                         </div>
                         <div className="input-group-append" style={{ marginLeft: 10 + 'px' }} onChange={(event) => this.changeFilter('ingredientsFilter', event)}>

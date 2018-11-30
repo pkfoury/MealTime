@@ -34,7 +34,14 @@ class FavoritesPage extends Component {
     });
 
     apiGet('get_recipe_preferences').then(({data}) => {
-      this.setState({ favoriteRecipes: data.data });
+      let preferenceData = data.data;
+      let validRecipes = [];
+      preferenceData.forEach((value) => { // For anybody reading this insanity, as of 11/29/2018 at 8:57 PM there is
+        if (value !== null) {             // some null data in our database that will crash this page, so this filters
+          validRecipes.push(value);       // those out. Until we remove those entries this needs to stay.
+        }
+      });
+      this.setState({ favoriteRecipes: validRecipes });
     });
   }
 

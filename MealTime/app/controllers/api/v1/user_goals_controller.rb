@@ -3,6 +3,7 @@ module Api
         class UserGoalsController < ApplicationController
             skip_before_action :verify_authenticity_token
             # skip_before_action :require_token
+            
             def index
                 goals = UserGoal.find_by(user_id: @current_user.id)
                 render json: {status: "SUCCESS", message: "Hit index", data: @current_user ,goals_data: goals}, status: :ok
@@ -29,7 +30,7 @@ module Api
                         puts goals.errors.full_messages
                     end
 
-                    
+
                 end
             end
 
@@ -47,7 +48,7 @@ module Api
             private
 
             def goals_params
-                params.require(:body).permit(:calories, :weight, :money, :fat, :carbs, :protein, :track_macros)
+                params.require(:body).permit(:calories, :weight, :money, :fat, :carbs, :protein, :track_macros, :cheat_day_calories)
             end
         end
     end
