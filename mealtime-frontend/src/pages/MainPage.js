@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {BarChart} from 'react-easy-chart';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg, Progress, Row, Col } from 'reactstrap';
 import { apiGet, apiPost } from '../functions/Api';
+import ProfileCard from '../components/ProfileCard';
 
-class MainPage extends Component{
+class MainPage extends Component {
 
 	constructor(props) {
 		super(props);
@@ -25,8 +26,8 @@ class MainPage extends Component{
 
 	componentWillMount() {
 		apiGet('user_goals')
-			.then ( ({data}) => {
-				console.log(data);
+			.then(({ data }) => {
+				console.log(data)
 				this.setState({
 					user: data.data,
 					goals: data.goals_data
@@ -64,42 +65,42 @@ class MainPage extends Component{
 		const YELP = require('yelp-fusion');
 		const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
 		const SEARCH_REQUEST = {
-		  term: searchTerm,
-		  location: 'west lafayette, in',
-		  sort_by: "rating",
-		  offset:(Math.floor(Math.random() * (100 - 0 + 1)) + 0),
-		  limit:3,
+			term: searchTerm,
+			location: 'west lafayette, in',
+			sort_by: "rating",
+			offset: (Math.floor(Math.random() * (100 - 0 + 1)) + 0),
+			limit: 3,
 		};
 		const YELP_CLIENT = YELP.client(API_KEY);
 
 		YELP_CLIENT.search(SEARCH_REQUEST).then(
-		  response => {
-			const results = response.jsonBody.businesses;
-			results.forEach(business => {
-			  business.reviews = [];
+			response => {
+				const results = response.jsonBody.businesses;
+				results.forEach(business => {
+					business.reviews = [];
+				});
+				this.setState({ restaurants: results, restaurantCount: results.length });
+			}).catch((error) => {
+				console.log(error);
 			});
-			this.setState({ restaurants: results, restaurantCount: results.length });
-		}).catch((error) => {
-		  console.log(error);
-		});
-	  }
+	}
 
-	  showReviews(restaurantId, restaurant) {
+	showReviews(restaurantId, restaurant) {
 		const YELP = require('yelp-fusion');
 		const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
 		const YELP_CLIENT = YELP.client(API_KEY);
 
 		YELP_CLIENT.reviews(restaurantId).then(response => {
-		  const reviews = response.jsonBody.reviews;
-		  var reviewsToShow = this.state.reviewsToShow;
-		  reviewsToShow = [];
-		  reviews.forEach(review => {
-			var nextReview = review.rating + ' / 5, ' + '"' + review.text + '" - ' + review.user.name;
-			reviewsToShow.push(nextReview);
-		  });
-		  this.setState({ reviewsToShow: reviewsToShow, reviewRestaurant: restaurant.name });
+			const reviews = response.jsonBody.reviews;
+			var reviewsToShow = this.state.reviewsToShow;
+			reviewsToShow = [];
+			reviews.forEach(review => {
+				var nextReview = review.rating + ' / 5, ' + '"' + review.text + '" - ' + review.user.name;
+				reviewsToShow.push(nextReview);
+			});
+			this.setState({ reviewsToShow: reviewsToShow, reviewRestaurant: restaurant.name });
 		}).catch((error) => {
-		  console.log(error);
+			console.log(error);
 		});
 	  }
 

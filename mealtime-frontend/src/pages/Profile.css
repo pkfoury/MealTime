@@ -2,14 +2,13 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* height: 100%; */
   margin: 36px;
   text-align: left;
 }
 
 .card-profile {
   width: 420px;
-  height: 420px;
+  height: auto;
 }
 
 .card-profile__form {

@@ -17,9 +17,6 @@ module Api
                 puts user.allergens
                 # user.update_attribute(:allergens, params["body"]["allergens"])
             end
-            if params["body"]["image"]
-                puts params["body"]["image"]
-            end
             render json: {status: 'SUCCESS', message: 'Update profile', data: user}, status: :ok
           end
 
