@@ -145,6 +145,18 @@ p {
 
 .favoriteItem {
     padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: solid 1px grey;
+    background: lavender;
+}
+
+.favoriteItemRight {
+    border-radius: 5px;
+    border: solid 1px grey;
+    background: lavender;
+    margin: 5px;
+    padding: 10px;
 }
 
 .favoritesText {
