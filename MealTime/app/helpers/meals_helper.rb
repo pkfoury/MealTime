@@ -1,5 +1,5 @@
 module MealsHelper
-    def processEntry(foodData, daily_entry)
+    def processEntry(foodData, daily_entry, money)
 
         # foodData is the list of all of the meals being sent
         # Item is each meal
@@ -15,6 +15,12 @@ module MealsHelper
                 processMeal(foods, daily_entry)
             end     
             
+        end
+
+        daily_entry.budget += money.to_f
+
+        if daily_entry.save
+            puts "Daily Entry Saved"
         end
     end
 

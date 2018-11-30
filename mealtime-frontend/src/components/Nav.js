@@ -39,7 +39,7 @@ class Example extends Component {
 				console.log(data.data.status);
 				if (data.data.status === "SUCCESS") {
 					this.props.history.push('/');
-					localStorage.removeItem('token');
+					sessionStorage.removeItem('token');
 					this.toggle()
 				}
 			})
@@ -58,12 +58,19 @@ class Example extends Component {
 	render() {
 
 		const logout_button = true
-		let button;
+		let button, profile, favorites, today, cal, add, find, rest;
 
-		if (localStorage.getItem("token") === null){
+		if (sessionStorage.getItem("token") === null){
 			button = <NavLink onClick={this.goto_login}>Login</NavLink>
 		}
 		else {
+			profile = <NavLink href='/profile'>Profile</NavLink>
+			favorites = <NavLink href="/favorites">Favorites</NavLink>
+			today = <NavLink href="/enter-daily-data">Today's Items</NavLink>
+			cal = <NavLink href="/calendar">Calendar</NavLink>
+			add = <NavLink href="/add-recipe">Add Recipe</NavLink>
+			find = <NavLink href="/find-recipes">Find Recipes</NavLink>
+			rest = <NavLink href="/restaurants">Restaurants</NavLink>
 			button = <NavLink onClick={this.logout}>Logout</NavLink>
 		}
 
@@ -75,30 +82,30 @@ class Example extends Component {
 					<Collapse isOpen={this.state.isOpen} navbar>
 						<Nav className="ml-auto" navbar>
 							<NavItem>
-								<NavLink href='/profile'>Profile</NavLink>
+								{profile}
 							</NavItem>
 							<NavItem>
-								<NavLink href="/favorites">Favorites</NavLink>
+								{favorites}
 							</NavItem>
 							<NavItem>
-								<NavLink href="/enter-daily-data">Today's Items</NavLink>
+								{today}
 							</NavItem>
 							<NavItem>
-								<NavLink href="/calendar">Calendar</NavLink>
+								{cal}
 							</NavItem>
 							<NavItem>
-								<NavLink href="/add-recipe">Add Recipe</NavLink>
+								{add}
 							</NavItem>
 							<NavItem>
-								<NavLink href="/find-recipes">Find Recipes</NavLink>
+								{find}
 							</NavItem>
 							<NavItem>
-								<NavLink href="/restaurants">Restaurants</NavLink>
+								{rest}
 							</NavItem>
-							<NavItem>									
+							<NavItem>
 								{button}
 							</NavItem>
-					
+
 						</Nav>
 					</Collapse>
 				</Navbar>

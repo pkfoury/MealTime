@@ -37,7 +37,9 @@ class LoginPage extends Component {
                 });
 
                 if (data.status === "SUCCESS") {
-                    localStorage.setItem('token', data.data);
+                    sessionStorage.setItem('token', data.data);
+                    const expiration = Date.now() + 1200000;
+                    sessionStorage.setItem('expiration', expiration);
                     this.props.history.push('/home');
                 }
             })

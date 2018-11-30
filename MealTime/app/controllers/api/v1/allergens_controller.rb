@@ -21,13 +21,13 @@ module Api
             end
 
             def show
-                allergen = Allergen.where(:allergen_id => params["id"])
+                allergen = Allergen.where(id: params["id"])
                 render json: {status: 'SUCCESS', message: 'Allergen found', data: allergen }, status: :ok
             end
             
             private 
             def allergen_params 
-                params.permit(:name, :allergen_id)
+                params.permit(:name, :id)
             end
         end
     end

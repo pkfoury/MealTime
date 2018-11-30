@@ -1,17 +1,25 @@
 const createUser = (token, callback) => {
-  localStorage.setItem('token', token);
+  sessionStorage.setItem('token', token);
 }
 
 const destroyUser = () => {
-  localStorage.remove('token');
+  sessionStorage.remove('token');
 }
 
 const getToken = () => {
-  return localStorage.getItem('token');
+  return sessionStorage.getItem('token');
 }
 
 const isAuthenticated = () => {
-  // const token = localStorage.get('token');
+
+  const time = Date.now();
+  if(time > sessionStorage.getItem('expiration')) {
+    sessionStorage.removeItem('token');
+    window.alert('session expired');
+    window.location.pathname = '/login'
+  }
+
+  // const token = sessionStorage.getItem('token');
   // let tokenIsStored = false;
   // let ret = false;
   // if (store) {

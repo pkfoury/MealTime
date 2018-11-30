@@ -5,12 +5,12 @@ module Api
             #skip_before_action :require_token
             def index
                 recipe = Recipe.order("recipe_name DESC")
-                render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
+                render json: {status: 'SUCCESS', message: 'Pulling all recipes desc.', data:recipe}, status: :ok
             end
 
             def show
-                recipe = Recipe.find_by(params[:id])
-                render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
+                recipe = Recipe.find_by(id: params[:id])
+                render json: {status: 'SUCCESS', message: 'Finding recipe', data:recipe}, status: :ok
             end
 
             def search
@@ -54,7 +54,7 @@ module Api
             end
 
             def destroy
-                recipe = Recipe.find_by(params[:id])
+                recipe = Recipe.find_by(id: params[:id])
                 recipe.destroy
                 render json: {status: 'SUCCESS', message: 'Recipe deleted', data:recipe}, status: :ok
 
@@ -66,6 +66,7 @@ module Api
             #formats the query with the allergen_list allergens
             def build_query(allergen_list) 
                 query = %"SELECT 
+                    recipes.id,
                     recipes.recipe_name, 
                     recipes.instructions,
                     recipes.cook_time,
@@ -77,78 +78,44 @@ module Api
                     recipes.total_sodium,
                     recipes.total_carbs,
                     recipes.total_protein,
-                    recipes.difficulty 
+                    recipes.difficulty
                 FROM recipes
-                    INNER JOIN ingredients_recipes 
+                    LEFT JOIN ingredients_recipes 
                         ON (recipes.id = ingredients_recipes.recipe_id)
-                    INNER JOIN ingredients 
+                    LEFT JOIN ingredients 
                         ON (ingredients_recipes.ingredient_id = ingredients.id)
-                    INNER JOIN allergens_ingredients 
+                    LEFT JOIN allergens_ingredients 
                         ON (ingredients.id = allergens_ingredients.ingredient_id)
-                    INNER JOIN allergens 
+                    LEFT JOIN allergens 
                         ON (allergens_ingredients.allergen_id = allergens.id)
-                WHERE allergens.name != '#{allergen_list[0]}'"
+                WHERE allergens.id != #{allergen_list[0].strip}"
                 #concat rest of allergens into the query
                 query << add_allergens_to_query(allergen_list[1..-1])
+                query << 'OR allergens.id IS NULL'
             end
             #if allergen_list contains multiple allergens concat them on to the query
             def add_allergens_to_query(allergen_list)
                 ret_string = ''
                 allergen_list.each do |allergen|
-                    ret_string << %" AND allergens.name != '#{allergen}'"
-                end
-                return ret_string
-            end
-            #formats the query with the allergen_list allergens
-            def build_query(allergen_list) 
-                query = %"SELECT 
-                    recipes.recipe_name, 
-                    recipes.instructions,
-                    recipes.cook_time,
-                    recipes.creator_comments,
-                    recipes.total_calories,
-                    recipes.total_fat,
-                    recipes.total_trans_fat,
-                    recipes.total_cholesterol,
-                    recipes.total_sodium,
-                    recipes.total_carbs,
-                    recipes.total_protein,
-                    recipes.difficulty 
-                FROM recipes
-                    INNER JOIN ingredients_recipes 
-                        ON (recipes.id = ingredients_recipes.recipe_id)
-                    INNER JOIN ingredients 
-                        ON (ingredients_recipes.ingredient_id = ingredients.id)
-                    INNER JOIN allergens_ingredients 
-                        ON (ingredients.id = allergens_ingredients.ingredient_id)
-                    INNER JOIN allergens 
-                        ON (allergens_ingredients.allergen_id = allergens.id)
-                WHERE allergens.name != '#{allergen_list[0].strip}'"
-                #concat rest of allergens into the query
-                query << add_allergens_to_query(allergen_list[1..-1])
-            end
-            #if allergen_list contains multiple allergens concat them on to the query
-            def add_allergens_to_query(allergen_list)
-                ret_string = ''
-                allergen_list.each do |allergen|
-                    ret_string << %" AND allergens.name != '#{allergen.strip}'"
+                    ret_string << %" AND allergens.id != '#{allergen.strip}'"
                 end
                 return ret_string
             end
             def add_to_recipe(row)
                 temp = Recipe.new()
-                temp.recipe_name = row[0]
-                temp.instructions = row[1]
-                temp.cook_time = row[2]
-                temp.creator_comments = row[3]
-                temp.total_calories = row[4]
-                temp.total_fat = row[5]
-                temp.total_trans_fat = row[6]
-                temp.total_cholesterol = row[7]
-                temp.total_sodium = row[8]
-                temp.total_carbs = row[9]
-                temp.total_protein = row[10]
-                temp.difficulty = row[11]
+                temp.id = row['id']
+                temp.recipe_name = row['recipe_name']
+                temp.instructions = row['instructions']
+                temp.cook_time = row['cook_time']
+                temp.creator_comments = row['creator_comments']
+                temp.total_calories = row['total_calories']
+                temp.total_fat = row['total_fat'] 
+                temp.total_trans_fat = row['total_trans_fat']
+                temp.total_cholesterol = row['total_cholesterol']
+                temp.total_sodium = row['total_sodium']
+                temp.total_carbs = row['total_carbs']
+                temp.total_protein = row['total_protein']
+                temp.difficulty = row['difficulty']
                 return temp
 
             end

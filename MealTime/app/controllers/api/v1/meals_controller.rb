@@ -20,11 +20,13 @@ module Api
                 user = User.find_by(auth_digest: params["Token"])
                 user_goals = UserGoal.find_by(user_id: user.id)
 
+                money = params["money"]
+                puts "MONEY #{money}"
                 today = get_today
                 daily_nut = DailyNutrient.find_by(user_id: user.id, day: today)
 
                 if user && user_goals
-                    processEntry(meal_data, daily_nut)
+                    processEntry(meal_data, daily_nut, money)
                     render json: {status: "SUCCESS", message: "HIT CREATE!", data: daily_nut}, status: :ok
                 else
                     render json: {status: "FAIL", message: "User or user_goals are not found"}, status: :not_found
@@ -39,7 +41,8 @@ module Api
             end
 
             def daily
-              meal = Meal.find_by(user_id: params["id"], date_of_meal: params["date"])
+              user = User.find_by(auth_digest: params["headers"]["Token"])
+              meal = Meal.find_by(user_id: user.user_id, date_of_meal: params["date"])
               render json: {status: 'SUCCESS', message: 'Found a meal', data:meal}, status: :ok
             end
 

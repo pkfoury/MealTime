@@ -34,16 +34,14 @@ class ProfileInfo extends Component {
         })
       })
     }
-    if(this.state.email || this.state.allergies) {
-      apiPost('profile', this.state).then((res) => {
-        window.alert("Wait for page to refresh!");
-        if(res.status === 200) {
-          window.location.reload();
-        } else {
-          window.alert("Upload error");
-        }
-      })
-    }
+    apiPost('profile', this.state).then((res) => {
+      window.alert("Wait for page to refresh!");
+      if(res.status === 200) {
+        window.location.reload();
+      } else {
+        window.alert("Upload error");
+      }
+    })
   }
 
   render() {
