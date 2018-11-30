@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BarChart} from 'react-easy-chart';
-import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg } from 'reactstrap';
+import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg, Progress, Row, Col } from 'reactstrap';
 import { apiGet, apiPost } from '../functions/Api';
 
 class MainPage extends Component{
@@ -15,17 +15,16 @@ class MainPage extends Component{
 			goals: {},
 			user: {},
 			current_progress: {},
-
-			//recommendations: [],
+			budget: 40 ,
 			restaurants: [],
-      		restaurantCount: 0,
-      		reviewRestaurant: null,
-      		reviewsToShow: []
+      restaurantCount: 0,
+    	reviewRestaurant: null,
+  		reviewsToShow: []
 		}
 	}
 
 	componentWillMount() {
-
+		console.log("2222");
 		apiGet('user_goals')
 			.then ( ({data}) => {	
 				console.log(data)
@@ -95,21 +94,29 @@ class MainPage extends Component{
 
   	render () {
     	return(
-
+		<div>
+		<div>
+			<h5>Budget usage</h5>	
+			
+			<div className="text-center">used {this.state.current_progress["budget"]} of {this.state.goals["money"]}</div>
+			<Progress animated color="success" value={this.state.budget} />
+			</div>
 		<CardDeck>
 			<Card>
 			<CardTitle>Welcome {this.state.user['user_name']}</CardTitle>
 			<CardBody>
 			<CardText> Hope you're having a great day</CardText>
+			
 			</CardBody>
 			<Button>
-				<a href='./profile' class="btn btn-primary">>Profile</a>
+				<a href='./profile' class="btn btn-primary">Profile</a>
 			</Button>
 			</Card>
 			<Card>
-			<CardTitle>Nutrition-at-a-glance</CardTitle>
-			<CardSubtitle>Heres a look at your nutritional budget for the day</CardSubtitle>	
+
 			<CardBody>
+			<CardTitle>Nutrition-at-a-glance</CardTitle>
+			<CardSubtitle>Heres a look at your nutritional budget for the day</CardSubtitle>
 			<BarChart
 					axes
 					grid
@@ -130,9 +137,10 @@ class MainPage extends Component{
 				<div style={{display: 'inline-block', verticalAlign: 'top', paddingLeft: '20px'}}>
       		{this.state.dataDisplay ? this.state.dataDisplay : 'Click on a bar to show the value'}
     		</div>
+				
 			</CardBody>
 			<Button>
-				<a href='./progress' class="btn btn-primary">>Progress</a>
+				<a href='./progress' class="btn btn-primary">Daily Nutrients</a>
 			</Button>
 			</Card>
 			<Card>
@@ -151,9 +159,11 @@ class MainPage extends Component{
 
 				</CardBody>
 			</Card>
-
 		</CardDeck>
-    	);
+		
+	
+		</div>
+			);
   	}
 }
 export default MainPage;

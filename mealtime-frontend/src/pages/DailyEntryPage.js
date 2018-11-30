@@ -16,9 +16,33 @@ class DailyEntryPage extends Component {
             selectedItem: null,
             totalCalorieCount: 0,
             itemIsAUserRecipe: false,
-            foodItems: []
+            foodItems: [],
+            moneySpent: 0,
         };
+        this.updateMoneySpent = this.updateMoneySpent.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    updateMoneySpent(e) {
+        this.setState({ moneySpent: e.target.value });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const moneyspent = {
+            'budget': this.state.moneySpent,
+        };
+        
+        apiPost('daily_nutrients',moneyspent)
+            .then(({ data }) => {
+                
+                if (data.status === "SUCCESS") {
+                    localStorage.setItem('token', data.data);
+                    this.props.history.push('/home');
+                }
+            })
+    }
+
 
     getMealInfo(mealId) {
         var dateToday = new Date();
@@ -187,8 +211,10 @@ class DailyEntryPage extends Component {
             snacksInfo
         }
 
+        const moneySpent = this.state.moneySpent
+
         console.log(allFood)
-        apiPost('add-meal', allFood)
+        apiPost('add-meal?money=' + moneySpent, allFood)
         .then(({data}) =>{
             console.log(data)
             if (data.status === "SUCCESS") {
@@ -357,7 +383,7 @@ class DailyEntryPage extends Component {
                         </div>
                         <div className="row">
                             <h3 className="col-lg-8">Total Amount of Money Spent</h3>
-                            <label className="biggerLabel">$</label><input className="col-lg-3 input-group" type="number"></input>
+                            <label className="biggerLabel">$</label><input className="col-lg-3 input-group" placeholder="0" onChange={this.updateMoneySpent}></input>
                         </div>
                     </div>
                 </div>
