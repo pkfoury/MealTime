@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
       get '/user_goals', to: 'user_goals#index'
       get '/user_goals/all', to: 'user_goals#show'
-      patch '/user_goals', to: 'user_goals#update'
+      post '/user_goals/update', to: 'user_goals#update'
       post '/user_goals', to: 'user_goals#create'
       delete '/user_goals/:id', to: 'user_goals#destroy'
 

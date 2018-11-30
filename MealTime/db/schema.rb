@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_30_032339) do
+ActiveRecord::Schema.define(version: 2018_11_30_065547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,8 +217,8 @@ ActiveRecord::Schema.define(version: 2018_11_30_032339) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.bigint "recipe_id"
-    t.index ["recipe_id"], name: "index_user_allergens_on_recipe_id"
+    t.bigint "allergen_id"
+    t.index ["allergen_id"], name: "index_user_allergens_on_allergen_id"
     t.index ["user_id"], name: "index_user_allergens_on_user_id"
   end
 
@@ -278,7 +278,7 @@ ActiveRecord::Schema.define(version: 2018_11_30_032339) do
   add_foreign_key "recipes", "users", on_delete: :nullify
   add_foreign_key "restaurant_histories", "users", on_delete: :cascade
   add_foreign_key "restaurant_preferences", "users", on_delete: :cascade
-  add_foreign_key "user_allergens", "recipes"
+  add_foreign_key "user_allergens", "recipes", column: "allergen_id"
   add_foreign_key "user_allergens", "users"
   add_foreign_key "user_locations", "users", on_delete: :cascade
   add_foreign_key "user_votes", "recipes", on_delete: :cascade

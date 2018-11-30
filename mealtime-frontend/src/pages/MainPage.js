@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {BarChart} from 'react-easy-chart';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg, Progress, Row, Col } from 'reactstrap';
 import { apiGet, apiPost } from '../functions/Api';
+import ProfileCard from '../components/ProfileCard';
 
-class MainPage extends Component{
+class MainPage extends Component {
 
 	constructor(props) {
 		super(props);
@@ -25,8 +26,8 @@ class MainPage extends Component{
 
 	componentWillMount() {
 		apiGet('user_goals')
-			.then ( ({data}) => {
-				console.log(data);
+			.then(({ data }) => {
+				console.log(data)
 				this.setState({
 					user: data.data,
 					goals: data.goals_data
@@ -36,77 +37,103 @@ class MainPage extends Component{
 
 		apiGet('daily_nutrients')
 			.then (({data}) => {
-				console.log(data.message)
+				console.log(data.data)
 				this.setState({
 					current_progress: data.data
 				})
 			})
 	};
 
-	favoriteRecipe(recipe) {
-		console.log(recipe);
+	favoriteRestaurant(restaurant) {
+		console.log(restaurant);
+    let data = {
+      yelp_id: restaurant.id,
+      name: restaurant.name,
+      phone: restaurant.displayPhone,
+      price: restaurant.price,
+      rating: restaurant.rating
+    }
+    
+    apiPost('restaurant_preference', data).
+      then(({data}) => {
+        // TODO: Handle request
+      }
+    );
 	}
 
 	doSearch(searchTerm) {
 		const YELP = require('yelp-fusion');
 		const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
 		const SEARCH_REQUEST = {
-		  term: searchTerm,
-		  location: 'west lafayette, in',
-		  sort_by: "rating",
-		  offset:(Math.floor(Math.random() * (100 - 0 + 1)) + 0),
-		  limit:3,
+			term: searchTerm,
+			location: 'west lafayette, in',
+			sort_by: "rating",
+			offset: (Math.floor(Math.random() * (100 - 0 + 1)) + 0),
+			limit: 3,
 		};
 		const YELP_CLIENT = YELP.client(API_KEY);
 
 		YELP_CLIENT.search(SEARCH_REQUEST).then(
-		  response => {
-			const results = response.jsonBody.businesses;
-			results.forEach(business => {
-			  business.reviews = [];
+			response => {
+				const results = response.jsonBody.businesses;
+				results.forEach(business => {
+					business.reviews = [];
+				});
+				this.setState({ restaurants: results, restaurantCount: results.length });
+			}).catch((error) => {
+				console.log(error);
 			});
-			this.setState({ restaurants: results, restaurantCount: results.length });
-		}).catch((error) => {
-		  console.log(error);
-		});
-	  }
+	}
 
-	  showReviews(restaurantId, restaurant) {
+	showReviews(restaurantId, restaurant) {
 		const YELP = require('yelp-fusion');
 		const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
 		const YELP_CLIENT = YELP.client(API_KEY);
 
 		YELP_CLIENT.reviews(restaurantId).then(response => {
-		  const reviews = response.jsonBody.reviews;
-		  var reviewsToShow = this.state.reviewsToShow;
-		  reviewsToShow = [];
-		  reviews.forEach(review => {
-			var nextReview = review.rating + ' / 5, ' + '"' + review.text + '" - ' + review.user.name;
-			reviewsToShow.push(nextReview);
-		  });
-		  this.setState({ reviewsToShow: reviewsToShow, reviewRestaurant: restaurant.name });
+			const reviews = response.jsonBody.reviews;
+			var reviewsToShow = this.state.reviewsToShow;
+			reviewsToShow = [];
+			reviews.forEach(review => {
+				var nextReview = review.rating + ' / 5, ' + '"' + review.text + '" - ' + review.user.name;
+				reviewsToShow.push(nextReview);
+			});
+			this.setState({ reviewsToShow: reviewsToShow, reviewRestaurant: restaurant.name });
 		}).catch((error) => {
-		  console.log(error);
+			console.log(error);
 		});
 	  }
 
 
 
   	render () {
+			var underWarning = {
+				color: 'red'
+			}
+			let warning
+
+			if (this.state.goals.protein > this.state.current_progress.protein ||
+					this.state.goals.carbs > this.state.current_progress.carbs ||
+					this.state.goals.fat > this.state.current_progress.carbs) {
+						warning = <div align="center" style={underWarning}>You have not met all of today's goals</div>
+			}
+			else {
+				warning = <CardText ><div>You have met today's goals</div></CardText>
+			}
+
     	return(
 		<div>
 		<div>
 			<h5>Budget usage</h5>	
 			
 			<div className="text-center">used {this.state.current_progress["budget"]} of {this.state.goals["money"]}</div>
-			<Progress animated color="success" value={this.state.budget} />
+			<Progress animated color="success" value={this.state.current_progress["budget"]} max={this.state.goals["money"]} />
 			</div>
 		<CardDeck>
 			<Card>
 			<CardTitle>Welcome {this.state.user['user_name']}</CardTitle>
 			<CardBody>
 			<CardText> Hope you're having a great day</CardText>
-			
 			</CardBody>
 			<Button>
 				<a href='./profile' class="btn btn-primary">Profile</a>
@@ -116,6 +143,7 @@ class MainPage extends Component{
 			<CardBody>
 			<CardTitle>Nutrition-at-a-glance</CardTitle>
 			<CardSubtitle>Heres a look at your nutritional budget for the day</CardSubtitle>
+			{warning}
 			<BarChart
 					axes
 					grid
@@ -151,7 +179,7 @@ class MainPage extends Component{
 							<img src={restaurant.image_url} style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
 							<h6>{restaurant.name}</h6>
 							<p>{ restaurant.rating } / 5.0 Stars</p>
-							<Button onClick={() => this.favoriteRecipe(restaurant)}>Insta-Favorite</Button>
+							<Button onClick={() => this.favoriteRestaurant(restaurant)}>Insta-Favorite</Button>
 							<hr style={ { marginTop: 50 + 'px' } }/>
 						</div>
 					))}

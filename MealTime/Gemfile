@@ -69,4 +69,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'react-rails', '~> 1.0'
 gem 'rack-cors', require: 'rack/cors'
 gem 'simple_command'
-gem 'aws-sdk'
+gem 'aws-sdk-s3'

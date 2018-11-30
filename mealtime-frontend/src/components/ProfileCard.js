@@ -15,12 +15,12 @@ class ProfileCard extends Component {
     return (
       <div>
         <Card>
-          <CardImg top width="100%" src={this.props.user["image_url"]} alt="Card image cap" />
+          <CardImg top src={this.props.user["image_url"]} alt="Card image" />
           <CardBody>
-            <CardTitle>{this.props.user["user_name"]}</CardTitle>
-            <CardSubtitle>Card subtitle</CardSubtitle>
-            <CardText><pre>{JSON.stringify(this.props.user, null, 2)}</pre></CardText>
-            <Button>Button</Button>
+            <CardTitle>Hello {this.props.user["user_name"]}</CardTitle>
+            <CardSubtitle>Hope you're having a great day.</CardSubtitle>
+            { this.props.main == 'true' ? <Button href="/profile">Profile</Button> 
+              : <pre><CardText>{JSON.stringify(this.props.user, null, 2)}</CardText></pre> }
           </CardBody>
         </Card>
       </div>
