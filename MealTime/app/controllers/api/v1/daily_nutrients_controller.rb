@@ -24,8 +24,7 @@ module Api
 
             def show_day
                 user = @current_user
-                raw_date = params["day"]
-                date = raw_date.slice(0, raw_date.length - 1)
+                date = params["day"]
                 daily_vals = DailyNutrient.find_by(user_id: user.id, day: date)
 
                 if daily_vals != nil

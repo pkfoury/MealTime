@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     namespace 'v1' do
 
       resources :users
+      get '/users/all', to: 'users#show_all'
+
       get '/login', to: 'sessions#new'
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'

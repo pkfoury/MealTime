@@ -45,7 +45,6 @@ export function apiPost (endpoint, data = {}, token = getToken()) {
     headers: getHeaders(token),
     body: data
   }
-  
   if (endpoint.includes("?")){
     return axios.post(`${API_URL}${endpoint}&Token=` + token, options);
   }
@@ -63,5 +62,10 @@ export function apiPatch(endpoint, param, data = {}, token = getToken()) {
   }
 
   console.log(options)
-  return axios.patch(`${API_URL}${endpoint}`, options);
+  if (endpoint.includes("?")){
+    return axios.patch(`${API_URL}${endpoint}&Token=` + token, options);
+  }
+  else{
+    return axios.patch(`${API_URL}${endpoint}?Token=` + token, options);
+  }
 }

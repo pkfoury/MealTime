@@ -117,8 +117,16 @@ class Calendar extends Component {
     apiGet('daily_nutrients/date?day=' + formattedDate)
       .then(({data}) => {
         this.setState({day_values: data.data})
-        console.log(this.state.day_values)
-        // alert("")
+        alert("Nutrients for " + this.state.day_values.day +
+        "\nCalories: " + this.state.day_values.calories +
+        "\nProtein: " + this.state.day_values.protein +
+        "\nFat: " + this.state.day_values.fat +
+        "\nCarbs: " + this.state.day_values.carbs)
+      })
+      .catch((err) => {
+        if(err.response.status == 404) {
+          alert("No nutrients were found for this day")
+        }
       })
   };
 
