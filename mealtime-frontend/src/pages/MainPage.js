@@ -25,17 +25,16 @@ class MainPage extends Component{
 	}
 
 	componentWillMount() {
-		console.log("2222");
 		apiGet('user_goals')
 			.then ( ({data}) => {
 				console.log(data);
-				console.log("3333");
 				this.setState({
 					user: data.data,
 					goals: data.goals_data
 				})
 				console.log(data.goals_data);
 			})
+
 		apiGet('daily_nutrients')
 			.then (({data}) => {
 				console.log(data.message)

@@ -5,9 +5,14 @@ module Api
             # skip_before_action :require_token
 
             def index
-                tok = request.headers["Token"]
+                tok = params["Token"]
                 user = User.find_by(auth_digest: tok)
                 render json: {status: 'Hit users index', data: user}, status: :ok
+            end
+
+            def show
+                users = User.order("id DESC")
+                render json: {status: "SUCCESS", data: users}, status: :ok
             end
 
             def create
