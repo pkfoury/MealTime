@@ -265,14 +265,14 @@ class AddRecipe extends Component {
               <input type="text" className="form-control col-lg-2" id="unit" placeholder="Unit Type (Tablespoons, teaspoons, etc.)" onChange={this.updateUom} />
               <select name="allergens" className="form-control col-lg-2" id="allergens" placeholder="Allergens" onChange={this.updateAllergen}>
                 <option value="None">None</option>
-                <option value="Lactose">Lactose</option>
-                <option value="Eggs">Eggs</option>
-                <option value="Fish">Fish</option>
-                <option value="Shellfish">Shellfish</option>
-                <option value="Nuts">Nuts</option>
-                <option value="Peanuts">Peanuts</option>
-                <option value="Gluten">Gluten</option>
-                <option value="Soy">Soy</option>
+                <option value="Lactose">lactose</option>
+                <option value="Eggs">eggs</option>
+                <option value="Fish">fish</option>
+                <option value="Shellfish">shellfish</option>
+                <option value="Nuts">nuts</option>
+                <option value="Peanuts">peanuts</option>
+                <option value="Gluten">gluten</option>
+                <option value="Soy">soy</option>
               </select>
             </div>
             <div>

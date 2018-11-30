@@ -10,6 +10,7 @@ class FindRecipesPage extends Component {
             preperationFilter: '0',
             timeFilter: '0',
             ingredientsFilter: '0',
+            allergensFilter: "",
             onlyUserRecipesFilter: false,
             user: null
         }
@@ -31,6 +32,8 @@ class FindRecipesPage extends Component {
             this.setState({ timeFilter: value }, () => { this.doSearch() });
         } else if (filter === 'ingredientsFilter') {
             this.setState({ ingredientsFilter: value }, () => { this.doSearch() });
+        } else if (filter === 'allergensFilter') {
+            this.setState({ allergensFilter: value }, () => { this.doSearch() });
         }
     }
 
@@ -43,10 +46,13 @@ class FindRecipesPage extends Component {
     }
 
     doSearch() {
-        if (this.state.searchTerm === '' && this.state.preperationFilter === '0' && 
-            this.state.timeFilter === '0' && this.state.ingredientsFilter === '0' && 
+        if (this.state.searchTerm === '' && this.state.preperationFilter === '0' &&
+            this.state.timeFilter === '0' && this.state.ingredientsFilter === '0' &&
             this.state.onlyUserRecipesFilter === false)
             this.doEmptySearch();
+        else if (this.state.allergensFilter !== ""){
+            this.doAllergensFilteredSearch();
+        }
         else
             this.doFilteredSearch();
     }
@@ -64,6 +70,15 @@ class FindRecipesPage extends Component {
             else if (response.data.data === undefined) this.setState({ recipes: [] });
             else this.doFurtherFiltering(response.data.data);
         });
+    }
+
+    doAllergensFilteredSearch() {
+        let apiCall = 'recipe_allergens/' + (this.state.searchTerm ? this.state.searchTerm : 'none') + '/'+ this.state.allergensFilter;
+        apiGet(apiCall).then((response) => {
+            if (response === undefined) this.setState({ recipes: [] });
+            else if (response.data.data === undefined) this.setState({ recipes: [] });
+            else this.doFurtherFiltering(response.data.data);
+        })
     }
 
     doFurtherFiltering(recipes) {
@@ -125,7 +140,7 @@ class FindRecipesPage extends Component {
                     <h1>Find Recipes <i className="fas fa-utensils"></i></h1>
                 </div>
                     <br/>
-                
+
                     <div className="input-group col-lg-10">
                         <input type="text" onChange={event => this.changeSearchTerm(event.target.value)} className="form-control" placeholder="Search recipes" id="restaurantSearch"/>
                         <div className="input-group-append">
@@ -159,10 +174,12 @@ class FindRecipesPage extends Component {
                                 <option value="4">9+</option>
                             </select>
                         </div>
-                        
+                    </div>
+                    <div className="col-lg-10">
+                          <input type="text" onChange={event => this.changeFilter('allergensFilter', event)} placeholder="Allergens (separated by comma)" className="col-lg-10"/>
+
                     </div>
                     <input id="only-user-recipes" type="checkbox" onChange={() => this.toggleOnlyUserRecipesFilter()} />  Only show my recipes<br/>
-                    <input id="allergy-filter" type="checkbox"  /> filter allergies<br/>
                     <div className="col-lg-8 col-centered">
                         {this.state.recipes.map((recipe, index) => (
                             <div key={index} className="recipe-container col-centered">
@@ -172,7 +189,7 @@ class FindRecipesPage extends Component {
                             </div>
                         ))}
                     </div>
-                    
+
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossOrigin="anonymous"></link>
             </div>
         );
