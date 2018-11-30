@@ -234,7 +234,7 @@ class App extends Component {
                   	height={450}
 										width={390}
 										margin={{top: 10, right: 50, bottom: 30, left: 30}}
-                  	yDomainRange={[0,400]}
+                  	yDomainRange={[0,2000]}
                   	data={[
                         	{ x: 'Protein', y: this.state.current_progress["protein"], color: '#33CEFF' },
                         	{ x: 'Fat', y: this.state.current_progress["fat"], color: '#33B5FF' },

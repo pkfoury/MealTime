@@ -20,9 +20,8 @@ class DailyEntryPage extends Component {
             calorieLimit: 0,
             cheatDay: false
         };
-
-        this.updateMoney = this.updateMoney.bind(this)
-
+        this.updateMoneySpent = this.updateMoneySpent.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         apiGet('daily_nutrients').then(({data}) => {
             console.log(data);
             if (data.data != null) {
@@ -34,8 +33,8 @@ class DailyEntryPage extends Component {
         });
     }
 
-    updateMoney (e) {
-        this.setState({ moneySpent: e.target.value })
+    updateMoneySpent(e) {
+        this.setState({ moneySpent: e.target.value });
     }
 
     handleSubmit(event) {
