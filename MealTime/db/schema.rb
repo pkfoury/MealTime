@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 2018_11_28_031812) do
     t.integer "total_sodium"
     t.decimal "total_carbs"
     t.decimal "total_protein"
+    t.integer "difficulty"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 

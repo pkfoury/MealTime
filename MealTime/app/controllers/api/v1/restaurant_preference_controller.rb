@@ -8,7 +8,7 @@ module Api
             end
 
             def addFavoritesFromUser
-                user = User.find_by(auth_digest: params["headers"]["Token"])
+                user = User.find_by(auth_digest: params["Token"])
                 restaurantPreference = RestaurantPreference.new(preference_params);
                 restaurantPreference.user_id = user.id 
                 restaurantPreference.yelp_id = params["body"]["yelp_id"]
