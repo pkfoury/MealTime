@@ -54,7 +54,11 @@ module Api
             end
 
             def destroy
+<<<<<<< HEAD
                 recipe = Recipe.find_by(id: params[:id])
+=======
+                recipe = Recipe.find_by(%'id = #{params[:id]}')
+>>>>>>> master
                 recipe.destroy
                 render json: {status: 'SUCCESS', message: 'Recipe deleted', data:recipe}, status: :ok
 
