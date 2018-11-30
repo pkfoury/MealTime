@@ -126,7 +126,9 @@ class AddRecipe extends Component {
       'cook_time': this.state.time,
       'ingredients': this.state.ingredients,
       'instructions': this.state.instructions,
-      'difficulty': this.state.difficulty
+      'user_id': this.state.user_id,
+      'difficulty': this.state.difficulty,
+      'num_ingredients': this.state.ingredients.length
     };
     axios.post('http://127.0.0.1:3000/api/v1/add_recipes', recipeInfo)
     //apiPost('add_recipes', recipeInfo)

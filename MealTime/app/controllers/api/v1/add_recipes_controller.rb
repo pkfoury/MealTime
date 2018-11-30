@@ -22,7 +22,7 @@ module Api
       end
       private
       def recipe_params
-          params.permit(:user_id, :recipe_name, :instructions, :cook_time, :creator_comments)
+        params.permit(:user_id, :recipe_name, :instructions, :cook_time, :creator_comments, :difficulty, :num_ingredients)
       end
     end
   end
