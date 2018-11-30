@@ -32,18 +32,18 @@
 #     dv_total_fat: 1, dv_trans_fat: 1, dv_cholesterol: 1, dv_sodium: 1, dv_carbs: 1,
 #     dv_protein: 1)
 # @ingredient.save
- @allergen_ingredient = AllergensIngredients.new(allergen_id:78, ingredient_id: 19)
+ @allergen_ingredient = AllergensIngredient.new(allergen_id:78, ingredient_id: 19)
  @allergen_ingredient.save
 # @recipe = Recipe.new(recipe_name: 'bread', instructions: 'you know this', cook_time:'2:00',
 #     creator_comments: '', user_id:5, public: false, total_calories: 1, total_fat: 1,
 #     total_trans_fat: 1, total_cholesterol: 1, total_sodium: 1, total_carbs:1, total_protein: 1,
 #     difficulty: 1)
 #     @recipe.save
-# @recipe_ingredient = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 28, amount: 1, uom_id:2)
+# @recipe_ingredient = IngredientsRecipe.new(ingredient_id: 19, recipe_id: 28, amount: 1, uom_id:2)
 # @recipe_ingredient.save
-# @recipe_ingredient2 = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 21, amount: 1, uom_id:2)
+# @recipe_ingredient2 = IngredientsRecipe.new(ingredient_id: 19, recipe_id: 21, amount: 1, uom_id:2)
 # @recipe_ingredient2.save
-# @recipe_ingredient3 = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 26, amount: 1, uom_id:2)
+# @recipe_ingredient3 = IngredientsRecipe.new(ingredient_id: 19, recipe_id: 26, amount: 1, uom_id:2)
 # @recipe_ingredient3.save
-# @recipe_ingredient4 = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 20, amount: 1, uom_id:2)
+# @recipe_ingredient4 = IngredientsRecipe.new(ingredient_id: 19, recipe_id: 20, amount: 1, uom_id:2)
 # @recipe_ingredient4.save

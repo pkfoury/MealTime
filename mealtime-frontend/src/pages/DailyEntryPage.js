@@ -16,9 +16,13 @@ class DailyEntryPage extends Component {
             totalCalorieCount: 0,
             itemIsAUserRecipe: false,
             foodItems: [],
+            moneySpent: 0,
             calorieLimit: 0,
             cheatDay: false
         };
+
+        this.updateMoney = this.updateMoney.bind(this)
+
         apiGet('daily_nutrients').then(({data}) => {
             console.log(data);
             if (data.data != null) {
@@ -28,6 +32,10 @@ class DailyEntryPage extends Component {
         }).catch((err) => {
             console.log(err);
         });
+    }
+
+    updateMoney (e) {
+        this.setState({ moneySpent: e.target.value })
     }
 
     getMealInfo(mealId) {
@@ -225,15 +233,15 @@ class DailyEntryPage extends Component {
             snacksInfo
         }
 
-        console.log(allFood)
-        apiPost('add-meal', allFood)
+        const moneySpent = this.state.moneySpent
+
+        apiPost('add-meal?money=' + moneySpent, allFood)
         .then(({data}) =>{
             console.log(data)
             if (data.status === "SUCCESS") {
                 this.props.history.push('/home');
             }
         })
-
 
     }
 
@@ -395,7 +403,7 @@ class DailyEntryPage extends Component {
                         </div>
                         <div className="row">
                             <h3 className="col-lg-8">Total Amount of Money Spent</h3>
-                            <label className="biggerLabel">$</label><input className="col-lg-3 input-group" type="number"></input>
+                            <label className="biggerLabel">$</label><input className="col-lg-3 input-group" type="number" onChange={this.updateMoney}></input>
                         </div>
                         <div className="row">
                             <h3 className="col-lg-8">Calorie Goal</h3>

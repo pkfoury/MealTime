@@ -5,12 +5,12 @@ module Api
             #skip_before_action :require_token
             def index
                 recipe = Recipe.order("recipe_name DESC")
-                render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
+                render json: {status: 'SUCCESS', message: 'Pulling all recipes desc.', data:recipe}, status: :ok
             end
 
             def show
-                recipe = Recipe.find_by(params[:id])
-                render json: {status: 'SUCCESS', message: 'Hit Recipes endpoint', data:recipe}, status: :ok
+                recipe = Recipe.find_by(id: params[:id])
+                render json: {status: 'SUCCESS', message: 'Finding recipe', data:recipe}, status: :ok
             end
 
             def search
@@ -54,7 +54,7 @@ module Api
             end
 
             def destroy
-                recipe = Recipe.find_by(params[:id])
+                recipe = Recipe.find_by(id: params[:id])
                 recipe.destroy
                 render json: {status: 'SUCCESS', message: 'Recipe deleted', data:recipe}, status: :ok
 
