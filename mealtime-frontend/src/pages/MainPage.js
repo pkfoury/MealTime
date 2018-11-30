@@ -8,7 +8,7 @@ class MainPage extends Component{
 	constructor(props) {
 		super(props);
 		this.doSearch("restaurants");
-		  
+
 		// TODO: Populate recommendations by getting a list of user's favorites and running them through the Yelp API to get
 		// similar places.
 		this.state = {
@@ -25,16 +25,17 @@ class MainPage extends Component{
 	}
 
 	componentWillMount() {
-
+		console.log("2222");
 		apiGet('user_goals')
-			.then ( ({data}) => {	
-				console.log(data)
+			.then ( ({data}) => {
+				console.log(data);
+				console.log("3333");
 				this.setState({
 					user: data.data,
 					goals: data.goals_data
 				})
+				console.log(data.goals_data);
 			})
-
 		apiGet('daily_nutrients')
 			.then (({data}) => {
 				console.log(data.message)
@@ -51,7 +52,7 @@ class MainPage extends Component{
 	doSearch(searchTerm) {
 		const YELP = require('yelp-fusion');
 		const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
-		const SEARCH_REQUEST = { 
+		const SEARCH_REQUEST = {
 		  term: searchTerm,
 		  location: 'west lafayette, in',
 		  sort_by: "rating",
@@ -59,7 +60,7 @@ class MainPage extends Component{
 		  limit:3,
 		};
 		const YELP_CLIENT = YELP.client(API_KEY);
-	
+
 		YELP_CLIENT.search(SEARCH_REQUEST).then(
 		  response => {
 			const results = response.jsonBody.businesses;
@@ -71,12 +72,12 @@ class MainPage extends Component{
 		  console.log(error);
 		});
 	  }
-	
+
 	  showReviews(restaurantId, restaurant) {
 		const YELP = require('yelp-fusion');
 		const API_KEY = 'n384b999Qr0b_KGmop_D5U8T6wBTPCnPAxRjQzTcPunh_WXf1vtF9GeK8H5KNA4L8qt_ijdUzQfYyLKuiID6bnYQ1MtgCpxCZlS3cQnOrp8qvlnR71unVMExB46tW3Yx';
 		const YELP_CLIENT = YELP.client(API_KEY);
-	
+
 		YELP_CLIENT.reviews(restaurantId).then(response => {
 		  const reviews = response.jsonBody.reviews;
 		  var reviewsToShow = this.state.reviewsToShow;
@@ -108,7 +109,7 @@ class MainPage extends Component{
 			</Card>
 			<Card>
 			<CardTitle>Nutrition-at-a-glance</CardTitle>
-			<CardSubtitle>Heres a look at your nutritional budget for the day</CardSubtitle>	
+			<CardSubtitle>Heres a look at your nutritional budget for the day</CardSubtitle>
 			<CardBody>
 			<BarChart
 					axes
@@ -157,4 +158,3 @@ class MainPage extends Component{
   	}
 }
 export default MainPage;
-

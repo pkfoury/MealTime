@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './general.css';
-import { apiPost } from '../functions/Api';
-import { apiGet } from '../functions/Api';
+import { apiPost, apiGet, apiPatch } from '../functions/Api';
 import { Button } from 'reactstrap';
 
 class DailyEntryPage extends Component {
@@ -16,8 +15,32 @@ class DailyEntryPage extends Component {
             selectedItem: null,
             totalCalorieCount: 0,
             itemIsAUserRecipe: false,
-            foodItems: []
+            foodItems: [],
+            calorieLimit: 0,
+            cheatDay: false
         };
+        apiGet('daily_nutrients').then(({data}) => {
+            if (data.data != null) {
+                this.setState({ cheat_day: data.data.cheat_day_flag });
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+        apiGet('user_goals').then(({data}) => {
+            if (data.data != null) {
+                if(this.state.cheatDay){
+                    this.setState({ calorieLimit: data.data.cheat_day_calories });
+                }
+                else {
+                    this.setState({ calorieLimit: data.data.calories });
+                }
+            }
+            else {
+                this.setState({ calorieLimit: 0 });
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     getMealInfo(mealId) {
@@ -143,7 +166,26 @@ class DailyEntryPage extends Component {
     }
 
     setCheatDay() {
-
+        const options = { 'empty': "empty set" }
+        apiPatch('daily_nutrients/update_cheat_day', options).then(({data}) => {
+            if (data.data != null) {
+                this.setState({ cheatDay: data.data.cheat_day_flag });
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+        apiGet('user_goals').then(({data}) => {
+            if (data.data != null) {
+                if (this.state.cheat_day_flag) {
+                    this.setState({ calorieLimit: data.data.cheat_day_calories });
+                }
+                else {
+                    this.setState({ calorieLimit: data.data.calories});
+                }
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     deleteItemFromMeal(meal, itemName) {
@@ -362,6 +404,10 @@ class DailyEntryPage extends Component {
                         <div className="row">
                             <h3 className="col-lg-8">Total Amount of Money Spent</h3>
                             <label className="biggerLabel">$</label><input className="col-lg-3 input-group" type="number"></input>
+                        </div>
+                        <div className="row">
+                            <h3 className="col-lg-8">Calorie Goal</h3>
+                            <h3 className="col-lg-3">{this.state.calorieLimit}</h3>
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ class FirstTimeUserPage extends Component {
 
     this.toggleShowMacroGoals = this.toggleShowMacroGoals.bind(this);
     this.updateProtein = this.updateProtein.bind(this);
-    this.updateCarbs = this.updateCarbs.bind(this)
+    this.updateCarbs = this.updateCarbs.bind(this);
     this.updateFats = this.updateFats.bind(this);
     this.updateCheatDayCalories = this.updateCheatDayCalories.bind(this);
 
