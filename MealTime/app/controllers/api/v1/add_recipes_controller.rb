@@ -10,8 +10,8 @@ module Api
       end
 
       def create
-        user = User.find_by(auth_digest: params["headers"]["Token"])
-        if User.exists?(auth_digest: params["headers"]["Token"])
+        user = User.find_by(auth_digest: params["Token"])
+        if User.exists?(auth_digest: params["Token"])
           recipe_parse = params["body"]
           recipe = Recipe.new(recipe_params)
           recipe.user_id = user.id
@@ -22,13 +22,51 @@ module Api
                 new_ingredient = Ingredient.find_by(name: ingredient["name"])
                 uom = Uom.find_by(name: ingredient["uom"])
                 if Ingredient.exists?(name: ingredient["name"])
-                  uom = uom.find_by(name: ingredient["uom"])
-                  ingredient_recipe = IngredientsRecipes.new(ingredients_recipes_params)
+                  if Allergen.exists?(name: ingredient["allergen"])
+                    allergen = Allergen.find_by(name: ingredient["allergen"])
+                    if AllergensIngredient.exists?(allergen_id: allergen.id, ingredient_id: new_ingredient.id)
+                    else
+                      allergen = Allergen.find_by(name: ingredient["allergen"])
+                      allergen_ingredient = AllergensIngredient.new(allergens_ingredients_params)
+                      allergen_ingredient.ingredient_id = new_ingredient.id
+                      allergen_ingredient.allergen_id = allergen.id
+                      allergen_ingredient.save
+                    end
+                  else
+                    allergen = Allergen.new(allergen_params)
+                    allergen.name = ingredient["allergen"]
+                    if allergen.save
+                      puts "Allergen successfully saved #{allergen.name}"
+                      allergen_ingredient = AllergensIngredient.new(allergens_ingredients_params)
+                      allergen_ingredient.ingredient_id = new_ingredient.id
+                      allergen_ingredient.allergen_id = allergen.id
+                      if allergen_ingredient.save
+                        puts "allergen_ingredient saved #{allergen_ingredient.allergen_id}"
+                      else
+                        put "Allergen_ingredient failed to save #{allergen_ingredient.errors.full_messages}"
+                      end
+                    else
+                      puts "Allergen failed to save #{allergen.errors.full_messages}"
+                    end
+                  end
+                  uom = Uom.find_by(name: ingredient["uom"])
+                  if Uom.exists?(name: ingredient["uom"])
+                  else
+                    uom = Uom.new(uom_params)
+                    uom.name = ingredient["uom"]
+                    uom.save
+                  end
+                  uom = Uom.find_by(name: ingredient["uom"])
+                  ingredient_recipe = IngredientsRecipe.new(ingredients_recipes_params)
                   ingredient_recipe.ingredient_id = new_ingredient.id
                   ingredient_recipe.uom_id = uom.id
                   ingredient_recipe.recipe_id = recipe.id
                   ingredient_recipe.amount = ingredient["amount"]
-                  ingredient_recipe.save
+                  if ingredient_recipe.save
+                    puts "Ingredient recipe saved #{ingredient_recipe.ingredient_id}"
+                  else
+                    puts "Ingredient recipe failed to save #{ingredient_recipe.errors.full_messages}"
+                  end
                 else
                   new_ingredient = Ingredient.new(ingredient_params)
                   new_ingredient.name = ingredient["name"]
@@ -40,25 +78,73 @@ module Api
                   new_ingredient.total_carbs = ingredient["total_carbs"]
                   new_ingredient.protein = ingredient["protein"]
                   new_ingredient.serving_size = ingredient["serving_size"]
-                  new_ingredient.save
-                  if Uom.exists?(name: ingredient["uom"])
-                    uom = Uom.find_by(name: ingredient["uom"])
-                    ingredient_recipe = IngredientsRecipes.new(ingredients_recipes_params)
-                    ingredient_recipe.ingredient_id = new_ingredient.id
-                    ingredient_recipe.uom_id = uom_id
-                    ingredient_recipe.recipe_id = recipe.id
-                    ingredient_recipe.amount = ingredient["amount"]
-                    ingredient_recipe.save
+                  if new_ingredient.save
+                    puts "Ingredient saved #{new_ingredient.name}"\
+
+                    if ingredient["allergen"] != nil
+                      if Allergen.exists?(name: ingredient["allergen"])
+                        allergen = Allergen.find_by(name: ingredient["allergen"])
+                        if AllergensIngredient.exists?(allergen_id: allergen.id, ingredient_id: new_ingredient.id)
+                        else
+                          allergen = Allergen.find_by(name: ingredient["allergen"])
+                          allergen_ingredient = AllergensIngredient.new(allergens_ingredients_params)
+                          allergen_ingredient.ingredient_id = new_ingredient.id
+                          allergen_ingredient.allergen_id = allergen.id
+                          if allergen_ingredient.save
+                            puts "Allergen Ingredient saved #{allergen_ingredient.allergen_id}"
+                          else
+                            puts "Allergen Ingredient failed to save #{allergen_ingredient.errors.full_messages}"
+                          end
+                        end
+                      else
+                        allergen = Allergen.new(allergen_params)
+                        allergen.name = ingredient["allergen"]
+                        if allergen.save
+                          puts "Allergen saved #{allergen.name}"
+                          allergen_ingredient = AllergensIngredient.new(allergens_ingredients_params)
+                          allergen_ingredient.ingredient_id = new_ingredient.id
+                          allergen_ingredient.allergen_id = allergen.id
+                          if allergen_ingredient.save
+                            puts "Allergen ingredient saved #{allergen_ingredient.allergen_id}"
+                          else
+                            puts "Allergen Ingredient failed to save #{allergen_ingredient.errors.full_messages}"
+                          end
+                        end
+                      end
+                    end
+                    if Uom.exists?(name: ingredient["uom"])
+                      uom = Uom.find_by(name: ingredient["uom"])
+                      ingredient_recipe = IngredientsRecipe.new(ingredients_recipes_params)
+                      ingredient_recipe.ingredient_id = new_ingredient.id
+                      ingredient_recipe.uom_id = uom_id
+                      ingredient_recipe.recipe_id = recipe.id
+                      ingredient_recipe.amount = ingredient["amount"]
+                      if ingredient_recipe.save
+                        puts "Ingredient Recipe saved #{ingredient_recipe.ingredient_id}"
+                      else
+                        puts "Ingredient Recipe failed to save #{ingredient_recipe.errors.full_messages}"
+                      end
+                    else
+                      uom = Uom.new(uom_params)
+                      uom.name = ingredient["uom"]
+                      if uom.save
+                        puts "UOM saved #{uom.name}"
+                        ingredient_recipe = IngredientsRecipe.new(ingredients_recipes_params)
+                        ingredient_recipe.ingredient_id = new_ingredient.id
+                        ingredient_recipe.uom_id = uom.id
+                        ingredient_recipe.recipe_id = recipe.id
+                        ingredient_recipe.amount = ingredient["amount"]
+                        if ingredient_recipe.save
+                          puts "INgredient recipe saved #{ingredient_recipe.ingredient_id}"
+                        else
+                          puts "Ingredient Recipe failed to save #{ingredient_recipe.errors.full_messages}"
+                        end
+                      else
+                        puts "UOM failed to save #{uom.errors.full_messages}"
+                      end
+                    end
                   else
-                    uom = Uom.new(uom_params)
-                    uom.name = ingredient["uom"]
-                    uom.save
-                    ingredient_recipe = IngredientsRecipes.new(ingredients_recipes_params)
-                    ingredient_recipe.ingredient_id = new_ingredient.id
-                    ingredient_recipe.uom_id = uom.id
-                    ingredient_recipe.recipe_id = recipe.id
-                    ingredient_recipe.amount = ingredient["amount"]
-                    ingredient_recipe.save
+                    puts "Ingredient failed to save #{new_ingredient.errors.full_messages}"
                   end
                 end
               end
@@ -84,6 +170,12 @@ module Api
       end
       def ingredients_recipes_params
         params.permit(:ingredient_id, :recipe_id, :amount, :uom_id)
+      end
+      def allergen_params
+        params.permit(:name)
+      end
+      def allergens_ingredients_params
+        params.permit(:ingredient_id, :allergen_id)
       end
     end
   end
