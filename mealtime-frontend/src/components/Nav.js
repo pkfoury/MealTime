@@ -61,8 +61,7 @@ class Example extends Component {
 		let button, profile, favorites, today, cal, add, find, rest;
 
 		if (sessionStorage.getItem("token") === null){
-			button, profile, favorites, today, cal,
-			add, find, rest = <NavLink onClick={this.goto_login}>Login</NavLink>
+			button = <NavLink onClick={this.goto_login}>Login</NavLink>
 		}
 		else {
 			profile = <NavLink href='/profile'>Profile</NavLink>
@@ -103,10 +102,10 @@ class Example extends Component {
 							<NavItem>
 								{rest}
 							</NavItem>
-							<NavItem>									
+							<NavItem>
 								{button}
 							</NavItem>
-					
+
 						</Nav>
 					</Collapse>
 				</Navbar>
