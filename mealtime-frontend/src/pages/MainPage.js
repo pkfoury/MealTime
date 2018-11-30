@@ -43,8 +43,21 @@ class MainPage extends Component{
 			})
 	};
 
-	favoriteRecipe(recipe) {
-		console.log(recipe);
+	favoriteRestaurant(restaurant) {
+		console.log(restaurant);
+    let data = {
+      yelp_id: restaurant.id,
+      name: restaurant.name,
+      phone: restaurant.displayPhone,
+      price: restaurant.price,
+      rating: restaurant.rating
+    }
+    
+    apiPost('restaurant_preference', data).
+      then(({data}) => {
+        // TODO: Handle request
+      }
+    );
 	}
 
 	doSearch(searchTerm) {
@@ -151,7 +164,7 @@ class MainPage extends Component{
 							<img src={restaurant.image_url} style={ { width: 80 + 'px', height: 80 + 'px', float: "left" } }></img>
 							<h6>{restaurant.name}</h6>
 							<p>{ restaurant.rating } / 5.0 Stars</p>
-							<Button onClick={() => this.favoriteRecipe(restaurant)}>Insta-Favorite</Button>
+							<Button onClick={() => this.favoriteRestaurant(restaurant)}>Insta-Favorite</Button>
 							<hr style={ { marginTop: 50 + 'px' } }/>
 						</div>
 					))}
