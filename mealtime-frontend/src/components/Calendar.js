@@ -10,20 +10,13 @@ class Calendar extends Component {
     day_values: {},
       calories: 1,
       budget: 0,
-  
+
     user_id: null,
     flag: 0,
   };
 
   renderHeader() {
     const dateFormat = " MMMM DD YYYY";
-    if(this.state.flag === 0){
-      apiGet('users').then(({data}) => {
-      console.log(data);
-      console.log(data.data.id);
-      this.setState({ user_id: data.data.id, flag: 1});
-
-    });}
     return (
       <div className="header row flex-middle">
         <div className="col col-start">
@@ -88,8 +81,6 @@ class Calendar extends Component {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
-            <span className="dailyCal">Calories: </span>
-            <span className="dailyBud">Budget: </span>
           </div>
         );
         day = dateFns.addDays(day, 1);
@@ -126,8 +117,16 @@ class Calendar extends Component {
     apiGet('daily_nutrients/date?day=' + formattedDate)
       .then(({data}) => {
         this.setState({day_values: data.data})
-        console.log(this.state.day_values)
-        // alert("")
+        alert("Nutrients for " + this.state.day_values.day +
+        "\nCalories: " + this.state.day_values.calories +
+        "\nProtein: " + this.state.day_values.protein +
+        "\nFat: " + this.state.day_values.fat +
+        "\nCarbs: " + this.state.day_values.carbs)
+      })
+      .catch((err) => {
+        if(err.response.status == 404) {
+          alert("No nutrients were found for this day")
+        }
       })
   };
 
@@ -150,21 +149,6 @@ class Calendar extends Component {
           {this.renderHeader()}
           {this.renderDays()}
           {this.renderCells()}
-        </div>
-        <div className="page">
-          <div className="col-25">
-            <h5>Daily Calories: {this.state.calories} calories</h5>
-            <h5>Daily Budget: ${this.state.budget}</h5>
-          </div>
-          <div className="col-25">
-            <h5>Meals: </h5>
-          </div>
-          <div className="col-25">
-            <h5>Macro Information: </h5>
-          </div>
-          <div className="col-25">
-            <h5>Planned Recipes: </h5>
-          </div>
         </div>
       </div>
     );

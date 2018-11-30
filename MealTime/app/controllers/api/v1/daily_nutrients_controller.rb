@@ -24,10 +24,9 @@ module Api
 
             def show_day
                 user = @current_user
-                raw_date = params["day"]
-                date = raw_date.slice(0, raw_date.length - 1)
+                date = params["day"]
                 daily_vals = DailyNutrient.find_by(user_id: user.id, day: date)
-                
+
                 if daily_vals != nil
                     render json: {status: "SUCCESS", message: "Hit show_day", data: daily_vals}, status: :ok
                 else
@@ -55,6 +54,18 @@ module Api
                 daily_nut = DailyNutrient.find(params[:id])
                 daily_nut.destroy
                 render json: {status: "SUCCESS", message: "Daily Nutrients destroyed", data: daily_nut}, status: :ok
+            end
+
+            def update_cheat_day
+                user = @current_user
+                today = get_today
+                daily_val = DailyNutrient.find_by(user_id: user.id, day: today)
+                daily_val.toggle(:cheat_day_flag)
+                if daily_val.save
+                    render json: {status: "SUCCESS", message: "Cheat day flag toggled", data: daily_val}, status: :ok
+                else
+                    render json: {status: "FAIL on ", message: "Cheat day flag failed to toggle", data: daily_val}, status: :ok
+                end
             end
 
             private

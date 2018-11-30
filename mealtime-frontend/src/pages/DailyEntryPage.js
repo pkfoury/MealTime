@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './general.css';
-import { apiPost } from '../functions/Api';
-import { apiGet } from '../functions/Api';
+import { apiPost, apiGet, apiPatch } from '../functions/Api';
 import { Button } from 'reactstrap';
 
 class DailyEntryPage extends Component {
@@ -18,6 +17,8 @@ class DailyEntryPage extends Component {
             itemIsAUserRecipe: false,
             foodItems: [],
             moneySpent: 0,
+            calorieLimit: 0,
+            cheatDay: false
         };
         this.updateMoneySpent = this.updateMoneySpent.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -109,13 +110,13 @@ class DailyEntryPage extends Component {
         if (this.state.selectedItem === null) {
             return; // Failure
         }
-        
+
         var arrayItems = this.grabMealArray(meal).slice();
 
         if (this.state.itemIsAUserRecipe) {
             console.log("Selecte item below");
             console.log(this.state.selectedItem);
-            let newObject = { 
+            let newObject = {
                 name: this.state.selectedItem["recipe_name"],
                 measure: '1 Serving',
                 nutrients: [
@@ -141,7 +142,7 @@ class DailyEntryPage extends Component {
             this.setState({ dropdownItems: [], selectedItem: null, totalCalorieCount: this.state.totalCalorieCount + +jsonData.report.foods[0].nutrients[0].value });
             this.setMealArray(meal, arrayItems);
             this.refs.foodSearch.value = '';
-        
+
         }.bind(this));
     }
 
@@ -173,6 +174,34 @@ class DailyEntryPage extends Component {
                 this.setState({ snackItems: arrayItems });
                 break;
         }
+    }
+    updateCalorieLimit() {
+        apiGet('user_goals').then(({data}) => {
+            if (data.goals_data != null) {
+                if (this.state.cheatDay == true) {
+                    this.setState({ calorieLimit: data.goals_data.cheat_day_calories });
+                    console.log(data.goals_data.cheat_day_calories);
+                }
+                else {
+                    this.setState({ calorieLimit: data.goals_data.calories });
+                    console.log(data.goals_data.calories);
+                }
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    setCheatDay() {
+        const options = { 'empty': "empty set" }
+        apiPatch('daily_nutrients/update_cheat_day', options).then(({data}) => {
+            if (data.data != null) {
+                this.setState({ cheatDay: data.data.cheat_day_flag }, this.updateCalorieLimit);
+                console.log(this.state.cheatDay);
+                console.log(data);
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     deleteItemFromMeal(meal, itemName) {
@@ -260,7 +289,7 @@ class DailyEntryPage extends Component {
                                 <Button onClick={() => this.addItemToDailyList("dinner")}>Dinner</Button>
                                 <Button onClick={() => this.addItemToDailyList("snacks")}>Snacks</Button>
                             </div>
-                            <Button>Cheat Day</Button>
+                            <Button onClick={() => this.setCheatDay()}>Cheat Day</Button>
                         </div>
                     </div>
                 </div>
@@ -393,6 +422,10 @@ class DailyEntryPage extends Component {
                         <div className="row">
                             <h3 className="col-lg-8">Total Amount of Money Spent</h3>
                             <label className="biggerLabel">$</label><input className="col-lg-3 input-group" placeholder="0" onChange={this.updateMoneySpent}></input>
+                        </div>
+                        <div className="row">
+                            <h3 className="col-lg-8">Calorie Goal</h3>
+                            <h3 className="col-lg-3">{this.state.calorieLimit}</h3>
                         </div>
                     </div>
                 </div>
