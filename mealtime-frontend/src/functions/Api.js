@@ -30,7 +30,7 @@ export function apiDelete (endpoint, token = getToken()) {
     method: 'DELETE',
     headers: getHeaders(token)
   }
-  
+
   if (endpoint.includes("?")){
     return axios.delete(`${API_URL}${endpoint}&Token=` + token, options);
   }
@@ -45,7 +45,7 @@ export function apiPost (endpoint, data = {}, token = getToken()) {
     headers: getHeaders(token),
     body: data
   }
-  return axios.post(`${API_URL}${endpoint}?token=` + token, options);
+  return axios.post(`${API_URL}${endpoint}?Token=` + token, options);
 }
 
 export function apiPatch(endpoint, param, data = {}, token = getToken()) {
