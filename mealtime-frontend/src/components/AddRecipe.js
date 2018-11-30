@@ -206,7 +206,9 @@ class AddRecipe extends Component {
       'total_trans_fat': this.state.total_trans_fat,
       'total_protein': this.state.total_protein,
       'total_cholesterol': this.state.total_cholesterol,
-      'total_sodium': this.state.total_sodium
+      'total_sodium': this.state.total_sodium,
+      'difficulty': this.state.difficulty,
+      'num_ingredients': this.state.ingredients.length
     };
     //apiPost('add_recipes', recipeInfo)
     apiPost('add_recipes', recipeInfo)

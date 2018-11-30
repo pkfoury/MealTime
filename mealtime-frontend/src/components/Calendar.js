@@ -7,11 +7,13 @@ class Calendar extends Component {
   state = {
     currentWeek: new Date(),
     selectedDate: new Date(),
-    calories: 1,
-    budget: 0,
-    ingredients: []
-  };
+    day_values: {},
+      calories: 1,
+      budget: 0,
 
+    user_id: null,
+    flag: 0,
+  };
 
   renderHeader() {
     const dateFormat = " MMMM DD YYYY";
@@ -94,20 +96,30 @@ class Calendar extends Component {
   }
 
   onDateClick = day => {
-    this.setState({
-      selectedDate: day,
-      calories: 0
-    });
-    const newDateFormat = "YYYY-MM-DD";
+    // this.setState({
+    //   selectedDate: day,
+    //   calories: 0
+    // });
+    // const newDateFormat = "YYYY-MM-DD";
+    // var formattedDate = dateFns.format(day, newDateFormat);
+    // apiGet('meals/'+this.state.user_id+'/'+formattedDate).then(({data}) => {
+    //   console.log(data);
+    //   this.setState({ calories : data.data.total_calories })
+    // });
+    // this.setState({
+    //   selectedDate: day
+    // });
+
+    // console.log(day)
+    const newDateFormat = "MM/DD/YY";
     var formattedDate = dateFns.format(day, newDateFormat);
-    apiGet('meals/'+formattedDate).then(({data}) => {
-      console.log(data);
-      this.setState({ calories : data.data.total_calories })
-      this.setState({ meals: data.data.meals })
-    });
-    this.setState({
-      selectedDate: day
-    });
+
+    apiGet('daily_nutrients/date?day=' + formattedDate)
+      .then(({data}) => {
+        this.setState({day_values: data.data})
+        console.log(this.state.day_values)
+        // alert("")
+      })
   };
 
   nextWeek = () => {

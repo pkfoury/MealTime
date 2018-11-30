@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { apiPost } from '../functions/Api';
+import { apiPost, apiGet } from '../functions/Api';
 
 class RestaurantsPage extends Component {
   constructor(props) {
@@ -33,8 +33,8 @@ class RestaurantsPage extends Component {
         results.forEach(business => {
           business.reviews = [];
         });
-        this.setState({ restaurants: results, restaurantCount: results.length });
-        this.filterRestaurants();
+
+        this.setRestaurantsToState(results);
     }).catch((error) => {
       console.log(error);
     });
@@ -59,6 +59,23 @@ class RestaurantsPage extends Component {
     });
   }
 
+  // Filters out restaurants that users hated before saving state.
+  setRestaurantsToState(restaurants) {
+    apiGet('restaurant_dislikes').then((response) => {
+      let dislikes = response.data.data;
+      let unfilteredRestaurants = restaurants;
+      dislikes.forEach(dislike => {
+        unfilteredRestaurants.forEach((restaurant, index) => {
+          if (dislike.yelp_id === restaurant.id) {
+            unfilteredRestaurants.splice(index, 1);
+          }
+        });
+      });
+      this.setState({ restaurants: unfilteredRestaurants, restaurantCount: restaurants.length });
+      this.filterRestaurants();
+    });
+  }
+
   likeRestaurant(restaurant) {
     console.log(restaurant);
     let data = {
@@ -74,6 +91,18 @@ class RestaurantsPage extends Component {
         // TODO: Handle request
       }
     );
+  }
+
+  dislikeRestaurant(restaurant) {
+    let data = {
+      yelp_id: restaurant.id,
+      name: restaurant.name,
+      phone: restaurant.displayPhone,
+      price: restaurant.price,
+      rating: restaurant.rating
+    }
+
+    apiPost('restaurant_dislikes', data).then(({data}) => {});
   }
 
   changePriceOption(event) {
@@ -145,7 +174,7 @@ class RestaurantsPage extends Component {
                 <h5>Price: <b>{ restaurant.price }</b></h5>
                 <div className="btn-group restaurant-buttons">
                   <button className="btn btn-secondary" onClick={() => this.likeRestaurant(restaurant)}>Like this restaurant <i className="far fa-thumbs-up"></i></button>
-                  <button className="btn btn-secondary">Dislike this restaurant <i className="far fa-thumbs-down"></i></button>
+                  <button className="btn btn-secondary" onClick={() => this.dislikeRestaurant(restaurant)}>Dislike this restaurant <i className="far fa-thumbs-down"></i></button>
                   <button className="btn btn-secondary" onClick={() => this.showReviews(restaurant.id, restaurant)}>Show Reviews</button>
                 </div>
               </div>

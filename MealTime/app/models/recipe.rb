@@ -13,19 +13,8 @@ class Recipe < ApplicationRecord
     validates :cook_time, presence: true, length: {maximum: 5},
                 format: {with: VALID_TIME_FORMAT}
     validates :instructions, presence: true
-    #before_save {
-    #    self.meals.update_nutrition(self.total_calories, self.total_fat, self.total_trans_fat, self.total_cholesterol, self.total_sodium,
-    #        self.total_carbs, self.total_protein)
-    #}
-    def update_nutrition(input_cals, total_fat, trans_fat, cholesterol, sodium, total_carbs, protein)
-        self.update_attributes(:total_calories => :total_calories + input_cals,
-            :total_fat => :total_fat + total_fat,
-            :trans_fat => :trans_fat + trans_fat,
-            :cholesterol => :cholesterol + cholesterol,
-            :sodium => :sodium + sodium,
-            :total_carbs => :total_carbs + total_carbs,
-            :protein => :protein + protein)
-    end
+    validates :total_calories, :total_carbs, :total_fat, :total_trans_fat, presence: true, numericality: { greater_than: 0 }
+    validates :total_cholesterol, :total_sodium, :total_protein, presence: true, numericality: { greater_than: 0 }
 
 
 

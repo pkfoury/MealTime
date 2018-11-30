@@ -22,8 +22,9 @@ class FirstTimeUserPage extends Component {
 
     this.toggleShowMacroGoals = this.toggleShowMacroGoals.bind(this);
     this.updateProtein = this.updateProtein.bind(this);
-    this.updateCarbs = this.updateCarbs.bind(this)
+    this.updateCarbs = this.updateCarbs.bind(this);
     this.updateFats = this.updateFats.bind(this);
+    this.updateCheatDayCalories = this.updateCheatDayCalories.bind(this);
 
     this.renderMacroOptions = this.renderMacroOptions.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,6 +52,10 @@ class FirstTimeUserPage extends Component {
 
   updateCalories (e) {
     this.setState({ calories: e.target.value });
+  }
+
+  updateCheatDayCalories (e) {
+    this.setState({ cheat_day_calories: e.target.value });
   }
 
   toggleShowMacroGoals() {
@@ -82,7 +87,7 @@ class FirstTimeUserPage extends Component {
       'fat': this.state.fats,
       'carbs': this.state.carbs,
       'track_macros': this.state.showMacroGoals,
-
+      'cheat_day_calories': this.state.cheat_day_calories
     }
 
     apiPost('user_goals', nutritionalInfo)
@@ -112,6 +117,9 @@ class FirstTimeUserPage extends Component {
                 <br />
                 <label htmlFor="caloric-limit">How many calories would you like to limit yourself to per day?</label>
                 <input type="number" className="form-control col-lg-2 left-42" id="caloric-limit" placeholder="0" onChange={this.updateCalories}/>
+                <br />
+                <label htmlFor="caloric-limit">How many calories would you like to limit yourself to on cheat days?</label>
+                <input type="number" className="form-control col-lg-2 left-42" id="cheat-day-caloric-limit" placeholder="0" onChange={this.updateCheatDayCalories}/>
                 <br />
                 <label htmlFor="budget">How much money would you like to spend per week on food?</label>
                 <input type="number" className="form-control col-lg-2 left-42" id="budget-limit" placeholder="0" onChange={this.updateMoney}/>

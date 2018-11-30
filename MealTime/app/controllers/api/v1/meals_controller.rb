@@ -16,18 +16,20 @@ module Api
             end
 
             def create
-
-                meal_data = params['body']['mealData'] #This is an array of meal items
-                user = User.find_by(auth_digest: params["headers"]["Token"])
+                meal_data = params['body'] #This is an array of the meals items
+                user = User.find_by(auth_digest: params["Token"])
                 user_goals = UserGoal.find_by(user_id: user.id)
-                daily_nut = DailyNutrient.find_by(user_id: user.id)
-                date = params['body']['date']
+
+                today = get_today
+                daily_nut = DailyNutrient.find_by(user_id: user.id, day: today)
 
                 if user && user_goals
-                    processMeal(meal_data, daily_nut)
+                    processEntry(meal_data, daily_nut)
+                    render json: {status: "SUCCESS", message: "HIT CREATE!", data: daily_nut}, status: :ok
+                else
+                    render json: {status: "FAIL", message: "User or user_goals are not found"}, status: :not_found
                 end
 
-                render json: {status: "SUCCESS", message: "HIT CREATE!", data: daily_nut}, status: :ok
             end
 
             def destroy

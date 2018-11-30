@@ -20,7 +20,7 @@ module Api
             end
 
             def update
-                user = User.find_by(auth_digest: params["headers"]["Token"])
+                user = User.find_by(auth_digest: params["Token"])
                 param = params["param"]
                 if user
                     if params["body"]["showMacros"] == true
