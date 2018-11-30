@@ -21,7 +21,11 @@ module Api
             def searchWithFilters
                 name = "%" + params["name"] + "%"
 
-                recipes = Recipe.where("recipe_name like ?", name);
+                if params["name"] == "none"
+                    recipes = Recipe.all
+                else
+                    recipes = Recipe.where("recipe_name like ?", name);
+                end
 
                 render json: {status: 'SUCCESS', message: 'Searching for recipes with filters.', data: recipes}, status: :ok
             end
