@@ -62,10 +62,10 @@ module Api
                 today = get_today
                 daily_val = DailyNutrient.find_by(user_id: user.id, day: today)
                 daily_val.toggle(:cheat_day_flag)
-                if daily_vals.save
-                    render json: {status: "SUCCESS", message: "Cheat day flag toggled", data: daily_vals}, status: :ok
+                if daily_val.save
+                    render json: {status: "SUCCESS", message: "Cheat day flag toggled", data: daily_val}, status: :ok
                 else
-                    render json: {status: "FAIL on ", message: "Cheat day flag failed to toggle", data: daily_vals}, status: :ok
+                    render json: {status: "FAIL on ", message: "Cheat day flag failed to toggle", data: daily_val}, status: :ok
                 end
             end
 

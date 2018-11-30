@@ -20,23 +20,10 @@ class DailyEntryPage extends Component {
             cheatDay: false
         };
         apiGet('daily_nutrients').then(({data}) => {
+            console.log(data);
             if (data.data != null) {
-                this.setState({ cheat_day: data.data.cheat_day_flag });
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
-        apiGet('user_goals').then(({data}) => {
-            if (data.data != null) {
-                if(this.state.cheatDay){
-                    this.setState({ calorieLimit: data.data.cheat_day_calories });
-                }
-                else {
-                    this.setState({ calorieLimit: data.data.calories });
-                }
-            }
-            else {
-                this.setState({ calorieLimit: 0 });
+                this.setState({ cheatDay: data.data.cheat_day_flag }, this.updateCalorieLimit);
+                console.log(data.data.cheat_day_flag);
             }
         }).catch((err) => {
             console.log(err);
@@ -164,24 +151,29 @@ class DailyEntryPage extends Component {
                 break;
         }
     }
-
-    setCheatDay() {
-        const options = { 'empty': "empty set" }
-        apiPatch('daily_nutrients/update_cheat_day', options).then(({data}) => {
-            if (data.data != null) {
-                this.setState({ cheatDay: data.data.cheat_day_flag });
+    updateCalorieLimit() {
+        apiGet('user_goals').then(({data}) => {
+            if (data.goals_data != null) {
+                if (this.state.cheatDay == true) {
+                    this.setState({ calorieLimit: data.goals_data.cheat_day_calories });
+                    console.log(data.goals_data.cheat_day_calories);
+                }
+                else {
+                    this.setState({ calorieLimit: data.goals_data.calories });
+                    console.log(data.goals_data.calories);
+                }
             }
         }).catch((err) => {
             console.log(err);
         });
-        apiGet('user_goals').then(({data}) => {
+    }
+    setCheatDay() {
+        const options = { 'empty': "empty set" }
+        apiPatch('daily_nutrients/update_cheat_day', options).then(({data}) => {
             if (data.data != null) {
-                if (this.state.cheat_day_flag) {
-                    this.setState({ calorieLimit: data.data.cheat_day_calories });
-                }
-                else {
-                    this.setState({ calorieLimit: data.data.calories});
-                }
+                this.setState({ cheatDay: data.data.cheat_day_flag }, this.updateCalorieLimit);
+                console.log(this.state.cheatDay);
+                console.log(data);
             }
         }).catch((err) => {
             console.log(err);
