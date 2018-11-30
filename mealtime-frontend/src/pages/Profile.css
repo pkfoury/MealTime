@@ -8,7 +8,7 @@
 
 .card-profile {
   width: 420px;
-  height: 420px;
+  height: auto;
 }
 
 .card-profile__form {
