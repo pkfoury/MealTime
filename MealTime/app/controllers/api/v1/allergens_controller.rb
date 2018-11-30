@@ -17,7 +17,7 @@ module Api
                 else
                     logger.debug "#{allergen.errors.full_messages}"
                     render json: {status: 'ERROR', message: 'Allergen not created', data: allergen.errors.full_messages}, status: :unprocessable_entity
-            
+
                 end
             end
 
@@ -25,9 +25,9 @@ module Api
                 allergen = Allergen.where(id: params["id"])
                 render json: {status: 'SUCCESS', message: 'Allergen found', data: allergen }, status: :ok
             end
-            
-            private 
-            def allergen_params 
+
+            private
+            def allergen_params
                 params.permit(:name, :id)
             end
         end

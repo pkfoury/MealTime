@@ -28,10 +28,11 @@ Rails.application.routes.draw do
 
       resources :recipes
 
-      get '/recipe_allergens', to: "recipes#recipe_allergens"
+      get '/recipe_allergens/:name/:allergen_name', to: "recipes#recipe_allergens"
       get '/search', to: 'recipes#search'
       get '/searchWithFilters/:name', to: 'recipes#searchWithFilters' # This is for the find recipes page for anybody wondering.
-      resources :add_recipes
+
+      post '/add_recipes', to: 'add_recipes#create'
       resources :meals
 
       get '/get-meals-for-day/:dateTime', to: 'meals#show'

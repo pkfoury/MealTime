@@ -35,8 +35,9 @@ module Api
                 params[:allergen_name].tr!('[]','')
                 #split input string by ',' if a list of allergens are provided
                 allergen_list = params[:allergen_name].split(',')
+
                 records_array = ActiveRecord::Base.connection.execute(build_query(allergen_list))
-                
+
                 records_array.each do |row|
                     recipe << add_to_recipe(row)
                 end
@@ -45,8 +46,8 @@ module Api
             end
 
             def create
-                recipe = Recipe.new(recipe_params) 
-                if recipe.save 
+                recipe = Recipe.new(recipe_params)
+                if recipe.save
                     render json: {status: 'SUCCESS', message: 'Recipe created', data:recipe}, status: :ok
                 else
                     render json: {status: 'ERROR', message: 'Recipe not created', data:recipe.errors}, status: :unprocessable_entity
@@ -59,15 +60,15 @@ module Api
                 render json: {status: 'SUCCESS', message: 'Recipe deleted', data:recipe}, status: :ok
 
             end
-            private 
+            private
             def recipe_params
                 params.permit(:user_id, :recipe_name, :instructions, :cook_time,:creator_comments, :difficulty, :allergen_name)
             end
             #formats the query with the allergen_list allergens
-            def build_query(allergen_list) 
-                query = %"SELECT 
+            def build_query(allergen_list)
+                query = %"SELECT
                     recipes.id,
-                    recipes.recipe_name, 
+                    recipes.recipe_name,
                     recipes.instructions,
                     recipes.cook_time,
                     recipes.creator_comments,
@@ -80,13 +81,13 @@ module Api
                     recipes.total_protein,
                     recipes.difficulty
                 FROM recipes
-                    LEFT JOIN ingredients_recipes 
+                    LEFT JOIN ingredients_recipes
                         ON (recipes.id = ingredients_recipes.recipe_id)
-                    LEFT JOIN ingredients 
+                    LEFT JOIN ingredients
                         ON (ingredients_recipes.ingredient_id = ingredients.id)
-                    LEFT JOIN allergens_ingredients 
+                    LEFT JOIN allergens_ingredients
                         ON (ingredients.id = allergens_ingredients.ingredient_id)
-                    LEFT JOIN allergens 
+                    LEFT JOIN allergens
                         ON (allergens_ingredients.allergen_id = allergens.id)
                 WHERE allergens.name != '#{allergen_list[0].strip}'"
                 #concat rest of allergens into the query
@@ -109,7 +110,7 @@ module Api
                 temp.cook_time = row['cook_time']
                 temp.creator_comments = row['creator_comments']
                 temp.total_calories = row['total_calories']
-                temp.total_fat = row['total_fat'] 
+                temp.total_fat = row['total_fat']
                 temp.total_trans_fat = row['total_trans_fat']
                 temp.total_cholesterol = row['total_cholesterol']
                 temp.total_sodium = row['total_sodium']

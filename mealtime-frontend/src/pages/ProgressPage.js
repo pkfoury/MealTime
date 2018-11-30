@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import dateFns from 'date-fns';
 import {PieChart} from 'react-easy-chart';
 import {LineChart} from 'react-easy-chart';
 import {BarChart} from 'react-easy-chart';
@@ -7,15 +7,27 @@ import {apiGet} from '../functions/Api';
 import { CardSubtitle, Card, CardDeck, CardBody, Button, CardTitle, CardText, CardImg, __esModule } from 'reactstrap';
 
 class App extends Component {
-
-	state = {
+	
+		state = {
+	  //currentWeek : new Date(),
+		day_values: {},
+		mon : {},
+		tues : {},
+		wed : {},
+		thurs : {},
+		fri : {},
+		sat : {},
+		sun :{},
+		cal: 0,
 		totalCalorieCount: 0,
 		flag: 0,
 		current_progress: {},
 		total_progress: {},
 		goals: {},
 		caloriesLeft: 0
+	
 	};
+
 
 	componentWillMount(){
 		apiGet('daily_nutrients')
@@ -26,6 +38,118 @@ class App extends Component {
 				}, this.getGoals)
 			})
 
+		var currentWeek = new Date();
+		const newDateFormat = "MM/DD/YY";
+		
+		
+		const weekStart = dateFns.startOfWeek(currentWeek);
+		var formattedDatesun = dateFns.format(weekStart, newDateFormat);
+		var formattedDatemon = dateFns.format(dateFns.addDays(weekStart,1), newDateFormat);
+		var formattedDatetues = dateFns.format(dateFns.addDays(weekStart, 2), newDateFormat);
+		//const daywed = dateFns.format(dateFns.addDays(daytues, 1), newDateFormat)
+		var formattedDatewed = dateFns.format(dateFns.addDays(weekStart,3), newDateFormat);
+		//const daythur = dateFns.format(dateFns.addDays(daywed, 1), newDateFormat)
+		var formattedDatethur = dateFns.format(dateFns.addDays(weekStart,4), newDateFormat);
+		
+
+		//const dayfri = dateFns.format(dateFns.addDays(daythur, 1), newDateFormat)
+		var formattedDatefri = dateFns.format(dateFns.addDays(weekStart,5), newDateFormat);
+		
+		//const daysat = dateFns.format(dateFns.addDays(currentWeek, 1), newDateFormat)
+		var formattedDatesat = dateFns.format(dateFns.addDays(weekStart,6), newDateFormat);
+		console.log(formattedDatesun);
+		apiGet('daily_nutrients/date?day=' + formattedDatesun) 
+			.then(({data}) => {
+				if (data.status === "NULL VALS"){
+					this.setState({ sun: 0})
+				}
+				else{	
+					this.setState({sun : data.data.calories})
+				}
+			}).catch((err) => {
+				this.setState({ sun: 0})
+			})
+			
+			apiGet('daily_nutrients/date?day=' + formattedDatemon) 
+			.then(({data}) => {
+				if (data.status === "NULL VALS"){
+					this.setState({ mon: 0})
+				}
+				else{	
+					this.setState({mon : data.data.calories})
+				}
+			}).catch((err) => {
+				this.setState({ mon: 0})
+			});
+			
+			apiGet('daily_nutrients/date?day=' + formattedDatetues) 
+			.then(({data}) => {
+				if (data.status === "NULL VALS"){
+					this.setState({ tues: 0})
+				}
+				else{	
+					this.setState({tues : data.data.calories})
+				}
+			}).catch((err) => {
+				this.setState({ tues: 0})
+			})
+			
+			apiGet('daily_nutrients/date?day=' + formattedDatewed) 
+			.then(({data}) => {
+				if (data.status === "NULL VALS"){
+					this.setState({ wed: 0})
+				}
+				else{	
+					this.setState({wed : data.data.calories})
+				}
+			}).catch((err) => {
+				this.setState({ wed: 0})
+			})
+			
+			apiGet('daily_nutrients/date?day=' + formattedDatethur) 
+			.then(({data}) => {
+				if (data.status === "NULL VALS"){
+					this.setState({ thurs: 0})
+				}
+				else{	
+					this.setState({thurs : data.data.calories})
+				}
+			}).catch((err) => {
+				this.setState({ thurs: 0})
+			})
+
+			
+			
+
+			apiGet('daily_nutrients/date?day=' + formattedDatefri) 
+			.then(({data}) => {
+				//console.log(data.data)
+				if (data.status === "NULL VALS"){
+					this.setState({ fri: 0})
+				}
+				else{	
+					this.setState({fri : data.data.calories})
+				}
+			}).catch((err) => {
+				this.setState({ fri: 0})
+			})
+			
+			console.log(this.state.fri);
+			//console.log(this.state.sun);
+
+			apiGet('daily_nutrients/date?day=' + formattedDatesat) 
+			.then(({data}) => {
+				if (data.status === "NULL VALS"){
+					this.setState({ sat: 0})
+				}
+				else{	
+					this.setState({sat : data.data.calories})
+				}
+			}).catch((err) => {
+				this.setState({ sat: 0})
+			})
+
+			
 			/*apiGet('user_goals')
 			.then ( ({data}) => {
 				console.log(data)
@@ -110,11 +234,11 @@ class App extends Component {
                   	height={450}
 										width={390}
 										margin={{top: 10, right: 50, bottom: 30, left: 30}}
-                  	yDomainRange={[0,400]}
+                  	yDomainRange={[0,2000]}
                   	data={[
                         	{ x: 'Protein', y: this.state.current_progress["protein"], color: '#33CEFF' },
                         	{ x: 'Fat', y: this.state.current_progress["fat"], color: '#33B5FF' },
-                        	{ x: 'Fiber',y: this.state.current_progress["fiber"], color: '#339CFF' },
+                        	{ x: 'Calories',y: this.state.current_progress["calories"], color: '#339CFF' },
                         	{ x: 'Carbs',y: this.state.current_progress["carbs"], color: '#3377FF' }
 										]}
 										clickHandler={(d) => this.setState({dataDisplay: `The value of ${d.x} is ${d.y} grams`})}
@@ -134,15 +258,16 @@ class App extends Component {
 			width={350}
 			height={450}
 			interpolate={'cardinal'}
+		
 			data = {[
 				[
-					{ x: 'Mon' , y:2000 },
-					{ x: 'Tues' , y: 1800 },
-					{ x: 'Wed' , y: 2200 },
-					{ x: 'Thurs' , y: 2300 },
-					{ x: 'Fri' , y: 2100 },
-					{ x: 'Sat' , y: 2200 },
-					{ x: 'Sun' , y: 1900 }
+					{ x: 'Sun' , y: this.state.sun },
+					{ x: 'Mon' , y: this.state.mon },
+					{ x: 'Tues' , y: this.state.tues },
+					{ x: 'Wed' , y: this.state.wed },
+					{ x: 'Thurs' , y: this.state.thurs },
+					{ x: 'Fri' , y: this.state.fri },
+					{ x: 'Sat' , y: this.state.sat },
 				]
 				]}
 
