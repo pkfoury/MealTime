@@ -2,7 +2,7 @@ module Api
     module V1
         class RecipesController < ApplicationController
             skip_before_action :verify_authenticity_token
-            #skip_before_action :require_token
+            # skip_before_action :require_token
             def index
                 recipe = Recipe.order("recipe_name DESC")
                 render json: {status: 'SUCCESS', message: 'Pulling all recipes desc.', data:recipe}, status: :ok
@@ -88,16 +88,16 @@ module Api
                         ON (ingredients.id = allergens_ingredients.ingredient_id)
                     LEFT JOIN allergens 
                         ON (allergens_ingredients.allergen_id = allergens.id)
-                WHERE allergens.id != #{allergen_list[0].strip}"
+                WHERE allergens.name != '#{allergen_list[0].strip}'"
                 #concat rest of allergens into the query
                 query << add_allergens_to_query(allergen_list[1..-1])
-                query << 'OR allergens.id IS NULL'
+                query << ' OR allergens.name IS NULL'
             end
             #if allergen_list contains multiple allergens concat them on to the query
             def add_allergens_to_query(allergen_list)
                 ret_string = ''
                 allergen_list.each do |allergen|
-                    ret_string << %" AND allergens.id != '#{allergen.strip}'"
+                    ret_string << %" AND allergens.name != '#{allergen.strip}'"
                 end
                 return ret_string
             end

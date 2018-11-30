@@ -2,6 +2,7 @@ module Api
     module V1
         class AllergensController < ApplicationController
             skip_before_action :verify_authenticity_token
+            # skip_before_action :require_token
             def index
                 allergen = Allergen.order("name asc")
                 render json: {status: 'SUCCESS', message: 'Hit Allergen Endpoint', data: allergen}, status: :ok
