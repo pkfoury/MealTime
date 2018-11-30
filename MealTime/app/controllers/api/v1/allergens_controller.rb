@@ -2,6 +2,7 @@ module Api
     module V1
         class AllergensController < ApplicationController
             skip_before_action :verify_authenticity_token
+            skip_before_action :require_token
             def index
                 allergen = Allergen.order("name asc")
                 render json: {status: 'SUCCESS', message: 'Hit Allergen Endpoint', data: allergen}, status: :ok
@@ -16,7 +17,7 @@ module Api
                 else
                     logger.debug "#{allergen.errors.full_messages}"
                     render json: {status: 'ERROR', message: 'Allergen not created', data: allergen.errors.full_messages}, status: :unprocessable_entity
-            
+
                 end
             end
 
@@ -24,9 +25,9 @@ module Api
                 allergen = Allergen.where(id: params["id"])
                 render json: {status: 'SUCCESS', message: 'Allergen found', data: allergen }, status: :ok
             end
-            
-            private 
-            def allergen_params 
+
+            private
+            def allergen_params
                 params.permit(:name, :id)
             end
         end
