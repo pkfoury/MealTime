@@ -27,17 +27,23 @@
 # @meal1 = Meal.new(date_of_meal: "2018-9-10", total_calories: 200, user_id: 1, meal_type_id: 1)
 # @meal1.save
 
-# @ingredient = Ingredient.new(name: 'bread', calories: 200, total_fat: 2, trans_fat: 12, 
+# @ingredient = Ingredient.new(name: 'cheese', calories: 200, total_fat: 2, trans_fat: 12, 
 #     cholesterol: 12, sodium: 12, total_carbs: 12, protein: 12, serving_size: 1,
 #     dv_total_fat: 1, dv_trans_fat: 1, dv_cholesterol: 1, dv_sodium: 1, dv_carbs: 1,
 #     dv_protein: 1)
 # @ingredient.save
-#  @allergen_ingredient = AllergensIngredients.new(allergen_id:76, ingredient_id: 18)
-#  @allergen_ingredient.save
+ @allergen_ingredient = AllergensIngredients.new(allergen_id:78, ingredient_id: 19)
+ @allergen_ingredient.save
 # @recipe = Recipe.new(recipe_name: 'bread', instructions: 'you know this', cook_time:'2:00',
 #     creator_comments: '', user_id:5, public: false, total_calories: 1, total_fat: 1,
 #     total_trans_fat: 1, total_cholesterol: 1, total_sodium: 1, total_carbs:1, total_protein: 1,
 #     difficulty: 1)
 #     @recipe.save
-@recipe_ingredient = IngredientsRecipes.new(ingredient_id: 18, recipe_id: 23, amount: 1, uom_id:2)
-@recipe_ingredient.save
+# @recipe_ingredient = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 28, amount: 1, uom_id:2)
+# @recipe_ingredient.save
+# @recipe_ingredient2 = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 21, amount: 1, uom_id:2)
+# @recipe_ingredient2.save
+# @recipe_ingredient3 = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 26, amount: 1, uom_id:2)
+# @recipe_ingredient3.save
+# @recipe_ingredient4 = IngredientsRecipes.new(ingredient_id: 19, recipe_id: 20, amount: 1, uom_id:2)
+# @recipe_ingredient4.save

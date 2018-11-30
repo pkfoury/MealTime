@@ -62,6 +62,7 @@ module Api
             #formats the query with the allergen_list allergens
             def build_query(allergen_list) 
                 query = %"SELECT 
+                    recipes.id,
                     recipes.recipe_name, 
                     recipes.instructions,
                     recipes.cook_time,
@@ -83,9 +84,10 @@ module Api
                         ON (ingredients.id = allergens_ingredients.ingredient_id)
                     LEFT JOIN allergens 
                         ON (allergens_ingredients.allergen_id = allergens.id)
-                WHERE allergens.id != #{allergen_list[0].strip} OR allergens.id IS NULL"
+                WHERE allergens.id != #{allergen_list[0].strip}"
                 #concat rest of allergens into the query
                 query << add_allergens_to_query(allergen_list[1..-1])
+                query << 'OR allergens.id IS NULL'
             end
             #if allergen_list contains multiple allergens concat them on to the query
             def add_allergens_to_query(allergen_list)
@@ -97,18 +99,19 @@ module Api
             end
             def add_to_recipe(row)
                 temp = Recipe.new()
-                temp.recipe_name = row[0]
-                temp.instructions = row[1]
-                temp.cook_time = row[2]
-                temp.creator_comments = row[3]
-                temp.total_calories = row[4]
-                temp.total_fat = row[5]
-                temp.total_trans_fat = row[6]
-                temp.total_cholesterol = row[7]
-                temp.total_sodium = row[8]
-                temp.total_carbs = row[9]
-                temp.total_protein = row[10]
-                temp.difficulty = row[11]
+                temp.id = row['id']
+                temp.recipe_name = row['recipe_name']
+                temp.instructions = row['instructions']
+                temp.cook_time = row['cook_time']
+                temp.creator_comments = row['creator_comments']
+                temp.total_calories = row['total_calories']
+                temp.total_fat = row['total_fat'] 
+                temp.total_trans_fat = row['total_trans_fat']
+                temp.total_cholesterol = row['total_cholesterol']
+                temp.total_sodium = row['total_sodium']
+                temp.total_carbs = row['total_carbs']
+                temp.total_protein = row['total_protein']
+                temp.difficulty = row['difficulty']
                 return temp
 
             end
