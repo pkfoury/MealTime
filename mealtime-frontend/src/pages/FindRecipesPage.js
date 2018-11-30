@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './general.css'
 import { apiPatch, apiGet, apiPost } from '../functions/Api';
-
 class FindRecipesPage extends Component {
     constructor(props) {
         super(props);
@@ -160,8 +159,10 @@ class FindRecipesPage extends Component {
                                 <option value="4">9+</option>
                             </select>
                         </div>
+                        
                     </div>
                     <input id="only-user-recipes" type="checkbox" onChange={() => this.toggleOnlyUserRecipesFilter()} />  Only show my recipes<br/>
+                    <input id="allergy-filter" type="checkbox"  /> filter allergies<br/>
                     <div className="col-lg-8 col-centered">
                         {this.state.recipes.map((recipe, index) => (
                             <div key={index} className="recipe-container col-centered">
@@ -171,6 +172,7 @@ class FindRecipesPage extends Component {
                             </div>
                         ))}
                     </div>
+                    
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossOrigin="anonymous"></link>
             </div>
         );
