@@ -233,7 +233,7 @@ class App extends Component {
                   	grid
                   	height={450}
 										width={390}
-										margin={{top: 10, right: 50, bottom: 30, left: 30}}
+										margin={{top: 10, right: 50, bottom: 30, left: 40}}
                   	yDomainRange={[0,2000]}
                   	data={[
                         	{ x: 'Protein', y: this.state.current_progress["protein"], color: '#33CEFF' },

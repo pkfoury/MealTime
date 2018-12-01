@@ -126,7 +126,7 @@ class MainPage extends Component {
 		<div>
 			<h5>Budget usage</h5>	
 			
-			<div className="text-center">used {this.state.current_progress["budget"]} of {this.state.goals["money"]}</div>
+			<div className="text-center">used ${this.state.current_progress["budget"]} of ${this.state.goals["money"]}</div>
 			<Progress animated color="success" value={this.state.current_progress["budget"]} max={this.state.goals["money"]} />
 			</div>
 		<CardDeck>
