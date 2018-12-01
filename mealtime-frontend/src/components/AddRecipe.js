@@ -22,7 +22,8 @@ class AddRecipe extends Component {
           sodium: 0,
           total_carbs: 0,
           protein: 0,
-          serving_size: 0.0
+          serving_size: 0.0,
+          allergen: null,
         }
       ],
       selectedItem: null,
@@ -40,7 +41,8 @@ class AddRecipe extends Component {
       total_trans_fat: 0,
       total_protein: 0,
       total_sodium: 0,
-      total_cholesterol: 0
+      total_cholesterol: 0,
+      tempAllergen: "None"
     };
     this.updaterecipe_name = this.updaterecipe_name.bind(this);
     this.updateInstructions = this.updateInstructions.bind(this);
@@ -49,6 +51,7 @@ class AddRecipe extends Component {
     this.updateAmount = this.updateAmount.bind(this);
     this.updateUom = this.updateUom.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateAllergen = this.updateAllergen.bind(this);
   }
 
   updaterecipe_name (e) {
@@ -74,6 +77,11 @@ class AddRecipe extends Component {
 
   updateUom (e) {
     this.setState({ tempUom: e.target.value });
+  }
+
+  updateAllergen (e) {
+    this.setState({ tempAllergen: e.target.value });
+    console.log(this.state.tempAllergen);
   }
 
   doSearch(term) {
@@ -115,6 +123,7 @@ class AddRecipe extends Component {
           name: jsonData.report.foods[0].name,
           amount: +this.state.tempAmount,
           uom: jsonData.report.foods[0].measure.substring(jsonData.report.foods[0].measure.indexOf(" ")+1),
+          allergen: this.state.tempAllergen,
           calories: +jsonData.report.foods[0].nutrients[4].value,
           protein: +jsonData.report.foods[0].nutrients[0].value,
           total_fat: +jsonData.report.foods[0].nutrients[1].value,
@@ -123,8 +132,10 @@ class AddRecipe extends Component {
           cholesterol: +jsonData.report.foods[0].nutrients[3].value,
           sodium: +jsonData.report.foods[0].nutrients[5].value,
           serving_size: +jsonData.report.foods[0].measure.substring(0, jsonData.report.foods[0].measure.indexOf(" "))
-
         };
+        if (this.state.tempAllergen == "None") {
+          item.allergen = null;
+        }
         if (isNaN(item.calories)){
           item.calories = 0;
         }
@@ -228,97 +239,6 @@ class AddRecipe extends Component {
 
   render() {
     return (
-      /*<div className="AddRecipe">
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <div className="row">
-              <div className="col-25">
-                <label>Recipe Name</label>
-              </div>
-              <div className="col-75">
-                <input type="text" id="recipe_name" name="recipe_name" ref="recipeName" placeholder="Your recipe name..." onChange={this.updaterecipe_name} />
-              </div>
-            </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Ingredient</label>
-            </div>
-            <div className="col-40">
-              <input type="text"
-                onChange={event => this.doSearch(event.target.value)}
-                className="form-control"
-                placeholder="Ingredient..."
-                id="foodSearch"
-                list="items"
-                ref="foodSearch"
-                />
-              <datalist id="items">
-                {this.state.dropdownItems.map((dropdownItem, index) => (
-                  <option key={index} value={dropdownItem.name}/>
-                ))}
-              </datalist>
-            </div>
-            <div className="col-15">
-              <input type="number" id="count" name="ingredientCount" placeholder="1" step="1" min="1" onChange={this.updateAmount} />
-            </div>
-            <div className="col-20">
-              <input type="text" id="unit" name="unitType" placeholder="Unit Type (Tablespoons, teaspoons, etc.)" onChange={this.updateUom} />
-            </div>
-          </div>
-          <div>
-            <button type="button" className="btn-success btn" onClick={() => this.addItemToSpecificIngredientsList()}>Add Specific Ingredient</button>
-          </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Ingredients</label>
-            </div>
-            <div className="col-75">
-              {this.state.specifics.map((item, index) => (
-                <div key={item} className="selected-item-row row">
-                  <div className="col-lg-5">{item}</div>
-                </div>
-              ))}
-              <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-                integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                crossOrigin="anonymous"></link>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Instructions</label>
-            </div>
-            <div className="col-75">
-              <input type="text" id="instruct" name="instructions" placeholder="Instructions to cook..." onChange={this.updateInstructions} />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Time to Cook in Minutes</label>
-            </div>
-            <div className="col-75">
-              <input type="string" id="time" name="timeToCook" placeholder="00:00"  onChange={this.updateTime} />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
-              <label>Difficulty</label>
-            </div>
-            <div className="col-75">
-              <select id="difficult" name="difficulty" onChange={this.updateDifficulty} >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </div>
-          </div>
-          <div className="row">
-            <input className="btn btn-primary btn-lg" type="submit" value="Submit"/>
-          </div>
-          </div>
-        </form>
-      </div>*/
       <div>
         <form onSubmit={this.handleSubmit}>
           <div className="form-control">
@@ -330,7 +250,7 @@ class AddRecipe extends Component {
               <label className="col-lg-3" for="ingredient">Ingredient:</label>
               <input type="text"
                 onChange={event => this.doSearch(event.target.value)}
-                className="form-control col-lg-5"
+                className="form-control col-lg-3"
                 placeholder="Ingredient..."
                 id="foodSearch"
                 list="items"
@@ -343,6 +263,17 @@ class AddRecipe extends Component {
                   </datalist>
               <input type="number" className="form-control col-lg-2" id="ingredientCount" placeholder="1" step="1" min="1" onChange={this.updateAmount} />
               <input type="text" className="form-control col-lg-2" id="unit" placeholder="Unit Type (Tablespoons, teaspoons, etc.)" onChange={this.updateUom} />
+              <select name="allergens" className="form-control col-lg-2" id="allergens" placeholder="Allergens" onChange={this.updateAllergen}>
+                <option value="None">None</option>
+                <option value="Lactose">lactose</option>
+                <option value="Eggs">eggs</option>
+                <option value="Fish">fish</option>
+                <option value="Shellfish">shellfish</option>
+                <option value="Nuts">nuts</option>
+                <option value="Peanuts">peanuts</option>
+                <option value="Gluten">gluten</option>
+                <option value="Soy">soy</option>
+              </select>
             </div>
             <div>
               <div className="btn btn-large btn-success" onClick={() => this.addItemToSpecificIngredientsList()}>Add Ingredient</div>
